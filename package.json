@@ -87,6 +87,7 @@
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
+    "test": "tsc -p ./tsconfig.test.json && node --test \"out-test/test/*.test.js\"",
     "watch": "tsc -watch -p ./"
   },
   "dependencies": {
