@@ -15,14 +15,22 @@ test('JsonStateManager.replaceTasks removes orphan prompts and keeps prompts for
     const orphanPrompt = createPromptForTask(orphanTask.id, 'prompt_orphan');
 
     await manager.init();
-    await manager.saveState(createEmptyState({
-        tasks: [validTask, orphanTask],
-        prompts: [validPrompt, orphanPrompt]
-    }));
+    await manager.saveState(
+        createEmptyState({
+            tasks: [validTask, orphanTask],
+            prompts: [validPrompt, orphanPrompt]
+        })
+    );
 
     await manager.replaceTasks([validTask]);
     const state = await manager.getState();
 
-    assert.deepEqual(state.tasks.map(task => task.id), [validTask.id]);
-    assert.deepEqual(state.prompts.map(prompt => prompt.id), [validPrompt.id]);
+    assert.deepEqual(
+        state.tasks.map((task) => task.id),
+        [validTask.id]
+    );
+    assert.deepEqual(
+        state.prompts.map((prompt) => prompt.id),
+        [validPrompt.id]
+    );
 });

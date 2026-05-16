@@ -75,8 +75,8 @@ npm.cmd run compile
 3. VS Code Run and Debug panelinden `Run Extension` konfigurasyonunu secin.
 4. `F5` tusuna basin.
 5. Acilan Extension Development Host penceresinde:
-   - Explorer sidebar icinde `AI Task Orchestrator` view'unu acin.
-   - Ya da Command Palette uzerinden `AI Task Orchestrator: Open Panel` komutunu calistirin.
+    - Explorer sidebar icinde `AI Task Orchestrator` view'unu acin.
+    - Ya da Command Palette uzerinden `AI Task Orchestrator: Open Panel` komutunu calistirin.
 
 ## Provider Yapisi
 
@@ -90,7 +90,7 @@ Provider secimi VS Code settings icinden yapilir:
 
 ```json
 {
-  "aiTaskOrchestrator.provider": "mock"
+    "aiTaskOrchestrator.provider": "mock"
 }
 ```
 
@@ -98,10 +98,10 @@ Model ve timeout ayarlari:
 
 ```json
 {
-  "aiTaskOrchestrator.openAiModel": "gpt-4o-mini",
-  "aiTaskOrchestrator.geminiModel": "gemini-1.5-flash",
-  "aiTaskOrchestrator.timeoutMs": 30000,
-  "aiTaskOrchestrator.maxRetries": 2
+    "aiTaskOrchestrator.openAiModel": "gpt-4o-mini",
+    "aiTaskOrchestrator.geminiModel": "gemini-1.5-flash",
+    "aiTaskOrchestrator.timeoutMs": 30000,
+    "aiTaskOrchestrator.maxRetries": 2
 }
 ```
 

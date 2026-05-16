@@ -10,7 +10,7 @@ import {
     TaskStatus,
     ValidationResult
 } from '../../core/types';
-import { Prompt, PromptStatus } from '../../core/types/prompt.types';
+import { Prompt } from '../../core/types/prompt.types';
 
 export interface IStateManager {
     init(): Promise<void>;

@@ -24,11 +24,14 @@ export interface ApprovalEventMap {
 
 export class ApprovalManager {
     private readonly events = new EventEmitter();
-    private readonly pendingApprovals = new Map<string, {
-        resolve: (value: boolean) => void;
-        reject: (reason?: unknown) => void;
-        promise: Promise<boolean>;
-    }>();
+    private readonly pendingApprovals = new Map<
+        string,
+        {
+            resolve: (value: boolean) => void;
+            reject: (reason?: unknown) => void;
+            promise: Promise<boolean>;
+        }
+    >();
     private readonly settledApprovals = new Map<string, boolean>();
 
     constructor(private readonly stateManager: IStateManager) {}
@@ -44,7 +47,12 @@ export class ApprovalManager {
     }
 
     public evaluateAction(action: ActionRequest): ApprovalDecision {
-        if (action.type === 'read_file' || action.type === 'open_file' || action.type === 'list_files' || action.type === 'search_in_project') {
+        if (
+            action.type === 'read_file' ||
+            action.type === 'open_file' ||
+            action.type === 'list_files' ||
+            action.type === 'search_in_project'
+        ) {
             return {
                 mode: 'automatic',
                 reason: 'Salt-okunur işlem, otomatik çalıştırılabilir.',
@@ -68,9 +76,10 @@ export class ApprovalManager {
             const fileCount = this.estimateAffectedFileCount(action);
             return {
                 mode: fileCount > 1 ? 'approval_required' : 'automatic',
-                reason: fileCount > 1
-                    ? 'Birden fazla dosyayı etkileyen değişiklik onay gerektirir.'
-                    : 'Tek dosyalık kontrollü değişiklik otomatik yürütülebilir.',
+                reason:
+                    fileCount > 1
+                        ? 'Birden fazla dosyayı etkileyen değişiklik onay gerektirir.'
+                        : 'Tek dosyalık kontrollü değişiklik otomatik yürütülebilir.',
                 severity: fileCount > 1 ? 'medium' : 'low',
                 riskTags: fileCount > 1 ? ['multi-file-change'] : ['single-file-change'],
                 actionSummary: this.buildActionSummary(action)
@@ -127,9 +136,8 @@ export class ApprovalManager {
 
     public async requestApprovalForAction(action: ActionRequest, taskId: string): Promise<ApprovalFlowResult> {
         const decision = this.evaluateAction(action);
-        const approvalRequest = decision.mode === 'approval_required'
-            ? await this.createApprovalRequest(action, taskId)
-            : null;
+        const approvalRequest =
+            decision.mode === 'approval_required' ? await this.createApprovalRequest(action, taskId) : null;
 
         return {
             decision,
@@ -167,7 +175,7 @@ export class ApprovalManager {
 
     public async resolveApproval(approvalId: string, approved: boolean): Promise<void> {
         const state = await this.stateManager.getState();
-        const approval = state.approvals.find(item => item.id === approvalId);
+        const approval = state.approvals.find((item) => item.id === approvalId);
 
         if (!approval) {
             throw new Error(`Approval not found: ${approvalId}`);
@@ -189,7 +197,7 @@ export class ApprovalManager {
         }
 
         const updatedState = await this.stateManager.getState();
-        const updatedApproval = updatedState.approvals.find(item => item.id === approvalId);
+        const updatedApproval = updatedState.approvals.find((item) => item.id === approvalId);
 
         if (updatedApproval) {
             this.events.emit('approvalResolved', updatedApproval, approved);
@@ -231,7 +239,9 @@ export class ApprovalManager {
             };
         }
 
-        if (this.matchesAny(normalizedCommand, ['curl ', 'wget ', 'invoke-webrequest ', 'irm ', 'invoke-restmethod '])) {
+        if (
+            this.matchesAny(normalizedCommand, ['curl ', 'wget ', 'invoke-webrequest ', 'irm ', 'invoke-restmethod '])
+        ) {
             return {
                 mode: 'approval_required',
                 reason: 'Dış servislere istek atan komutlar onay gerektirir.',
@@ -303,6 +313,6 @@ export class ApprovalManager {
     }
 
     private matchesAny(value: string, patterns: string[]): boolean {
-        return patterns.some(pattern => value.includes(pattern));
+        return patterns.some((pattern) => value.includes(pattern));
     }
 }

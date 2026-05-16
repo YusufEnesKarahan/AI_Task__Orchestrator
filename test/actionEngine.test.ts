@@ -15,10 +15,7 @@ test('ActionEngine.resolvePath accepts paths inside the workspace', async () => 
     const workspaceRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'ato-workspace-'));
     const engine = new ActionEngine({} as any, workspaceRoot) as unknown as ResolvePathCapable;
 
-    assert.equal(
-        engine.resolvePath(path.join('src', 'index.ts')),
-        path.resolve(workspaceRoot, 'src', 'index.ts')
-    );
+    assert.equal(engine.resolvePath(path.join('src', 'index.ts')), path.resolve(workspaceRoot, 'src', 'index.ts'));
 });
 
 test('ActionEngine.resolvePath rejects parent-directory traversal', async () => {
@@ -27,10 +24,7 @@ test('ActionEngine.resolvePath rejects parent-directory traversal', async () => 
     const workspaceRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'ato-workspace-'));
     const engine = new ActionEngine({} as any, workspaceRoot) as unknown as ResolvePathCapable;
 
-    assert.throws(
-        () => engine.resolvePath(path.join('..', 'outside.txt')),
-        /Güvenlik ihlali|GÃ¼venlik ihlali/
-    );
+    assert.throws(() => engine.resolvePath(path.join('..', 'outside.txt')), /Güvenlik ihlali|GÃ¼venlik ihlali/);
 });
 
 test('ActionEngine.resolvePath rejects sibling directories with similar prefixes', async () => {
@@ -54,13 +48,7 @@ test('ActionEngine.resolvePath handles Windows-style separators safely', async (
     const workspaceRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'ato-workspace-'));
     const engine = new ActionEngine({} as any, workspaceRoot) as unknown as ResolvePathCapable;
 
-    assert.equal(
-        engine.resolvePath('nested\\file.txt'),
-        path.resolve(workspaceRoot, 'nested\\file.txt')
-    );
+    assert.equal(engine.resolvePath('nested\\file.txt'), path.resolve(workspaceRoot, 'nested\\file.txt'));
 
-    assert.throws(
-        () => engine.resolvePath('..\\outside.txt'),
-        /Güvenlik ihlali|GÃ¼venlik ihlali/
-    );
+    assert.throws(() => engine.resolvePath('..\\outside.txt'), /Güvenlik ihlali|GÃ¼venlik ihlali/);
 });

@@ -11,14 +11,16 @@ export const taskPlanTypeSchema = z.enum([
     'code_review'
 ]);
 
-export const taskPlanItemSchema = z.object({
-    title: z.string().trim().min(1).max(200),
-    description: z.string().trim().min(1),
-    type: taskPlanTypeSchema.optional(),
-    priority: taskPlanPrioritySchema,
-    dependencies: z.array(z.number().int().nonnegative()).default([]),
-    expectedOutput: z.string().trim().min(1)
-}).strict();
+export const taskPlanItemSchema = z
+    .object({
+        title: z.string().trim().min(1).max(200),
+        description: z.string().trim().min(1),
+        type: taskPlanTypeSchema.optional(),
+        priority: taskPlanPrioritySchema,
+        dependencies: z.array(z.number().int().nonnegative()).default([]),
+        expectedOutput: z.string().trim().min(1)
+    })
+    .strict();
 
 export const taskPlanOutputSchema = z.array(taskPlanItemSchema).min(1);
 

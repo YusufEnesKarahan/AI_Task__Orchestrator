@@ -36,7 +36,7 @@ export class PromptExecutionService {
                 );
 
                 const executionEnd = Date.now();
-                
+
                 return {
                     rawResponse,
                     parsedSummary: this.generateSummary(rawResponse),
@@ -44,13 +44,12 @@ export class PromptExecutionService {
                     executionEnd,
                     durationMs: executionEnd - executionStart
                 };
-
             } catch (error) {
                 const isLastAttempt = attempt >= maxAttempts;
                 if (isLastAttempt) {
                     const executionEnd = Date.now();
                     const errorMessage = error instanceof Error ? error.message : String(error);
-                    
+
                     return {
                         errorMessage: `Attempt ${attempt} failed: ${errorMessage}`,
                         executionStart,
@@ -82,12 +81,13 @@ export class PromptExecutionService {
                 reject(new Error(`Timeout: Provider isteği ${timeoutMs}ms içerisinde yanıt vermedi.`));
             }, timeoutMs);
 
-            provider.generateText({ systemPrompt, prompt: promptContent })
-                .then(response => {
+            provider
+                .generateText({ systemPrompt, prompt: promptContent })
+                .then((response) => {
                     clearTimeout(timeoutId);
                     resolve(response);
                 })
-                .catch(error => {
+                .catch((error) => {
                     clearTimeout(timeoutId);
                     reject(error);
                 });

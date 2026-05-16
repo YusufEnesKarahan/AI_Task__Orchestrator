@@ -25,7 +25,7 @@ export class SidebarViewProvider implements vscode.WebviewViewProvider {
             `
         );
 
-        webviewView.webview.onDidReceiveMessage(async message => {
+        webviewView.webview.onDidReceiveMessage(async (message) => {
             if (message.command === 'openPanel') {
                 await vscode.commands.executeCommand('ai-task-orchestrator.openPanel');
             }

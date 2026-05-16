@@ -86,11 +86,7 @@ export interface ActionExecutionResponse {
     data?: ActionOutput;
 }
 
-type DeferredActionType =
-    | 'run_terminal_command'
-    | 'apply_diff'
-    | 'create_file'
-    | 'delete_file';
+type DeferredActionType = 'run_terminal_command' | 'apply_diff' | 'create_file' | 'delete_file';
 
 export class ActionEngine {
     constructor(
@@ -231,7 +227,7 @@ export class ActionEngine {
 
         return {
             directory,
-            files: entries.map(entry => entry.name)
+            files: entries.map((entry) => entry.name)
         };
     }
 
@@ -240,7 +236,7 @@ export class ActionEngine {
 
         return {
             query: input.query,
-            results: uris.map(uri => uri.fsPath)
+            results: uris.map((uri) => uri.fsPath)
         };
     }
 

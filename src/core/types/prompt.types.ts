@@ -5,15 +5,15 @@ import { EntityId, Timestamp } from './index';
 // ---------------------------------------------------------------------------
 
 export type PromptStatus =
-    | 'draft'              // Üretildi, henüz incelenmedi
-    | 'approved'           // Kullanıcı onayladı, yürütme kuyruğuna eklenebilir
-    | 'rejected'           // Kullanıcı reddetti, yürütülmeyecek
-    | 'queued'             // Yürütme kuyruğunda sıra bekliyor
-    | 'sending'            // AI provider'a istek atılıyor
-    | 'waiting_response'   // İstek atıldı, yanıt bekleniyor
-    | 'completed'          // AI yanıtı başarıyla alındı
-    | 'failed'             // AI isteği veya işleme sırasında hata oluştu
-    | 'cancelled'          // Kullanıcı kuyruktan iptal etti
+    | 'draft' // Üretildi, henüz incelenmedi
+    | 'approved' // Kullanıcı onayladı, yürütme kuyruğuna eklenebilir
+    | 'rejected' // Kullanıcı reddetti, yürütülmeyecek
+    | 'queued' // Yürütme kuyruğunda sıra bekliyor
+    | 'sending' // AI provider'a istek atılıyor
+    | 'waiting_response' // İstek atıldı, yanıt bekleniyor
+    | 'completed' // AI yanıtı başarıyla alındı
+    | 'failed' // AI isteği veya işleme sırasında hata oluştu
+    | 'cancelled' // Kullanıcı kuyruktan iptal etti
     // Manual/External Modları
     | 'ready_for_manual_send'
     | 'sent_manually'
@@ -25,9 +25,9 @@ export type PromptStatus =
 // ---------------------------------------------------------------------------
 
 export type PromptExecutionMode =
-    | 'internal_ai'                // Sistem kendi AI provider'ını kullanarak yürütür
-    | 'external_chat_placeholder'  // Kullanıcı promptu harici bir chat'e yapıştıracak
-    | 'manual';                    // Tamamen manuel; sistem sadece kaydeder
+    | 'internal_ai' // Sistem kendi AI provider'ını kullanarak yürütür
+    | 'external_chat_placeholder' // Kullanıcı promptu harici bir chat'e yapıştıracak
+    | 'manual'; // Tamamen manuel; sistem sadece kaydeder
 
 // ---------------------------------------------------------------------------
 // Execution Result
@@ -105,20 +105,20 @@ export interface CreatePromptInput {
 
 /** Status geçiş kontrolleri için izin verilen akışlar */
 export const PROMPT_STATUS_TRANSITIONS: Record<PromptStatus, PromptStatus[]> = {
-    draft:             ['approved', 'rejected', 'cancelled'],
-    approved:          ['queued', 'rejected', 'cancelled'],
-    rejected:          ['draft'],          // Yeniden düzenleme için geri alınabilir
-    queued:            ['sending', 'ready_for_manual_send', 'cancelled'],
-    sending:           ['waiting_response', 'failed', 'cancelled'],
-    waiting_response:  ['completed', 'failed', 'cancelled'],
-    completed:         [],                 // Son durum
-    failed:            ['queued', 'draft'], // Tekrar deneme veya düzenleme
-    cancelled:         ['draft'],          // İptalden geri alınabilir
+    draft: ['approved', 'rejected', 'cancelled'],
+    approved: ['queued', 'rejected', 'cancelled'],
+    rejected: ['draft'], // Yeniden düzenleme için geri alınabilir
+    queued: ['sending', 'ready_for_manual_send', 'cancelled'],
+    sending: ['waiting_response', 'failed', 'cancelled'],
+    waiting_response: ['completed', 'failed', 'cancelled'],
+    completed: [], // Son durum
+    failed: ['queued', 'draft'], // Tekrar deneme veya düzenleme
+    cancelled: ['draft'], // İptalden geri alınabilir
     // Manual Status Geçişleri
     ready_for_manual_send: ['sent_manually', 'manually_completed', 'cancelled', 'failed'],
-    sent_manually:         ['awaiting_manual_result', 'manually_completed', 'cancelled', 'failed'],
-    awaiting_manual_result:['manually_completed', 'failed', 'cancelled'],
-    manually_completed:    []
+    sent_manually: ['awaiting_manual_result', 'manually_completed', 'cancelled', 'failed'],
+    awaiting_manual_result: ['manually_completed', 'failed', 'cancelled'],
+    manually_completed: []
 };
 
 /**

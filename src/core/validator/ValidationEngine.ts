@@ -1,12 +1,6 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import {
-    Task,
-    TaskType,
-    ValidationResult,
-    ValidationRuleResult,
-    ValidationStatus
-} from '../types';
+import { Task, ValidationResult, ValidationRuleResult, ValidationStatus } from '../types';
 
 export type ValidationRuleType =
     | 'file_exists'
@@ -259,14 +253,16 @@ export class ValidationEngine {
             return {
                 nextStatus: 'error',
                 shouldRetry: true,
-                message: 'Doğrulama gerçekten başarısız oldu. Görev tekrar denenmeli veya kullanıcıya düzeltme için geri verilmeli.'
+                message:
+                    'Doğrulama gerçekten başarısız oldu. Görev tekrar denenmeli veya kullanıcıya düzeltme için geri verilmeli.'
             };
         }
 
         return {
             nextStatus: 'pending',
             shouldRetry: false,
-            message: 'Doğrulama atlandı veya uygulanabilir değildi. Manuel inceleme ya da ileride aktif validator gerekir.'
+            message:
+                'Doğrulama atlandı veya uygulanabilir değildi. Manuel inceleme ya da ileride aktif validator gerekir.'
         };
     }
 
@@ -292,7 +288,7 @@ export class ValidationEngine {
     }
 
     private pushRuleIfMissing(rules: ValidationRule[], rule: ValidationRule): void {
-        if (!rules.some(item => item.type === rule.type)) {
+        if (!rules.some((item) => item.type === rule.type)) {
             rules.push(rule);
         }
     }
@@ -302,15 +298,15 @@ export class ValidationEngine {
             return 'not_applicable';
         }
 
-        if (ruleResults.some(result => result.status === 'failed')) {
+        if (ruleResults.some((result) => result.status === 'failed')) {
             return 'failed';
         }
 
-        if (ruleResults.some(result => result.status === 'success')) {
+        if (ruleResults.some((result) => result.status === 'success')) {
             return 'success';
         }
 
-        if (ruleResults.some(result => result.status === 'skipped')) {
+        if (ruleResults.some((result) => result.status === 'skipped')) {
             return 'skipped';
         }
 

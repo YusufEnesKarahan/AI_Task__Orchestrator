@@ -1,101 +1,108 @@
 {
-  "name": "ai-task-orchestrator",
-  "displayName": "AI Task Orchestrator",
-  "description": "AI-powered task orchestrator for VS Code",
-  "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.80.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onCommand:ai-task-orchestrator.openPanel",
-    "onView:ai-task-orchestrator.sidebar"
-  ],
-  "main": "./out/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "ai-task-orchestrator.openPanel",
-        "title": "AI Task Orchestrator: Open Panel"
-      },
-      {
-        "command": "ai-task-orchestrator.setOpenAIApiKey",
-        "title": "AI Task Orchestrator: Set OpenAI API Key"
-      },
-      {
-        "command": "ai-task-orchestrator.setGeminiApiKey",
-        "title": "AI Task Orchestrator: Set Gemini API Key"
-      }
+    "name": "ai-task-orchestrator",
+    "displayName": "AI Task Orchestrator",
+    "description": "AI-powered task orchestrator for VS Code",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.80.0"
+    },
+    "categories": [
+        "Other"
     ],
-    "configuration": {
-      "title": "AI Task Orchestrator",
-      "properties": {
-        "aiTaskOrchestrator.provider": {
-          "type": "string",
-          "enum": [
-            "openai",
-            "gemini",
-            "mock"
-          ],
-          "default": "openai",
-          "description": "Explicit provider selection. Mock mode is only used when selected here."
+    "activationEvents": [
+        "onCommand:ai-task-orchestrator.openPanel",
+        "onView:ai-task-orchestrator.sidebar"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "ai-task-orchestrator.openPanel",
+                "title": "AI Task Orchestrator: Open Panel"
+            },
+            {
+                "command": "ai-task-orchestrator.setOpenAIApiKey",
+                "title": "AI Task Orchestrator: Set OpenAI API Key"
+            },
+            {
+                "command": "ai-task-orchestrator.setGeminiApiKey",
+                "title": "AI Task Orchestrator: Set Gemini API Key"
+            }
+        ],
+        "configuration": {
+            "title": "AI Task Orchestrator",
+            "properties": {
+                "aiTaskOrchestrator.provider": {
+                    "type": "string",
+                    "enum": [
+                        "openai",
+                        "gemini",
+                        "mock"
+                    ],
+                    "default": "openai",
+                    "description": "Explicit provider selection. Mock mode is only used when selected here."
+                },
+                "aiTaskOrchestrator.openAiModel": {
+                    "type": "string",
+                    "default": "gpt-4o-mini",
+                    "description": "Model name used when the OpenAI provider is selected."
+                },
+                "aiTaskOrchestrator.geminiModel": {
+                    "type": "string",
+                    "default": "gemini-1.5-flash",
+                    "description": "Model name used when the Gemini provider is selected."
+                },
+                "aiTaskOrchestrator.timeoutMs": {
+                    "type": "number",
+                    "default": 30000,
+                    "minimum": 1000,
+                    "description": "Request timeout for AI provider calls in milliseconds."
+                },
+                "aiTaskOrchestrator.maxRetries": {
+                    "type": "number",
+                    "default": 2,
+                    "minimum": 0,
+                    "description": "Maximum retry count for retryable provider failures."
+                }
+            }
         },
-        "aiTaskOrchestrator.openAiModel": {
-          "type": "string",
-          "default": "gpt-4o-mini",
-          "description": "Model name used when the OpenAI provider is selected."
+        "views": {
+            "explorer": [
+                {
+                    "id": "ai-task-orchestrator.sidebar",
+                    "name": "AI Task Orchestrator"
+                }
+            ]
         },
-        "aiTaskOrchestrator.geminiModel": {
-          "type": "string",
-          "default": "gemini-1.5-flash",
-          "description": "Model name used when the Gemini provider is selected."
-        },
-        "aiTaskOrchestrator.timeoutMs": {
-          "type": "number",
-          "default": 30000,
-          "minimum": 1000,
-          "description": "Request timeout for AI provider calls in milliseconds."
-        },
-        "aiTaskOrchestrator.maxRetries": {
-          "type": "number",
-          "default": 2,
-          "minimum": 0,
-          "description": "Maximum retry count for retryable provider failures."
+        "menus": {
+            "view/title": [
+                {
+                    "command": "ai-task-orchestrator.openPanel",
+                    "when": "view == ai-task-orchestrator.sidebar",
+                    "group": "navigation"
+                }
+            ]
         }
-      }
     },
-    "views": {
-      "explorer": [
-        {
-          "id": "ai-task-orchestrator.sidebar",
-          "name": "AI Task Orchestrator"
-        }
-      ]
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "lint": "eslint .",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "test": "tsc -p ./tsconfig.test.json && node --test \"out-test/test/*.test.js\"",
+        "watch": "tsc -watch -p ./"
     },
-    "menus": {
-      "view/title": [
-        {
-          "command": "ai-task-orchestrator.openPanel",
-          "when": "view == ai-task-orchestrator.sidebar",
-          "group": "navigation"
-        }
-      ]
+    "dependencies": {
+        "zod": "^3.25.76"
+    },
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "@types/node": "18.x",
+        "@types/vscode": "^1.80.0",
+        "eslint": "^10.4.0",
+        "prettier": "^3.8.3",
+        "typescript": "^5.1.3",
+        "typescript-eslint": "^8.59.3"
     }
-  },
-  "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "test": "tsc -p ./tsconfig.test.json && node --test \"out-test/test/*.test.js\"",
-    "watch": "tsc -watch -p ./"
-  },
-  "dependencies": {
-    "zod": "^3.25.76"
-  },
-  "devDependencies": {
-    "@types/node": "18.x",
-    "@types/vscode": "^1.80.0",
-    "typescript": "^5.1.3"
-  }
 }

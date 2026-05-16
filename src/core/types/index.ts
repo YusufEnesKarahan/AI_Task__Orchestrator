@@ -2,7 +2,14 @@ export type EntityId = string;
 export type Timestamp = number;
 
 // Prompt entity ve ilgili tipler ayrı dosyada tanımlı, buradan re-export ediliyor.
-export { Prompt, PromptStatus, PromptExecutionMode, CreatePromptInput, createPrompt, isValidTransition } from './prompt.types';
+export {
+    Prompt,
+    PromptStatus,
+    PromptExecutionMode,
+    CreatePromptInput,
+    createPrompt,
+    isValidTransition
+} from './prompt.types';
 
 export type TaskStatus = 'pending' | 'running' | 'completed' | 'error';
 export type StepStatus = TaskStatus;
@@ -18,13 +25,7 @@ export type ActionType =
     | 'apply_diff'
     | 'create_file'
     | 'delete_file';
-export type TaskType =
-    | 'code_generation'
-    | 'refactor'
-    | 'bug_fix'
-    | 'test_generation'
-    | 'documentation'
-    | 'code_review';
+export type TaskType = 'code_generation' | 'refactor' | 'bug_fix' | 'test_generation' | 'documentation' | 'code_review';
 export type TaskPriority = 'high' | 'medium' | 'low';
 export type ApprovalSeverity = 'low' | 'medium' | 'high';
 export type LogLevel = 'info' | 'warn' | 'error' | 'success';
@@ -145,8 +146,8 @@ export interface AppState {
     tasks: Task[];
     steps: Step[];
     approvals: ApprovalRequest[];
-    prompts: import('./prompt.types').Prompt[];  // Yeni: Prompt Queue varlıkları
-    promptHistory: PromptRun[];                  // Eski: Log kayıtları (geriye uyumluluk)
+    prompts: import('./prompt.types').Prompt[]; // Yeni: Prompt Queue varlıkları
+    promptHistory: PromptRun[]; // Eski: Log kayıtları (geriye uyumluluk)
     actionHistory: ActionResult[];
     validations: ValidationResult[];
     logs: SystemLog[];

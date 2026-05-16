@@ -1,23 +1,13 @@
 import { EventEmitter } from 'events';
-import {
-    ActionRequest,
-    AppState,
-    ApprovalRequest,
-    Project,
-    PromptRun,
-    SystemLog,
-    Task,
-    ValidationResult
-} from '../types';
+import { ActionRequest, AppState, ApprovalRequest, Project, SystemLog, Task } from '../types';
 import { Prompt, createPrompt, PromptStatus } from '../types/prompt.types';
-import { TaskPlanner, PlannerOptions } from './TaskPlanner';
+import { TaskPlanner } from './TaskPlanner';
 import { PromptGenerator, GeneratedPrompt } from './PromptGenerator';
 import { PromptQueueManager, QueueExecutionSummary } from './PromptQueueManager';
 import { ValidationEngine } from '../validator/ValidationEngine';
 import { ActionEngine } from '../../services/action/ActionEngine';
 import { ApprovalManager } from '../../services/approval/ApprovalManager';
 import { IStateManager } from '../../store/interfaces/IStateManager';
-import { IAIProvider } from '../../providers/interfaces/IAIProvider';
 import { createProvider, ProviderStatus, ProviderBootstrapResult } from '../../providers/createProvider';
 import { ProviderRuntimeConfig } from '../../providers/providerConfig';
 
@@ -81,10 +71,7 @@ export class Orchestrator {
     private selectedTaskId?: string;
     private latestPrompt?: GeneratedPrompt;
 
-    constructor(
-        stateManager: IStateManager,
-        workspaceRoot: string
-    ) {
+    constructor(stateManager: IStateManager, workspaceRoot: string) {
         this.stateManager = stateManager;
         this.approvalManager = new ApprovalManager(stateManager);
         this.actionEngine = new ActionEngine(this.approvalManager, workspaceRoot);
@@ -94,7 +81,7 @@ export class Orchestrator {
         this.taskPlanner = new TaskPlanner();
 
         // ApprovalManager olaylarını dinle ve dışarıya ilet
-        this.approvalManager.onApprovalCreated(approval => {
+        this.approvalManager.onApprovalCreated((approval) => {
             void this.onApprovalCreated(approval);
         });
 
@@ -124,7 +111,9 @@ export class Orchestrator {
 
     public on<K extends EventName>(event: K, listener: OrchestratorEvents[K]): () => void {
         this.events.on(event, listener);
-        return () => { this.events.off(event, listener); };
+        return () => {
+            this.events.off(event, listener);
+        };
     }
 
     // -----------------------------------------------------------------------
@@ -146,16 +135,10 @@ export class Orchestrator {
         this.providerStatus = bootstrap.status;
         this.taskPlanner = new TaskPlanner({ aiProvider: bootstrap.provider });
 
-        await this.log(
-            this.providerStatus.available ? 'info' : 'error',
-            this.providerStatus.message
-        );
+        await this.log(this.providerStatus.available ? 'info' : 'error', this.providerStatus.message);
 
         if (!this.providerStatus.available && this.providerStatus.selection !== 'mock') {
-            await this.log(
-                'info',
-                'AI provider unavailable. Task planning will continue in deterministic local mode.'
-            );
+            await this.log('info', 'AI provider unavailable. Task planning will continue in deterministic local mode.');
         }
 
         this.events.emit('providerStatusChanged', this.providerStatus);
@@ -184,11 +167,11 @@ export class Orchestrator {
 
         // 1. Proje başlığını çıkar (ilk 50 karakter veya ilk cümle)
         const firstLine = normalizedInput.split('\n')[0];
-        let projectTitle = firstLine.length > 50 ? firstLine.substring(0, 47) + '...' : firstLine;
-        
+        const projectTitle = firstLine.length > 50 ? firstLine.substring(0, 47) + '...' : firstLine;
+
         // 2. Taskları oluştur
         await this.splitTasks(projectTitle, normalizedInput);
-        
+
         // splitTasks başarılı olursa, beklemedeki tüm tasklar için prompt üret
         if (this.state.tasks.length > 0) {
             await this.generateAllPrompts();
@@ -229,7 +212,7 @@ export class Orchestrator {
      * Belirtilen görevi "seçili" olarak işaretler.
      */
     public async selectTask(taskId: string): Promise<void> {
-        const task = this.state.tasks.find(t => t.id === taskId);
+        const task = this.state.tasks.find((t) => t.id === taskId);
         if (!task) {
             await this.log('error', 'Görev mevcut listede bulunamadı.');
             this.emitStateChanged();
@@ -318,7 +301,7 @@ export class Orchestrator {
      * Tüm pending görevler için prompt üretir ve state'e 'draft' olarak kaydeder.
      */
     public async generateAllPrompts(): Promise<void> {
-        const pendingTasks = this.state.tasks.filter(t => t.status === 'pending');
+        const pendingTasks = this.state.tasks.filter((t) => t.status === 'pending');
 
         if (pendingTasks.length === 0) {
             await this.log('error', 'Prompt üretilecek görev bulunamadı.');
@@ -328,7 +311,7 @@ export class Orchestrator {
 
         await this.log('info', `${pendingTasks.length} görev için promptlar üretiliyor...`);
 
-        const existingPromptTaskIds = new Set(this.state.prompts.map(prompt => prompt.taskId));
+        const existingPromptTaskIds = new Set(this.state.prompts.map((prompt) => prompt.taskId));
         let generatedCount = 0;
 
         for (const task of pendingTasks) {
@@ -398,9 +381,7 @@ export class Orchestrator {
      * Tüm draft prompt'ları toplu onayla.
      */
     public async approveAllDraftPrompts(): Promise<void> {
-        const draftIds = this.state.prompts
-            .filter(p => p.status === 'draft')
-            .map(p => p.id);
+        const draftIds = this.state.prompts.filter((p) => p.status === 'draft').map((p) => p.id);
 
         if (draftIds.length === 0) {
             await this.log('info', 'Onaylanacak draft prompt yok.');
@@ -415,9 +396,7 @@ export class Orchestrator {
      * Tüm draft prompt'ları toplu reddet.
      */
     public async rejectAllDraftPrompts(): Promise<void> {
-        const draftIds = this.state.prompts
-            .filter(p => p.status === 'draft')
-            .map(p => p.id);
+        const draftIds = this.state.prompts.filter((p) => p.status === 'draft').map((p) => p.id);
 
         if (draftIds.length === 0) {
             await this.log('info', 'Reddedilecek draft prompt yok.');
@@ -432,7 +411,7 @@ export class Orchestrator {
      * Onaylı (approved) prompt'ları sıralı yürütme kuyruğuna alır.
      */
     public async executeApprovedPrompts(): Promise<void> {
-        const approvedCount = this.state.prompts.filter(p => p.status === 'approved').length;
+        const approvedCount = this.state.prompts.filter((p) => p.status === 'approved').length;
 
         if (approvedCount === 0) {
             await this.log('error', 'Kuyruğa alınacak onaylı prompt yok.');
@@ -498,7 +477,7 @@ export class Orchestrator {
     public async addPromptNote(promptId: string, note: string): Promise<void> {
         try {
             const state = await this.stateManager.getState();
-            const prompt = state.prompts.find(p => p.id === promptId);
+            const prompt = state.prompts.find((p) => p.id === promptId);
             if (prompt) {
                 const currentResponse = prompt.responseText || '';
                 const newResponse = currentResponse ? `${currentResponse}\n\n[Not]: ${note}` : `[Not]: ${note}`;
@@ -572,7 +551,7 @@ export class Orchestrator {
 
     private resolveTask(taskId?: string): Task | undefined {
         const effectiveId = taskId || this.selectedTaskId;
-        return this.state.tasks.find(t => t.id === effectiveId);
+        return this.state.tasks.find((t) => t.id === effectiveId);
     }
 
     private createProject(title: string, description: string): Project {

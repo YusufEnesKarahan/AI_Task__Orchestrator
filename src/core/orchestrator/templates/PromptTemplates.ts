@@ -16,7 +16,8 @@ export const PROMPT_TEMPLATES: Record<TaskType, PromptTemplateDefinition> = {
     code_generation: createTemplate({
         id: 'template_code_generation',
         name: 'Code Generation',
-        systemPrompt: 'You are a senior software engineer. Produce implementation-ready code with clear structure and safe defaults.',
+        systemPrompt:
+            'You are a senior software engineer. Produce implementation-ready code with clear structure and safe defaults.',
         contextIntro: 'You are implementing a new feature or file in an existing software project.',
         constraints: [
             'Write production-ready code.',
@@ -29,7 +30,8 @@ export const PROMPT_TEMPLATES: Record<TaskType, PromptTemplateDefinition> = {
     refactor: createTemplate({
         id: 'template_refactor',
         name: 'Refactor',
-        systemPrompt: 'You are a senior software architect. Improve the internal quality of the code without changing external behavior.',
+        systemPrompt:
+            'You are a senior software architect. Improve the internal quality of the code without changing external behavior.',
         contextIntro: 'You are improving existing code for maintainability, readability, and structure.',
         constraints: [
             'Do not change external behavior or public contracts unless explicitly requested.',
@@ -55,7 +57,8 @@ export const PROMPT_TEMPLATES: Record<TaskType, PromptTemplateDefinition> = {
     test_generation: createTemplate({
         id: 'template_test_generation',
         name: 'Test Generation',
-        systemPrompt: 'You are a QA-focused engineer. Write reliable tests that cover expected behavior, edge cases, and failures.',
+        systemPrompt:
+            'You are a QA-focused engineer. Write reliable tests that cover expected behavior, edge cases, and failures.',
         contextIntro: 'The task is to create or improve automated tests for the described behavior.',
         constraints: [
             'Use the project’s likely testing conventions where possible.',
@@ -68,7 +71,8 @@ export const PROMPT_TEMPLATES: Record<TaskType, PromptTemplateDefinition> = {
     documentation: createTemplate({
         id: 'template_documentation',
         name: 'Documentation',
-        systemPrompt: 'You are a technical writer with engineering context. Produce clear and accurate documentation for developers.',
+        systemPrompt:
+            'You are a technical writer with engineering context. Produce clear and accurate documentation for developers.',
         contextIntro: 'The task is to document a feature, module, workflow, or API clearly.',
         constraints: [
             'Use concise, developer-friendly language.',
@@ -81,7 +85,8 @@ export const PROMPT_TEMPLATES: Record<TaskType, PromptTemplateDefinition> = {
     code_review: createTemplate({
         id: 'template_code_review',
         name: 'Code Review',
-        systemPrompt: 'You are a careful code reviewer. Evaluate correctness, safety, maintainability, and test coverage.',
+        systemPrompt:
+            'You are a careful code reviewer. Evaluate correctness, safety, maintainability, and test coverage.',
         contextIntro: 'The task is to review code or a proposed change and provide actionable feedback.',
         constraints: [
             'Prioritize correctness, security, regressions, and missing tests.',
@@ -105,12 +110,13 @@ function createTemplate(input: {
         id: input.id,
         name: input.name,
         systemPrompt: input.systemPrompt,
-        buildUserPrompt: ({ task, contextCode }) => buildStructuredPrompt({
-            context: buildContextSection(task, input.contextIntro, contextCode),
-            objective: buildObjectiveSection(task),
-            constraints: input.constraints,
-            expectedOutput: task.expectedOutput || input.defaultExpectedOutput
-        })
+        buildUserPrompt: ({ task, contextCode }) =>
+            buildStructuredPrompt({
+                context: buildContextSection(task, input.contextIntro, contextCode),
+                objective: buildObjectiveSection(task),
+                constraints: input.constraints,
+                expectedOutput: task.expectedOutput || input.defaultExpectedOutput
+            })
     };
 }
 
@@ -120,7 +126,7 @@ function buildStructuredPrompt(input: {
     constraints: string[];
     expectedOutput: string;
 }): string {
-    const constraints = input.constraints.map(item => `- ${item}`).join('\n');
+    const constraints = input.constraints.map((item) => `- ${item}`).join('\n');
 
     return [
         '# CONTEXT',
@@ -134,7 +140,9 @@ function buildStructuredPrompt(input: {
         '',
         '# EXPECTED OUTPUT',
         input.expectedOutput
-    ].join('\n').trim();
+    ]
+        .join('\n')
+        .trim();
 }
 
 function buildContextSection(task: Task, intro: string, contextCode?: string): string {

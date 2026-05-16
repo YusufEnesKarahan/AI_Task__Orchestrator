@@ -1,6 +1,4 @@
-const vscode = typeof acquireVsCodeApi === 'function'
-    ? acquireVsCodeApi()
-    : { postMessage: () => undefined };
+const vscode = typeof acquireVsCodeApi === 'function' ? acquireVsCodeApi() : { postMessage: () => undefined };
 
 document.addEventListener('DOMContentLoaded', () => {
     const projectTitleInput = document.getElementById('project-title-input');
@@ -42,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         promptQueueList
     ];
 
-    if (requiredElements.some(element => !element)) {
+    if (requiredElements.some((element) => !element)) {
         console.error('Webview cannot initialize because one or more required elements are missing.');
         return;
     }
@@ -78,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         vscode.postMessage({ command: 'cancelQueue' });
     });
 
-    window.addEventListener('message', event => {
+    window.addEventListener('message', (event) => {
         const message = event?.data;
 
         if (!message || message.command !== 'renderState') {
@@ -224,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        items.forEach(item => {
+        items.forEach((item) => {
             const row = document.createElement('div');
             row.className = 'meta-item';
             row.textContent = `Task: ${item.taskId} | ${new Date(item.createdAt).toLocaleTimeString()}`;
@@ -240,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        items.forEach(item => {
+        items.forEach((item) => {
             const row = document.createElement('div');
             row.className = 'approval-card';
 
@@ -282,7 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        logs.forEach(log => {
+        logs.forEach((log) => {
             const entry = document.createElement('div');
             entry.className = `log-entry log-${log.level}`;
             entry.textContent = `[${new Date(log.timestamp).toLocaleTimeString()}] ${log.message}`;
@@ -308,7 +306,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (!prompts.length) {
-            promptQueueList.innerHTML = '<div class="empty-state">Henüz prompt üretilmedi. Fikrinizi girip "Fikirden Prompt Üret" butonuna tıklayın.</div>';
+            promptQueueList.innerHTML =
+                '<div class="empty-state">Henüz prompt üretilmedi. Fikrinizi girip "Fikirden Prompt Üret" butonuna tıklayın.</div>';
             return;
         }
 
@@ -391,7 +390,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     buildActionButton('Kopyala', false, () => {
                         const fullText = `[System Prompt]\n${prompt.systemPrompt}\n\n[User Prompt]\n${prompt.content}`;
                         navigator.clipboard.writeText(fullText);
-                        vscode.postMessage({ command: 'addPromptNote', payload: { promptId: prompt.id, note: 'Panoya kopyalandı.' } });
+                        vscode.postMessage({
+                            command: 'addPromptNote',
+                            payload: { promptId: prompt.id, note: 'Panoya kopyalandı.' }
+                        });
                     }),
                     buildActionButton('Gönderildi İşaretle', false, () => {
                         vscode.postMessage({ command: 'markPromptSent', payload: { promptId: prompt.id } });
@@ -399,19 +401,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 );
             }
 
-            if (prompt.status === 'ready_for_manual_send' || prompt.status === 'sent_manually' || prompt.status === 'awaiting_manual_result') {
+            if (
+                prompt.status === 'ready_for_manual_send' ||
+                prompt.status === 'sent_manually' ||
+                prompt.status === 'awaiting_manual_result'
+            ) {
                 actions.append(
                     buildActionButton('Sonucu Gir (Tamamlandı)', false, () => {
                         // Basit prompt dialog kullanımı
                         // VS Code webview içinde window.prompt genelde desteklenmez ama tarayıcı mode'u için veya
                         // UI'da ayrı bir div render edilerek de yapılabilir. Şimdilik dummy mesaj göndereceğiz:
                         // "Daha kompleks bir UI yapılana kadar sabit metin atalım" demek yerine
-                        // vscode input kutusu açtırmak için backend'e command atılabilir. 
+                        // vscode input kutusu açtırmak için backend'e command atılabilir.
                         // Fakat biz payload content alabiliyoruz. Şimdilik sadece "Tamamlandı" olarak işaretliyoruz.
-                        vscode.postMessage({ command: 'markPromptCompleted', payload: { promptId: prompt.id, content: '[Manuel Olarak Tamamlandı - Sonuç girilmedi]' } });
+                        vscode.postMessage({
+                            command: 'markPromptCompleted',
+                            payload: { promptId: prompt.id, content: '[Manuel Olarak Tamamlandı - Sonuç girilmedi]' }
+                        });
                     }),
                     buildActionButton('Not Ekle', false, () => {
-                        vscode.postMessage({ command: 'addPromptNote', payload: { promptId: prompt.id, note: 'Kullanıcı tarafından incelendi.' } });
+                        vscode.postMessage({
+                            command: 'addPromptNote',
+                            payload: { promptId: prompt.id, note: 'Kullanıcı tarafından incelendi.' }
+                        });
                     })
                 );
             }

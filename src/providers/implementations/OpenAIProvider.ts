@@ -32,7 +32,7 @@ export class OpenAIProvider extends BaseAIProvider {
                 throw this.createHttpError(response.status, errorText || 'OpenAI request failed.');
             }
 
-            const data = await response.json() as {
+            const data = (await response.json()) as {
                 choices?: Array<{
                     message?: {
                         content?: string | Array<{ type?: string; text?: string }>;
@@ -49,7 +49,9 @@ export class OpenAIProvider extends BaseAIProvider {
             ...request,
             prompt: [
                 request.prompt,
-                request.schemaHint ? `Return JSON matching this schema hint: ${request.schemaHint}` : 'Return valid JSON only.'
+                request.schemaHint
+                    ? `Return JSON matching this schema hint: ${request.schemaHint}`
+                    : 'Return valid JSON only.'
             ].join('\n\n')
         });
 
@@ -111,7 +113,7 @@ export class OpenAIProvider extends BaseAIProvider {
 
         if (Array.isArray(content)) {
             return content
-                .map(part => part.text || '')
+                .map((part) => part.text || '')
                 .join('')
                 .trim();
         }

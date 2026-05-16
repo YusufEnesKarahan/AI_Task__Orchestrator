@@ -35,7 +35,7 @@ async function waitUntil(predicate: () => Promise<boolean>, timeoutMs = 2000): P
             return;
         }
 
-        await new Promise(resolve => setTimeout(resolve, 20));
+        await new Promise((resolve) => setTimeout(resolve, 20));
     }
 
     throw new Error('Timed out waiting for condition.');

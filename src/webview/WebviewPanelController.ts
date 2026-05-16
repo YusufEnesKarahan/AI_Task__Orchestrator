@@ -1,15 +1,7 @@
 import * as fs from 'fs';
 import * as vscode from 'vscode';
-import {
-    AppState,
-    ApprovalRequest,
-    PromptRun,
-    SystemLog,
-    ValidationResult
-} from '../core/types';
-import { GeneratedPrompt } from '../core/orchestrator/PromptGenerator';
+import { PromptRun } from '../core/types';
 import { Orchestrator } from '../core/orchestrator/Orchestrator';
-import { ProviderStatus } from '../providers/createProvider';
 import { loadProviderRuntimeConfig } from '../providers/providerConfig';
 import { JsonStateManager } from '../store/JsonStateManager';
 
@@ -80,15 +72,17 @@ export class WebviewPanelController {
 
         // Orchestrator olaylarını dinle → UI'ı güncelle
         this.disposables.push(
-            new vscode.Disposable(this.orchestrator.on('stateChanged', () => {
-                void this.syncState();
-            }))
+            new vscode.Disposable(
+                this.orchestrator.on('stateChanged', () => {
+                    void this.syncState();
+                })
+            )
         );
 
         // Panel yaşam döngüsü
         this.disposables.push(
             this.panel.onDidDispose(() => this.dispose()),
-            this.panel.webview.onDidReceiveMessage(message => {
+            this.panel.webview.onDidReceiveMessage((message) => {
                 void this.handleMessage(message as PanelMessage);
             })
         );
@@ -218,10 +212,7 @@ export class WebviewPanelController {
 
             case 'updatePromptContent':
                 if (message.payload?.promptId && message.payload?.content !== undefined) {
-                    await this.orchestrator.updatePromptContent(
-                        message.payload.promptId,
-                        message.payload.content
-                    );
+                    await this.orchestrator.updatePromptContent(message.payload.promptId, message.payload.content);
                 }
                 return;
 
@@ -263,23 +254,19 @@ export class WebviewPanelController {
         const latestPrompt = this.orchestrator.getLatestPrompt();
         const providerStatus = this.orchestrator.getProviderStatus();
 
-        const selectedTask = state.tasks.find(t => t.id === selectedTaskId);
+        const selectedTask = state.tasks.find((t) => t.id === selectedTaskId);
         const promptHistory = state.promptHistory
             .slice()
             .sort((a, b) => b.createdAt - a.createdAt)
             .slice(0, 10);
-        const approvals = state.approvals
-            .slice()
-            .sort((a, b) => b.requestedAt - a.requestedAt);
-        const validationsByTaskId = new Map(
-            state.validations.map(item => [item.taskId, item])
-        );
+        const approvals = state.approvals.slice().sort((a, b) => b.requestedAt - a.requestedAt);
+        const validationsByTaskId = new Map(state.validations.map((item) => [item.taskId, item]));
 
         await this.panel.webview.postMessage({
             command: 'renderState',
             payload: {
                 projectTitle: state.currentProject?.title || 'AI Task Orchestrator',
-                tasks: state.tasks.map(task => ({
+                tasks: state.tasks.map((task) => ({
                     id: task.id,
                     title: task.title,
                     description: task.description,
@@ -289,26 +276,26 @@ export class WebviewPanelController {
                 })),
                 selectedTask: selectedTask
                     ? {
-                        id: selectedTask.id,
-                        title: selectedTask.title,
-                        description: selectedTask.description,
-                        type: selectedTask.type || 'code_generation',
-                        validation: validationsByTaskId.get(selectedTask.id) || null
-                    }
+                          id: selectedTask.id,
+                          title: selectedTask.title,
+                          description: selectedTask.description,
+                          type: selectedTask.type || 'code_generation',
+                          validation: validationsByTaskId.get(selectedTask.id) || null
+                      }
                     : null,
                 prompt: latestPrompt
                     ? {
-                        templateName: latestPrompt.templateName,
-                        systemPrompt: latestPrompt.systemPrompt,
-                        userPrompt: latestPrompt.userPrompt
-                    }
+                          templateName: latestPrompt.templateName,
+                          systemPrompt: latestPrompt.systemPrompt,
+                          userPrompt: latestPrompt.userPrompt
+                      }
                     : null,
                 promptHistory: promptHistory.map((item: PromptRun) => ({
                     id: item.id,
                     taskId: item.taskId,
                     createdAt: item.createdAt
                 })),
-                approvals: approvals.map(item => ({
+                approvals: approvals.map((item) => ({
                     id: item.id,
                     status: item.status,
                     severity: item.severity,
@@ -316,7 +303,7 @@ export class WebviewPanelController {
                     actionSummary: item.actionSummary || 'Onay bekleyen işlem'
                 })),
                 validations: state.validations,
-                prompts: (state.prompts || []).map(p => ({
+                prompts: (state.prompts || []).map((p) => ({
                     id: p.id,
                     taskId: p.taskId,
                     title: p.title,
@@ -356,7 +343,8 @@ export class WebviewPanelController {
         const nonce = this.createNonce();
 
         let html = fs.readFileSync(htmlPath.fsPath, 'utf8');
-        html = html.replace(/{{cspSource}}/g, webview.cspSource)
+        html = html
+            .replace(/{{cspSource}}/g, webview.cspSource)
             .replace(/{{styleUri}}/g, styleUri.toString())
             .replace(/{{scriptUri}}/g, scriptUri.toString())
             .replace(/{{nonce}}/g, nonce);

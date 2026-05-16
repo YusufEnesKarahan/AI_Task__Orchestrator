@@ -42,7 +42,7 @@ VS Code settings icinde provider'i mock yapin:
 
 ```json
 {
-  "aiTaskOrchestrator.provider": "mock"
+    "aiTaskOrchestrator.provider": "mock"
 }
 ```
 

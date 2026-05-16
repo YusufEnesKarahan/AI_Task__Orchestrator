@@ -27,9 +27,9 @@ const DEFAULT_STATUS: TaskStatus = 'pending';
 export function normalizePlannerInput(rawInput: string): string[] {
     return rawInput
         .split(/\r?\n/)
-        .map(line => line.trim())
+        .map((line) => line.trim())
         .filter(Boolean)
-        .map(line => line.replace(/^[-*]\s*/, '').trim())
+        .map((line) => line.replace(/^[-*]\s*/, '').trim())
         .filter(Boolean);
 }
 
@@ -40,9 +40,7 @@ export function buildDeterministicPlan(rawInput: string): TaskPlanDTO[] {
         return createFallbackPlan('Boş girdi alındı.');
     }
 
-    const scopedItems = items.length === 1
-        ? splitSingleGoalIntoTasks(items[0])
-        : items;
+    const scopedItems = items.length === 1 ? splitSingleGoalIntoTasks(items[0]) : items;
 
     return scopedItems.map((item, index) => ({
         title: buildTaskTitle(item, index),
@@ -54,11 +52,7 @@ export function buildDeterministicPlan(rawInput: string): TaskPlanDTO[] {
     }));
 }
 
-export function mapTaskPlanToTasks(
-    planData: TaskPlanDTO[],
-    projectId: string,
-    now: number
-): Task[] {
+export function mapTaskPlanToTasks(planData: TaskPlanDTO[], projectId: string, now: number): Task[] {
     return planData.map((dto, index) => ({
         id: `task_${now}_${index}`,
         projectId,
@@ -68,7 +62,7 @@ export function mapTaskPlanToTasks(
         order: index,
         priority: dto.priority,
         expectedOutput: dto.expectedOutput,
-        dependencies: dto.dependencies.map(dependencyIndex => `task_${now}_${dependencyIndex}`),
+        dependencies: dto.dependencies.map((dependencyIndex) => `task_${now}_${dependencyIndex}`),
         status: DEFAULT_STATUS,
         createdAt: now,
         updatedAt: now
@@ -189,7 +183,7 @@ function buildExpectedOutput(item: string, index: number): string {
 
 function inferTaskType(item: string): import('../types').TaskType {
     const value = item.toLowerCase();
-    
+
     if (value.includes('bug') || value.includes('fix') || value.includes('çöz') || value.includes('hata')) {
         return 'bug_fix';
     }

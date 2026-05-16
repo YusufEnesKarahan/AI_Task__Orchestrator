@@ -136,7 +136,7 @@ export abstract class BaseAIProvider implements IAIProvider {
         }
 
         const summary = validation.error.issues
-            .map(issue => `${issue.path.join('.') || '<root>'}: ${issue.message}`)
+            .map((issue) => `${issue.path.join('.') || '<root>'}: ${issue.message}`)
             .join('; ');
 
         this.logInvalidJsonOutput(cleaned, request.schemaName, summary);
@@ -165,11 +165,12 @@ export abstract class BaseAIProvider implements IAIProvider {
     }
 
     protected cleanJsonResponse(raw: string): string {
-        const fenced = raw.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/i, '').trim();
-        const firstBraceIndex = Math.min(
-            this.findIndexOrMax(fenced, '{'),
-            this.findIndexOrMax(fenced, '[')
-        );
+        const fenced = raw
+            .replace(/^```json\s*/i, '')
+            .replace(/^```\s*/i, '')
+            .replace(/\s*```$/i, '')
+            .trim();
+        const firstBraceIndex = Math.min(this.findIndexOrMax(fenced, '{'), this.findIndexOrMax(fenced, '['));
 
         if (firstBraceIndex === Number.MAX_SAFE_INTEGER) {
             return fenced;
@@ -205,6 +206,6 @@ export abstract class BaseAIProvider implements IAIProvider {
     }
 
     private sleep(ms: number): Promise<void> {
-        return new Promise(resolve => setTimeout(resolve, ms));
+        return new Promise((resolve) => setTimeout(resolve, ms));
     }
 }

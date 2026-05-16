@@ -1,4 +1,4 @@
-import Module = require('module');
+import { createRequire } from 'module';
 import {
     ActionResult,
     AppState,
@@ -100,7 +100,7 @@ export class MemoryStateManager implements IStateManager {
     }
 
     public async updateTaskStatus(taskId: string, status: TaskStatus): Promise<void> {
-        const task = this.state.tasks.find(item => item.id === taskId);
+        const task = this.state.tasks.find((item) => item.id === taskId);
         if (task) {
             task.status = status;
             task.updatedAt = Date.now();
@@ -124,7 +124,7 @@ export class MemoryStateManager implements IStateManager {
     }
 
     public async addValidationResult(result: ValidationResult): Promise<void> {
-        this.state.validations = this.state.validations.filter(item => item.taskId !== result.taskId);
+        this.state.validations = this.state.validations.filter((item) => item.taskId !== result.taskId);
         this.state.validations.push(result);
     }
 
@@ -133,7 +133,7 @@ export class MemoryStateManager implements IStateManager {
     }
 
     public async updatePrompt(promptId: string, updates: Partial<Prompt>): Promise<void> {
-        const prompt = this.state.prompts.find(item => item.id === promptId);
+        const prompt = this.state.prompts.find((item) => item.id === promptId);
         if (prompt) {
             Object.assign(prompt, updates, { updatedAt: Date.now() });
         }
@@ -148,7 +148,7 @@ export class MemoryStateManager implements IStateManager {
     }
 
     public async updateApproval(approvalId: string, status: ApprovalRequest['status']): Promise<void> {
-        const approval = this.state.approvals.find(item => item.id === approvalId);
+        const approval = this.state.approvals.find((item) => item.id === approvalId);
         if (approval) {
             approval.status = status;
             approval.respondedAt = Date.now();
@@ -157,7 +157,8 @@ export class MemoryStateManager implements IStateManager {
 }
 
 export function installVscodeMock(): void {
-    const moduleWithLoad = Module as typeof Module & {
+    const nodeRequire = createRequire(__filename);
+    const moduleWithLoad = nodeRequire('module') as {
         _load?: (request: string, parent: NodeModule | null, isMain: boolean) => unknown;
     };
     const originalLoad = moduleWithLoad._load;

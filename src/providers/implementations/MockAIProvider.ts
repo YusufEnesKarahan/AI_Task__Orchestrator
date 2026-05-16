@@ -43,7 +43,9 @@ export class MockAIProvider implements IAIProvider {
             issues: parsed.error.issues
         });
 
-        throw new Error(`MockAI returned JSON that does not match the expected schema${request.schemaName ? ` (${request.schemaName})` : ''}.`);
+        throw new Error(
+            `MockAI returned JSON that does not match the expected schema${request.schemaName ? ` (${request.schemaName})` : ''}.`
+        );
     }
 
     public async testConnection(): Promise<ProviderHealthStatus> {
@@ -56,5 +58,5 @@ export class MockAIProvider implements IAIProvider {
 }
 
 function delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }

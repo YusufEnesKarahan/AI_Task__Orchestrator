@@ -44,12 +44,12 @@ export class GeminiProvider extends BaseAIProvider {
                 throw this.createHttpError(response.status, errorText || 'Gemini request failed.');
             }
 
-            const data = await response.json() as {
+            const data = (await response.json()) as {
                 candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
             };
 
             return (data.candidates?.[0]?.content?.parts || [])
-                .map(part => part.text || '')
+                .map((part) => part.text || '')
                 .join('')
                 .trim();
         });
@@ -60,7 +60,9 @@ export class GeminiProvider extends BaseAIProvider {
             ...request,
             prompt: [
                 request.prompt,
-                request.schemaHint ? `Return JSON matching this schema hint: ${request.schemaHint}` : 'Return valid JSON only.'
+                request.schemaHint
+                    ? `Return JSON matching this schema hint: ${request.schemaHint}`
+                    : 'Return valid JSON only.'
             ].join('\n\n')
         });
 

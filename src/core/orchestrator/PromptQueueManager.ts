@@ -1,9 +1,5 @@
 import { EventEmitter } from 'events';
-import {
-    Prompt,
-    PromptStatus,
-    isValidTransition
-} from '../types/prompt.types';
+import { Prompt, PromptStatus, isValidTransition } from '../types/prompt.types';
 import { IAIProvider } from '../../providers/interfaces/IAIProvider';
 import { IStateManager } from '../../store/interfaces/IStateManager';
 import { PromptExecutionService } from './PromptExecutionService';
@@ -65,7 +61,9 @@ export class PromptQueueManager {
 
     public on<K extends keyof QueueEvents>(event: K, listener: QueueEvents[K]): () => void {
         this.events.on(event, listener);
-        return () => { this.events.off(event, listener); };
+        return () => {
+            this.events.off(event, listener);
+        };
     }
 
     // -----------------------------------------------------------------------
@@ -78,25 +76,29 @@ export class PromptQueueManager {
      */
     public async transition(promptId: string, newStatus: PromptStatus): Promise<Prompt> {
         const state = await this.stateManager.getState();
-        const prompt = state.prompts.find(p => p.id === promptId);
+        const prompt = state.prompts.find((p) => p.id === promptId);
 
         if (!prompt) {
             throw new Error(`Prompt bulunamadı: ${promptId}`);
         }
 
         if (!isValidTransition(prompt.status, newStatus)) {
-            throw new Error(
-                `Geçersiz status geçişi: ${prompt.status} → ${newStatus} (Prompt: ${prompt.title})`
-            );
+            throw new Error(`Geçersiz status geçişi: ${prompt.status} → ${newStatus} (Prompt: ${prompt.title})`);
         }
 
         const oldStatus = prompt.status;
         const updates: Partial<Prompt> = { status: newStatus };
 
         // Zaman damgalarını otomatik doldur
-        if (newStatus === 'approved') { updates.approvedAt = Date.now(); }
-        if (newStatus === 'sending') { updates.sentAt = Date.now(); }
-        if (newStatus === 'completed') { updates.completedAt = Date.now(); }
+        if (newStatus === 'approved') {
+            updates.approvedAt = Date.now();
+        }
+        if (newStatus === 'sending') {
+            updates.sentAt = Date.now();
+        }
+        if (newStatus === 'completed') {
+            updates.completedAt = Date.now();
+        }
 
         await this.stateManager.updatePrompt(promptId, updates);
 
@@ -143,14 +145,18 @@ export class PromptQueueManager {
 
         const startTime = Date.now();
         const summary: QueueExecutionSummary = {
-            total: 0, completed: 0, failed: 0, cancelled: 0, durationMs: 0
+            total: 0,
+            completed: 0,
+            failed: 0,
+            cancelled: 0,
+            durationMs: 0
         };
 
         try {
             // Onaylanmış promptları sıraya koy (order'a göre)
             const state = await this.stateManager.getState();
             const approvedPrompts = state.prompts
-                .filter(p => p.status === 'approved')
+                .filter((p) => p.status === 'approved')
                 .sort((a, b) => a.order - b.order);
 
             summary.total = approvedPrompts.length;
@@ -179,7 +185,7 @@ export class PromptQueueManager {
                     const errorMsg = error instanceof Error ? error.message : String(error);
                     this.events.emit('queueError', prompt, errorMsg);
                     summary.failed++;
-                    
+
                     if (!this.continueOnFailure) {
                         break; // Hata durumunda zinciri kır ve kuyruğu durdur
                     }
@@ -213,12 +219,12 @@ export class PromptQueueManager {
         // 1. Execution mode kontrolü
         if (prompt.executionMode === 'manual' || prompt.executionMode === 'external_chat_placeholder') {
             await this.transition(prompt.id, 'ready_for_manual_send');
-            
+
             // Kullanıcı UI üzerinden süreci tamamlayana kadar kuyruğu beklet
             await this.waitForPromptCompletion(prompt.id);
             if (this.cancelRequested) {
                 const state = await this.stateManager.getState();
-                const currentPrompt = state.prompts.find(p => p.id === prompt.id);
+                const currentPrompt = state.prompts.find((p) => p.id === prompt.id);
                 if (currentPrompt && isValidTransition(currentPrompt.status, 'cancelled')) {
                     await this.transition(prompt.id, 'cancelled');
                 }
@@ -259,7 +265,6 @@ export class PromptQueueManager {
 
             const completedPrompt = { ...prompt, status: 'completed' as const, responseText, executionResult: result };
             this.events.emit('promptStatusChanged', completedPrompt, 'waiting_response', 'completed');
-
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
             await this.failPrompt(prompt, message);
@@ -275,7 +280,7 @@ export class PromptQueueManager {
             status: 'failed',
             errorMessage
         };
-        
+
         if (executionResult) {
             updates.executionResult = executionResult;
         }

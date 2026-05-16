@@ -100,23 +100,21 @@ export class JsonStateManager implements IStateManager {
 
     public async replaceTasks(tasks: Task[]): Promise<void> {
         this.state.tasks = [...tasks];
-        this.state.prompts = this.state.prompts.filter(prompt =>
-            tasks.some(task => task.id === prompt.taskId)
+        this.state.prompts = this.state.prompts.filter((prompt) => tasks.some((task) => task.id === prompt.taskId));
+        this.state.approvals = this.state.approvals.filter((approval) =>
+            tasks.some((task) => task.id === approval.taskId)
         );
-        this.state.approvals = this.state.approvals.filter(approval =>
-            tasks.some(task => task.id === approval.taskId)
+        this.state.promptHistory = this.state.promptHistory.filter((run) =>
+            tasks.some((task) => task.id === run.taskId)
         );
-        this.state.promptHistory = this.state.promptHistory.filter(run =>
-            tasks.some(task => task.id === run.taskId)
-        );
-        this.state.validations = this.state.validations.filter(result =>
-            tasks.some(task => task.id === result.taskId)
+        this.state.validations = this.state.validations.filter((result) =>
+            tasks.some((task) => task.id === result.taskId)
         );
         await this.saveState();
     }
 
     public async updateTaskStatus(taskId: string, status: TaskStatus): Promise<void> {
-        const task = this.state.tasks.find(item => item.id === taskId);
+        const task = this.state.tasks.find((item) => item.id === taskId);
 
         if (!task) {
             await this.addErrorRecord({
@@ -155,7 +153,7 @@ export class JsonStateManager implements IStateManager {
     }
 
     public async addValidationResult(result: ValidationResult): Promise<void> {
-        this.state.validations = this.state.validations.filter(item => item.taskId !== result.taskId);
+        this.state.validations = this.state.validations.filter((item) => item.taskId !== result.taskId);
         this.state.validations.push(result);
         await this.saveState();
     }
@@ -166,7 +164,7 @@ export class JsonStateManager implements IStateManager {
     }
 
     public async updateApproval(approvalId: string, status: ApprovalRequest['status']): Promise<void> {
-        const approval = this.state.approvals.find(item => item.id === approvalId);
+        const approval = this.state.approvals.find((item) => item.id === approvalId);
 
         if (!approval) {
             await this.addErrorRecord({
@@ -192,7 +190,7 @@ export class JsonStateManager implements IStateManager {
     }
 
     public async updatePrompt(promptId: string, updates: Partial<Prompt>): Promise<void> {
-        const prompt = this.state.prompts.find(item => item.id === promptId);
+        const prompt = this.state.prompts.find((item) => item.id === promptId);
 
         if (!prompt) {
             await this.addErrorRecord({
