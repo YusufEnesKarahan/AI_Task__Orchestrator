@@ -121,7 +121,7 @@ export class Orchestrator {
     // -----------------------------------------------------------------------
 
     public async initialize(providerConfig: ProviderRuntimeConfig): Promise<void> {
-        await (this.stateManager as any).init?.();
+        await this.stateManager.init();
         this.state = await this.stateManager.getState();
         this.selectedTaskId = this.state.tasks[0]?.id;
 
@@ -200,7 +200,7 @@ export class Orchestrator {
         await this.stateManager.setProject(project);
 
         this.state.tasks = await this.taskPlanner.planTasks(todoText, project.id);
-        await (this.stateManager as any).replaceTasks?.(this.state.tasks);
+        await this.stateManager.replaceTasks(this.state.tasks);
         this.selectedTaskId = this.state.tasks[0]?.id;
         this.state = await this.stateManager.getState();
 
