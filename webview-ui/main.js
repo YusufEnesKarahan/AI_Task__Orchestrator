@@ -99,6 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderState(payload) {
         const safePayload = payload || {};
         projectTitleDisplay.textContent = safePayload.projectTitle || 'AI Task Orchestrator';
+        renderWorkspace(safePayload.workspace);
         renderTasks(safePayload.tasks || []);
         renderSelectedTask(safePayload.selectedTask);
         renderPrompt(safePayload.prompt);
@@ -107,6 +108,21 @@ document.addEventListener('DOMContentLoaded', () => {
         renderProviderStatus(safePayload.providerStatus);
         renderLogs(safePayload.logs || []);
         renderPrompts(safePayload.prompts || [], safePayload.queueRunning);
+    }
+
+    function renderWorkspace(workspace) {
+        const infoEl = document.getElementById('workspace-info');
+        const nameEl = document.getElementById('workspace-name');
+        const pathEl = document.getElementById('workspace-path');
+        if (!infoEl || !nameEl || !pathEl) return;
+
+        if (workspace && workspace.name) {
+            nameEl.textContent = workspace.name;
+            pathEl.textContent = workspace.shortPath ? `(${workspace.shortPath})` : '';
+            infoEl.style.display = 'flex';
+        } else {
+            infoEl.style.display = 'none';
+        }
     }
 
     function renderProviderStatus(status) {
@@ -307,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!prompts.length) {
             promptQueueList.innerHTML =
-                '<div class="empty-state">Henüz prompt üretilmedi. Hedefinizi girip "Görevleri Oluştur" butonuna tıklayın.</div>';
+                '<div class="empty-state">Henüz prompt üretilmedi. Hedefinizi girip "Bu Proje İçin Görevleri Oluştur" butonuna tıklayın.</div>';
             return;
         }
 

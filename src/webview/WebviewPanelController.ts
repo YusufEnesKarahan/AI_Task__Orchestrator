@@ -335,9 +335,15 @@ export class WebviewPanelController {
         const approvals = state.approvals.slice().sort((a, b) => b.requestedAt - a.requestedAt);
         const validationsByTaskId = new Map(state.validations.map((item) => [item.taskId, item]));
 
+        const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+        const workspaceName = workspaceFolder?.name || '';
+        // Güvenli kısaltılmış path: sadece son 2 segment göster
+        const workspacePath = workspaceFolder ? workspaceFolder.uri.fsPath.split(/[\\/]/).slice(-2).join('/') : '';
+
         await this.panel.webview.postMessage({
             command: 'renderState',
             payload: {
+                workspace: { name: workspaceName, shortPath: workspacePath },
                 projectTitle: state.currentProject?.title || 'AI Task Orchestrator',
                 tasks: state.tasks.map((task) => ({
                     id: task.id,

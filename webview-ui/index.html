@@ -37,6 +37,14 @@
                 </div>
             </section>
 
+            <div id="workspace-info" class="workspace-info" style="display: none">
+                <span class="workspace-icon">📂</span>
+                <div class="workspace-detail">
+                    <strong id="workspace-name"></strong>
+                    <span id="workspace-path" class="workspace-path"></span>
+                </div>
+            </div>
+
             <section class="panel">
                 <div class="panel-header">
                     <div>
@@ -46,7 +54,7 @@
                             promptları üretsin.
                         </p>
                     </div>
-                    <button id="generate-workflow-btn" type="button">Görevleri Oluştur</button>
+                    <button id="generate-workflow-btn" type="button">Bu Proje İçin Görevleri Oluştur</button>
                 </div>
 
                 <div class="form-grid">
@@ -59,7 +67,7 @@
                         <span>Hedef / İstek</span>
                         <textarea
                             id="idea-input"
-                            placeholder="Örn: Mevcut projeye auth modülü eklemek istiyorum. Veritabanı ve endpointler olsun, token tabanlı giriş yapsın. Testleri de yazılsın."
+                            placeholder="Bu projede neyi analiz etmek veya geliştirmek istiyorsun? Örn: Auth modülü ekle, login sayfasını refactor et, testleri yaz..."
                         ></textarea>
                     </label>
                 </div>
