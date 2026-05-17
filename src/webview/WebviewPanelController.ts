@@ -339,6 +339,7 @@ export class WebviewPanelController {
         try {
             const scanner = new WorkspaceScanner(workspaceRoot);
             this.workspaceScanResult = await scanner.scan();
+            this.orchestrator.setWorkspaceContext(this.workspaceScanResult);
             await this.syncState();
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
@@ -377,7 +378,8 @@ export class WebviewPanelController {
                 workspace: {
                     name: workspaceName,
                     shortPath: workspacePath,
-                    scan: this.workspaceScanResult
+                    scan: this.workspaceScanResult,
+                    hasContext: this.orchestrator.hasWorkspaceContext()
                 },
                 projectTitle: state.currentProject?.title || 'AI Task Orchestrator',
                 tasks: state.tasks.map((task) => ({

@@ -136,6 +136,16 @@ body {
     line-height: 1.6;
 }
 
+.workspace-context-indicator {
+    margin-top: 8px;
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--vscode-charts-green, #4caf50) 12%, var(--surface) 88%);
+    color: var(--vscode-editor-foreground);
+    border: 1px solid color-mix(in srgb, var(--vscode-charts-green, #4caf50) 30%, transparent 70%);
+}
+
 .provider-badge {
     display: inline-flex;
     align-items: center;

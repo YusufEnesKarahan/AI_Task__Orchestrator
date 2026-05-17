@@ -10,6 +10,7 @@ import { ApprovalManager } from '../../services/approval/ApprovalManager';
 import { IStateManager } from '../../store/interfaces/IStateManager';
 import { createProvider, ProviderStatus, ProviderBootstrapResult } from '../../providers/createProvider';
 import { ProviderRuntimeConfig } from '../../providers/providerConfig';
+import { WorkspaceScanResult } from '../../services/workspace/WorkspaceScanner';
 
 // ---------------------------------------------------------------------------
 // Olay Tipleri (Event Types)
@@ -70,6 +71,7 @@ export class Orchestrator {
 
     private selectedTaskId?: string;
     private latestPrompt?: GeneratedPrompt;
+    private workspaceContextCode?: string;
 
     constructor(stateManager: IStateManager, workspaceRoot: string) {
         this.stateManager = stateManager;
@@ -145,6 +147,35 @@ export class Orchestrator {
 
         // Queue manager'a da provider'ı ver
         this.queueManager.setProvider(bootstrap.provider);
+    }
+
+    /**
+     * Workspace scan sonucunu alıp prompt context string'ine dönüştürür.
+     * Dosya içerikleri değil, sadece metadata kullanılır.
+     */
+    public setWorkspaceContext(scan: WorkspaceScanResult | null): void {
+        if (!scan) {
+            this.workspaceContextCode = undefined;
+            return;
+        }
+        this.workspaceContextCode = this.buildWorkspaceContextCode(scan);
+    }
+
+    public hasWorkspaceContext(): boolean {
+        return !!this.workspaceContextCode;
+    }
+
+    private buildWorkspaceContextCode(scan: WorkspaceScanResult): string {
+        const lines: string[] = [
+            '## Project Context (workspace metadata — no file contents)',
+            `- Workspace: ${scan.name}`,
+            `- Stack: ${scan.stackTags.length > 0 ? scan.stackTags.join(', ') : 'Not detected'}`,
+            `- package.json: ${scan.hasPackageJson ? 'Yes' : 'No'}`,
+            `- README.md: ${scan.hasReadme ? 'Yes' : 'No'}`,
+            `- src/ directory: ${scan.hasSrcDir ? 'Yes' : 'No'}`,
+            `- Approx file count: ${scan.approxFileCount}`
+        ];
+        return lines.join('\n');
     }
 
     // -----------------------------------------------------------------------
@@ -238,7 +269,7 @@ export class Orchestrator {
         this.selectedTaskId = task.id;
         await this.log('info', `Prompt Generator '${task.title}' için çalıştırılıyor.`);
 
-        this.latestPrompt = this.promptGenerator.generate(task);
+        this.latestPrompt = this.promptGenerator.generate(task, this.workspaceContextCode);
         const promptRun = this.promptGenerator.createPromptRunRecord(task, this.latestPrompt);
         await this.stateManager.addPromptRun(promptRun);
         this.state = await this.stateManager.getState();
@@ -319,7 +350,7 @@ export class Orchestrator {
                 continue;
             }
 
-            const generated = this.promptGenerator.generate(task);
+            const generated = this.promptGenerator.generate(task, this.workspaceContextCode);
 
             const prompt = createPrompt({
                 taskId: task.id,

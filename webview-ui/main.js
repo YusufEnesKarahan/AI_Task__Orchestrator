@@ -168,6 +168,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     scanBtn.disabled = false;
                 }
             }
+
+            // Context göstergesi
+            let contextIndicator = infoEl.querySelector('.workspace-context-indicator');
+            if (workspace.hasContext) {
+                if (!contextIndicator) {
+                    contextIndicator = document.createElement('div');
+                    contextIndicator.className = 'workspace-context-indicator';
+                    infoEl.appendChild(contextIndicator);
+                }
+                contextIndicator.textContent = '\u2728 Proje ba\u011flam\u0131 promptlara eklenecek';
+            } else if (contextIndicator) {
+                contextIndicator.remove();
+            }
         } else {
             infoEl.style.display = 'none';
         }
