@@ -30,7 +30,8 @@ interface PanelMessage {
         | 'cancelQueue'
         | 'markPromptSent'
         | 'markPromptCompleted'
-        | 'addPromptNote';
+        | 'addPromptNote'
+        | 'changeProvider';
     payload?: {
         projectTitle?: string;
         todoText?: string;
@@ -238,9 +239,81 @@ export class WebviewPanelController {
                 this.orchestrator.cancelQueue();
                 return;
 
+            case 'changeProvider':
+                await this.handleChangeProvider();
+                return;
+
             default:
                 return;
         }
+    }
+
+    // -----------------------------------------------------------------------
+    // Provider Değiştirme (QuickPick)
+    // -----------------------------------------------------------------------
+
+    private async handleChangeProvider(): Promise<void> {
+        const items: vscode.QuickPickItem[] = [
+            {
+                label: 'Mock · Simülasyon',
+                description: 'Gerçek AI isteği yapmaz, test amaçlıdır',
+                detail: 'mock'
+            },
+            {
+                label: 'OpenAI',
+                description: 'GPT modelleri ile çalışır',
+                detail: 'openai'
+            },
+            {
+                label: 'Gemini',
+                description: 'Google Gemini modelleri ile çalışır',
+                detail: 'gemini'
+            }
+        ];
+
+        const picked = await vscode.window.showQuickPick(items, {
+            placeHolder: 'AI sağlayıcı seçin',
+            title: 'Provider Değiştir'
+        });
+
+        if (!picked || !picked.detail) {
+            return; // Kullanıcı iptal etti
+        }
+
+        const selection = picked.detail as 'openai' | 'gemini' | 'mock';
+
+        // VS Code ayarlarına yaz
+        const config = vscode.workspace.getConfiguration('aiTaskOrchestrator');
+        await config.update('provider', selection, vscode.ConfigurationTarget.Workspace);
+
+        // Yeni config ile provider’ı yeniden bootstrap et
+        const providerConfig = await loadProviderRuntimeConfig(this.extensionContext);
+        await this.orchestrator.bootstrapProvider(providerConfig);
+
+        // API key eksikse kullanıcıya sor
+        const status = this.orchestrator.getProviderStatus();
+        if (!status.available && selection !== 'mock') {
+            const setKeyLabel = selection === 'openai' ? 'OpenAI API Key Gir' : 'Gemini API Key Gir';
+            const setKeyCommand =
+                selection === 'openai'
+                    ? 'ai-task-orchestrator.setOpenAIApiKey'
+                    : 'ai-task-orchestrator.setGeminiApiKey';
+
+            const action = await vscode.window.showWarningMessage(
+                `${picked.label} seçildi ancak API key bulunamadı.`,
+                setKeyLabel
+            );
+
+            if (action === setKeyLabel) {
+                await vscode.commands.executeCommand(setKeyCommand);
+
+                // Key girildikten sonra tekrar bootstrap et
+                const updatedConfig = await loadProviderRuntimeConfig(this.extensionContext);
+                await this.orchestrator.bootstrapProvider(updatedConfig);
+            }
+        }
+
+        await this.syncState();
     }
 
     // -----------------------------------------------------------------------

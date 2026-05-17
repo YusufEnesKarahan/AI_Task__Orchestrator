@@ -20,7 +20,19 @@
                     izleyin.
                 </p>
                 <div class="provider-status-panel">
-                    <span id="provider-status-label" class="provider-badge provider-error">Provider bilinmiyor</span>
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap">
+                        <span id="provider-status-label" class="provider-badge provider-error"
+                            >Provider bilinmiyor</span
+                        >
+                        <button
+                            id="change-provider-btn"
+                            type="button"
+                            class="secondary-button"
+                            style="padding: 4px 10px; font-size: 0.75rem"
+                        >
+                            Değiştir
+                        </button>
+                    </div>
                     <p id="provider-status-message" class="provider-message">Provider durumu henüz yüklenmedi.</p>
                 </div>
             </section>

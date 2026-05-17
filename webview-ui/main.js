@@ -54,6 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+    // Provider elements
+    const changeProviderBtn = document.getElementById('change-provider-btn');
+
+    changeProviderBtn?.addEventListener('click', () => {
+        vscode.postMessage({ command: 'changeProvider' });
+    });
 
     // Prompt Queue Event Listeners
     generateAllPromptsBtn?.addEventListener('click', () => {
