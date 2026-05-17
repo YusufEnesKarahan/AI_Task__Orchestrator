@@ -2,9 +2,9 @@
     "name": "ai-task-orchestrator",
     "displayName": "AI Task Orchestrator",
     "description": "AI-powered task orchestrator for VS Code",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "publisher": "YusufEnesKarahan",
-    "license": "UNLICENSED",
+    "license": "MIT",
     "repository": {
         "type": "git",
         "url": "https://github.com/YusufEnesKarahan/AI_Task__Orchestrator.git"
@@ -17,6 +17,7 @@
         "vscode": "^1.80.0"
     },
     "categories": [
+        "Machine Learning",
         "Other"
     ],
     "keywords": [
