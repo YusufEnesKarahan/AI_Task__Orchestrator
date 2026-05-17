@@ -329,6 +329,10 @@ button:disabled {
     border-left: 3px solid var(--vscode-testing-iconPassed);
 }
 
+.log-warn {
+    border-left: 3px solid var(--vscode-editorWarning-foreground);
+}
+
 .log-error {
     border-left: 3px solid var(--vscode-errorForeground);
 }
@@ -478,6 +482,22 @@ button:disabled {
 .status-cancelled {
     color: var(--text-muted);
     background: color-mix(in srgb, var(--surface) 80%, white 20%);
+}
+.status-ready_for_manual_send {
+    color: #4d3a00;
+    background: rgba(255, 208, 72, 0.28);
+}
+.status-sent_manually {
+    color: #0c3c73;
+    background: rgba(88, 166, 255, 0.25);
+}
+.status-awaiting_manual_result {
+    color: #4d3a00;
+    background: rgba(255, 208, 72, 0.28);
+}
+.status-manually_completed {
+    color: #0f5132;
+    background: rgba(87, 217, 163, 0.24);
 }
 
 .prompt-edit-area {

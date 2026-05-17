@@ -480,15 +480,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function translateValidationStatus(status) {
         switch (status) {
             case 'success':
-                return 'BaÅŸarÄ±lÄ±';
+                return 'Ba\u015Far\u0131l\u0131';
             case 'failed':
-                return 'BaÅŸarÄ±sÄ±z';
+                return 'Ba\u015Far\u0131s\u0131z';
             case 'skipped':
-                return 'AtlandÄ±';
+                return 'Atland\u0131';
             case 'not_applicable':
                 return 'Uygulanamaz';
             default:
-                return 'HenÃ¼z yok';
+                return 'Hen\u00FCz yok';
         }
     }
 
