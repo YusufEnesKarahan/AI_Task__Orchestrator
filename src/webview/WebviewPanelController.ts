@@ -4,6 +4,7 @@ import { PromptRun } from '../core/types';
 import { Orchestrator } from '../core/orchestrator/Orchestrator';
 import { loadProviderRuntimeConfig } from '../providers/providerConfig';
 import { JsonStateManager } from '../store/JsonStateManager';
+import { WorkspaceScanner, WorkspaceScanResult } from '../services/workspace/WorkspaceScanner';
 
 // ---------------------------------------------------------------------------
 // Mesaj Tipleri (UI <-> Controller Kontratı)
@@ -31,7 +32,8 @@ interface PanelMessage {
         | 'markPromptSent'
         | 'markPromptCompleted'
         | 'addPromptNote'
-        | 'changeProvider';
+        | 'changeProvider'
+        | 'scanWorkspace';
     payload?: {
         projectTitle?: string;
         todoText?: string;
@@ -59,6 +61,9 @@ export class WebviewPanelController {
 
     // Sistemin beyni — tüm iş mantığı burada yaşar
     private readonly orchestrator: Orchestrator;
+
+    // Workspace tarama sonucu (bellekte tutulur, state dosyasına yazılmaz)
+    private workspaceScanResult: WorkspaceScanResult | null = null;
 
     private constructor(context: vscode.ExtensionContext, panel: vscode.WebviewPanel) {
         this.extensionContext = context;
@@ -243,6 +248,10 @@ export class WebviewPanelController {
                 await this.handleChangeProvider();
                 return;
 
+            case 'scanWorkspace':
+                await this.handleScanWorkspace();
+                return;
+
             default:
                 return;
         }
@@ -317,6 +326,28 @@ export class WebviewPanelController {
     }
 
     // -----------------------------------------------------------------------
+    // Workspace Tarama
+    // -----------------------------------------------------------------------
+
+    private async handleScanWorkspace(): Promise<void> {
+        const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+        if (!workspaceRoot) {
+            void vscode.window.showWarningMessage('Açık bir workspace bulunamadı. Lütfen bir klasör açın.');
+            return;
+        }
+
+        try {
+            const scanner = new WorkspaceScanner(workspaceRoot);
+            this.workspaceScanResult = await scanner.scan();
+            await this.syncState();
+        } catch (error) {
+            const message = error instanceof Error ? error.message : String(error);
+            console.error('Workspace tarama hatası:', message);
+            void vscode.window.showErrorMessage(`Workspace tarama başarısız: ${message}`);
+        }
+    }
+
+    // -----------------------------------------------------------------------
     // State → UI Senkronizasyonu
     // Orchestrator'dan mevcut durumu alıp Webview'e gönderir.
     // -----------------------------------------------------------------------
@@ -343,7 +374,11 @@ export class WebviewPanelController {
         await this.panel.webview.postMessage({
             command: 'renderState',
             payload: {
-                workspace: { name: workspaceName, shortPath: workspacePath },
+                workspace: {
+                    name: workspaceName,
+                    shortPath: workspacePath,
+                    scan: this.workspaceScanResult
+                },
                 projectTitle: state.currentProject?.title || 'AI Task Orchestrator',
                 tasks: state.tasks.map((task) => ({
                     id: task.id,

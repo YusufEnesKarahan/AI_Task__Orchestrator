@@ -61,6 +61,17 @@ document.addEventListener('DOMContentLoaded', () => {
         vscode.postMessage({ command: 'changeProvider' });
     });
 
+    // Workspace scan
+    const scanWorkspaceBtn = document.getElementById('scan-workspace-btn');
+
+    scanWorkspaceBtn?.addEventListener('click', () => {
+        if (scanWorkspaceBtn) {
+            scanWorkspaceBtn.textContent = 'Taranıyor...';
+            scanWorkspaceBtn.disabled = true;
+        }
+        vscode.postMessage({ command: 'scanWorkspace' });
+    });
+
     // Prompt Queue Event Listeners
     generateAllPromptsBtn?.addEventListener('click', () => {
         vscode.postMessage({ command: 'generateAllPrompts' });
@@ -114,12 +125,49 @@ document.addEventListener('DOMContentLoaded', () => {
         const infoEl = document.getElementById('workspace-info');
         const nameEl = document.getElementById('workspace-name');
         const pathEl = document.getElementById('workspace-path');
+        const scanResultEl = document.getElementById('workspace-scan-result');
+        const stackTagsEl = document.getElementById('workspace-stack-tags');
+        const markersEl = document.getElementById('workspace-markers');
+        const scanBtn = document.getElementById('scan-workspace-btn');
         if (!infoEl || !nameEl || !pathEl) return;
 
         if (workspace && workspace.name) {
             nameEl.textContent = workspace.name;
             pathEl.textContent = workspace.shortPath ? `(${workspace.shortPath})` : '';
-            infoEl.style.display = 'flex';
+            infoEl.style.display = 'block';
+
+            // Scan sonuçlarını göster
+            if (workspace.scan && scanResultEl && stackTagsEl && markersEl) {
+                const scan = workspace.scan;
+                scanResultEl.style.display = 'block';
+
+                // Stack etiketleri
+                stackTagsEl.innerHTML = '';
+                if (scan.stackTags && scan.stackTags.length > 0) {
+                    scan.stackTags.forEach((tag) => {
+                        const badge = document.createElement('span');
+                        badge.className = 'stack-tag';
+                        badge.textContent = tag;
+                        stackTagsEl.appendChild(badge);
+                    });
+                } else {
+                    stackTagsEl.innerHTML = '<span class="stack-tag stack-tag-muted">Teknoloji tespit edilemedi</span>';
+                }
+
+                // Dosya marker'ları
+                const markers = [];
+                markers.push(scan.hasPackageJson ? '✅ package.json' : '❌ package.json');
+                markers.push(scan.hasReadme ? '✅ README.md' : '❌ README.md');
+                markers.push(scan.hasSrcDir ? '✅ src/' : '❌ src/');
+                markers.push(`📄 ~${scan.approxFileCount} dosya`);
+                markersEl.textContent = markers.join('  ·  ');
+
+                // Buton güncelle
+                if (scanBtn) {
+                    scanBtn.textContent = 'Yeniden Tara';
+                    scanBtn.disabled = false;
+                }
+            }
         } else {
             infoEl.style.display = 'none';
         }
