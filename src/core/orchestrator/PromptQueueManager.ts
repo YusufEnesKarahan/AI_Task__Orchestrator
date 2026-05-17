@@ -126,6 +126,30 @@ export class PromptQueueManager {
         }
     }
 
+    public async retryFailed(promptId: string): Promise<void> {
+        const state = await this.stateManager.getState();
+        const prompt = state.prompts.find((p) => p.id === promptId);
+
+        if (!prompt) {
+            throw new Error(`Prompt bulunamadı: ${promptId}`);
+        }
+
+        if (prompt.status !== 'failed') {
+            throw new Error(`Sadece failed prompt yeniden denenebilir: ${prompt.title}`);
+        }
+
+        await this.stateManager.updatePrompt(promptId, {
+            status: 'approved',
+            errorMessage: undefined,
+            executionResult: undefined,
+            responseText: undefined,
+            provider: undefined,
+            approvedAt: Date.now()
+        });
+
+        this.events.emit('promptStatusChanged', { ...prompt, status: 'approved' }, 'failed', 'approved');
+    }
+
     // -----------------------------------------------------------------------
     // Kuyruk Yürütme (Queue Execution)
     // -----------------------------------------------------------------------
@@ -180,7 +204,13 @@ export class PromptQueueManager {
 
                 try {
                     await this.executeSinglePrompt(prompt);
-                    summary.completed++;
+                    const state = await this.stateManager.getState();
+                    const currentPrompt = state.prompts.find((p) => p.id === prompt.id);
+                    if (currentPrompt?.status === 'cancelled') {
+                        summary.cancelled++;
+                    } else {
+                        summary.completed++;
+                    }
                 } catch (error) {
                     const errorMsg = error instanceof Error ? error.message : String(error);
                     this.events.emit('queueError', prompt, errorMsg);
@@ -278,7 +308,8 @@ export class PromptQueueManager {
     private async failPrompt(prompt: Prompt, errorMessage: string, executionResult?: any): Promise<void> {
         const updates: Partial<Prompt> = {
             status: 'failed',
-            errorMessage
+            errorMessage,
+            provider: this.aiProvider?.providerName
         };
 
         if (executionResult) {

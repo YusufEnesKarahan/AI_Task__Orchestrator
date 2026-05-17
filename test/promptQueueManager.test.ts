@@ -38,6 +38,8 @@ test('PromptQueueManager cancels a manual prompt wait without hanging the queue'
     assert.equal(queueManager.isRunning(), false);
     assert.equal(finalState.prompts[0]?.status, 'cancelled');
     assert.equal(summary.total, 1);
+    assert.equal(summary.completed, 0);
+    assert.equal(summary.cancelled, 1);
 });
 
 test('PromptQueueManager retries a failed prompt with a clean approved state', async () => {
