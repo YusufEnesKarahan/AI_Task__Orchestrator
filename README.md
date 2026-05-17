@@ -99,7 +99,7 @@ Model ve timeout ayarlari:
 ```json
 {
     "aiTaskOrchestrator.openAiModel": "gpt-4o-mini",
-    "aiTaskOrchestrator.geminiModel": "gemini-1.5-flash",
+    "aiTaskOrchestrator.geminiModel": "gemini-2.5-flash",
     "aiTaskOrchestrator.timeoutMs": 30000,
     "aiTaskOrchestrator.maxRetries": 2
 }

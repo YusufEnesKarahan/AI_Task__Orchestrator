@@ -28,16 +28,13 @@
         "openai",
         "gemini"
     ],
-    "activationEvents": [
-        "onCommand:ai-task-orchestrator.openPanel",
-        "onView:ai-task-orchestrator.sidebar"
-    ],
     "main": "./out/extension.js",
     "contributes": {
         "commands": [
             {
                 "command": "ai-task-orchestrator.openPanel",
-                "title": "AI Task Orchestrator: Open Panel"
+                "title": "AI Task Orchestrator: Open Panel",
+                "icon": "$(layout)"
             },
             {
                 "command": "ai-task-orchestrator.setOpenAIApiKey",
@@ -68,7 +65,7 @@
                 },
                 "aiTaskOrchestrator.geminiModel": {
                     "type": "string",
-                    "default": "gemini-1.5-flash",
+                    "default": "gemini-2.5-flash",
                     "description": "Model name used when the Gemini provider is selected."
                 },
                 "aiTaskOrchestrator.timeoutMs": {
@@ -89,7 +86,8 @@
             "explorer": [
                 {
                     "id": "ai-task-orchestrator.sidebar",
-                    "name": "AI Task Orchestrator"
+                    "name": "AI Task Orchestrator",
+                    "icon": "resources/sidebar-icon.svg"
                 }
             ]
         },

@@ -41,7 +41,7 @@ export class GeminiProvider extends BaseAIProvider {
 
             if (!response.ok) {
                 const errorText = await response.text();
-                throw this.createHttpError(response.status, errorText || 'Gemini request failed.');
+                throw this.createHttpError(response.status, this.formatGeminiHttpError(errorText));
             }
 
             const data = (await response.json()) as {
@@ -89,5 +89,18 @@ export class GeminiProvider extends BaseAIProvider {
                 message: normalized.message
             };
         }
+    }
+
+    private formatGeminiHttpError(errorText: string): string {
+        const normalized = errorText.toLowerCase();
+        if (normalized.includes('not found') || normalized.includes('not supported for generatecontent')) {
+            return [
+                'Model bulunamadı veya bu API sürümüyle uyumsuz.',
+                'Gemini model ayarını kontrol edin.',
+                `Model: ${this.model}`
+            ].join(' ');
+        }
+
+        return errorText || 'Gemini request failed.';
     }
 }

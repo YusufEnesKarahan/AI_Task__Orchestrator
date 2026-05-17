@@ -12,7 +12,7 @@ test('Orchestrator.generateAllPrompts is idempotent per task', async () => {
     await orchestrator.initialize({
         selection: 'mock',
         openAiModel: 'gpt-4o-mini',
-        geminiModel: 'gemini-1.5-flash',
+        geminiModel: 'gemini-2.5-flash',
         timeoutMs: 1000,
         maxRetries: 0,
         apiKeys: {}

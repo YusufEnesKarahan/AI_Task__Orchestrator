@@ -19,13 +19,15 @@ export const PROVIDER_SECRET_KEYS = {
     gemini: 'ai-task-orchestrator.gemini-api-key'
 } as const;
 
+export const DEFAULT_GEMINI_MODEL = 'gemini-2.5-flash';
+
 export async function loadProviderRuntimeConfig(context: vscode.ExtensionContext): Promise<ProviderRuntimeConfig> {
     const config = vscode.workspace.getConfiguration('aiTaskOrchestrator');
 
     return {
         selection: config.get<ProviderSelection>('provider', 'openai'),
         openAiModel: config.get<string>('openAiModel', 'gpt-4o-mini'),
-        geminiModel: config.get<string>('geminiModel', 'gemini-1.5-flash'),
+        geminiModel: resolveGeminiModel(config.get<string>('geminiModel', DEFAULT_GEMINI_MODEL)),
         timeoutMs: config.get<number>('timeoutMs', 30000),
         maxRetries: config.get<number>('maxRetries', 2),
         apiKeys: {
@@ -33,6 +35,15 @@ export async function loadProviderRuntimeConfig(context: vscode.ExtensionContext
             gemini: await resolveApiKey(context.secrets, PROVIDER_SECRET_KEYS.gemini, process.env.GEMINI_API_KEY)
         }
     };
+}
+
+export function resolveGeminiModel(configuredModel?: string): string {
+    const model = configuredModel?.trim().replace(/^models\//, '');
+    if (!model || model === 'gemini-1.5-flash') {
+        return DEFAULT_GEMINI_MODEL;
+    }
+
+    return model;
 }
 
 async function resolveApiKey(
