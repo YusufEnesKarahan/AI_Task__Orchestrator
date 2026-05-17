@@ -384,7 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!prompts.length) {
             promptQueueList.innerHTML =
-                '<div class="empty-state">Henüz prompt üretilmedi. Hedefinizi girip "Bu Proje İçin Görevleri Oluştur" butonuna tıklayın.</div>';
+                '<div class="empty-state">Henüz prompt yok. Hedefinizi girip görevleri oluşturun, ardından promptları AI agentınıza kopyalamak için hazırlayın.</div>';
             return;
         }
 
@@ -406,12 +406,20 @@ document.addEventListener('DOMContentLoaded', () => {
             statusBadge.className = `status-badge status-${prompt.status}`;
             statusBadge.textContent = translatePromptStatus(prompt.status);
 
+            const templateBadge = document.createElement('span');
+            templateBadge.className = 'status-badge status-mode';
+            templateBadge.textContent = prompt.templateName || 'Prompt';
+
+            const modeBadge = document.createElement('span');
+            modeBadge.className = 'status-badge status-mode';
+            modeBadge.textContent = prompt.executionMode === 'internal_ai' ? 'AI Provider' : 'Manuel Handoff';
+
             const toggleBtn = buildActionButton('Görüntüle', false, () => {
                 const isExpanded = body.classList.toggle('expanded');
                 toggleBtn.textContent = isExpanded ? 'Gizle' : 'Görüntüle';
             });
 
-            metaWrap.append(statusBadge, toggleBtn);
+            metaWrap.append(statusBadge, templateBadge, modeBadge, toggleBtn);
             header.append(titleWrap, metaWrap);
 
             const body = document.createElement('div');
@@ -457,6 +465,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 actions.append(
                     buildActionButton('Reddet', false, () => {
                         vscode.postMessage({ command: 'rejectPrompt', payload: { promptId: prompt.id } });
+                    })
+                );
+            }
+
+            if (prompt.status === 'failed') {
+                actions.append(
+                    buildActionButton('Mevcut Provider ile Yeniden Dene', false, () => {
+                        vscode.postMessage({ command: 'retryPrompt', payload: { promptId: prompt.id } });
                     })
                 );
             }
@@ -521,7 +537,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (prompt.errorMessage) {
                 const errorEl = document.createElement('div');
                 errorEl.className = 'prompt-card-error';
-                errorEl.innerHTML = `<strong>Hata:</strong> ${escapeHtml(prompt.errorMessage)}`;
+                const providerText = prompt.provider ? ` (${escapeHtml(prompt.provider)})` : '';
+                errorEl.innerHTML = `<strong>Önceki çalıştırma sonucu${providerText}:</strong> ${escapeHtml(prompt.errorMessage)}`;
                 card.append(errorEl);
             }
 

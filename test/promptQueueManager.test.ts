@@ -1,7 +1,20 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { PromptQueueManager } from '../src/core/orchestrator/PromptQueueManager';
+import { createPrompt } from '../src/core/types';
 import { createPromptForTask, MemoryStateManager } from './helpers';
+
+test('createPrompt defaults to manual handoff mode', () => {
+    const prompt = createPrompt({
+        taskId: 'task_1',
+        title: 'Manual prompt',
+        systemPrompt: 'System',
+        content: 'Content',
+        order: 0
+    });
+
+    assert.equal(prompt.executionMode, 'manual');
+});
 
 test('PromptQueueManager cancels a manual prompt wait without hanging the queue', async () => {
     const prompt = {
@@ -25,6 +38,32 @@ test('PromptQueueManager cancels a manual prompt wait without hanging the queue'
     assert.equal(queueManager.isRunning(), false);
     assert.equal(finalState.prompts[0]?.status, 'cancelled');
     assert.equal(summary.total, 1);
+});
+
+test('PromptQueueManager retries a failed prompt with a clean approved state', async () => {
+    const prompt = {
+        ...createPromptForTask('task_1', 'prompt_failed'),
+        status: 'failed' as const,
+        provider: 'Gemini',
+        errorMessage: 'models/gemini-1.5-flash not found',
+        responseText: 'stale response',
+        executionResult: {
+            errorMessage: 'models/gemini-1.5-flash not found'
+        }
+    };
+    const stateManager = new MemoryStateManager({ prompts: [prompt] });
+    const queueManager = new PromptQueueManager(stateManager);
+
+    await queueManager.retryFailed(prompt.id);
+    const state = await stateManager.getState();
+    const updatedPrompt = state.prompts[0];
+
+    assert.equal(updatedPrompt?.status, 'approved');
+    assert.equal(updatedPrompt?.errorMessage, undefined);
+    assert.equal(updatedPrompt?.executionResult, undefined);
+    assert.equal(updatedPrompt?.responseText, undefined);
+    assert.equal(updatedPrompt?.provider, undefined);
+    assert.ok(updatedPrompt?.approvedAt);
 });
 
 async function waitUntil(predicate: () => Promise<boolean>, timeoutMs = 2000): Promise<void> {

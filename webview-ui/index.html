@@ -165,7 +165,7 @@
                     <div>
                         <h2>Prompt Pipeline</h2>
                         <p class="section-copy">
-                            Üretilen promptları inceleyin, onaylayın ve sırayla AI sağlayıcıya gönderin.
+                            Üretilen promptları inceleyin, düzenleyin ve AI agent'ınıza kopyalayın.
                         </p>
                     </div>
                     <div class="prompt-toolbar">
@@ -183,20 +183,21 @@
                         <button id="reject-all-btn" type="button" class="secondary-button btn-reject">
                             Tümünü Reddet
                         </button>
-                        <button id="execute-queue-btn" type="button">Kuyruğu Çalıştır ▶</button>
+                        <button id="execute-queue-btn" type="button">Promptları Hazırla ▶</button>
                         <button
                             id="cancel-queue-btn"
                             type="button"
                             class="secondary-button btn-reject"
                             style="display: none"
                         >
-                            Kuyruğu İptal Et
+                            Hazırlamayı İptal Et
                         </button>
                     </div>
                 </div>
                 <div id="prompt-queue-list" class="prompt-queue-list">
                     <div class="empty-state">
-                        Henüz prompt üretilmedi. Hedefinizi girip 'Bu Proje İçin Görevleri Oluştur' butonuna tıklayın.
+                        Henüz prompt yok. Hedefinizi girip görevleri oluşturun, ardından promptları AI agentınıza
+                        kopyalamak için hazırlayın.
                     </div>
                 </div>
             </section>

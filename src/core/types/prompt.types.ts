@@ -112,7 +112,7 @@ export const PROMPT_STATUS_TRANSITIONS: Record<PromptStatus, PromptStatus[]> = {
     sending: ['waiting_response', 'failed', 'cancelled'],
     waiting_response: ['completed', 'failed', 'cancelled'],
     completed: [], // Son durum
-    failed: ['queued', 'draft'], // Tekrar deneme veya düzenleme
+    failed: ['approved', 'queued', 'draft'], // Tekrar deneme veya düzenleme
     cancelled: ['draft'], // İptalden geri alınabilir
     // Manual Status Geçişleri
     ready_for_manual_send: ['sent_manually', 'manually_completed', 'cancelled', 'failed'],
@@ -141,7 +141,7 @@ export function createPrompt(input: CreatePromptInput): Prompt {
         content: input.content,
         templateName: input.templateName,
         status: 'draft',
-        executionMode: input.executionMode || 'internal_ai',
+        executionMode: input.executionMode || 'manual',
         order: input.order,
         createdAt: now,
         updatedAt: now

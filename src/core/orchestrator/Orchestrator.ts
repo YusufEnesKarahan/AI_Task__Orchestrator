@@ -231,9 +231,28 @@ export class Orchestrator {
         await this.stateManager.setProject(project);
 
         this.state.tasks = await this.taskPlanner.planTasks(todoText, project.id);
+        const planningDiagnostics = this.taskPlanner.getLastDiagnostics();
         await this.stateManager.replaceTasks(this.state.tasks);
         this.selectedTaskId = this.state.tasks[0]?.id;
         this.state = await this.stateManager.getState();
+
+        if (planningDiagnostics.usedAI) {
+            await this.log('success', 'AI task planı başarıyla üretildi.');
+        } else if (this.providerStatus.available) {
+            await this.log(
+                'error',
+                `AI task planı üretilemedi; yerel fallback kullanıldı. Sebep: ${
+                    planningDiagnostics.fallbackReason || 'Bilinmeyen hata'
+                }`
+            );
+        } else {
+            await this.log(
+                'warn',
+                `AI provider kullanılabilir değil; yerel fallback kullanıldı. Sebep: ${
+                    planningDiagnostics.fallbackReason || this.providerStatus.message
+                }`
+            );
+        }
 
         await this.log('success', `${this.state.tasks.length} görev üretildi.`);
         this.emitStateChanged();
@@ -408,6 +427,19 @@ export class Orchestrator {
         }
     }
 
+    public async retryPrompt(promptId: string): Promise<void> {
+        try {
+            await this.queueManager.retryFailed(promptId);
+            this.state = await this.stateManager.getState();
+            await this.log('info', 'Prompt mevcut provider ile yeniden denemek için onaylandı.');
+            this.emitStateChanged();
+        } catch (error) {
+            const msg = error instanceof Error ? error.message : String(error);
+            await this.log('error', `Prompt yeniden deneme hatası: ${msg}`);
+            this.emitStateChanged();
+        }
+    }
+
     /**
      * Tüm draft prompt'ları toplu onayla.
      */
@@ -439,24 +471,24 @@ export class Orchestrator {
     }
 
     /**
-     * Onaylı (approved) prompt'ları sıralı yürütme kuyruğuna alır.
+     * Onaylı (approved) prompt'ları hazırlama kuyruğuna alır.
      */
     public async executeApprovedPrompts(): Promise<void> {
         const approvedCount = this.state.prompts.filter((p) => p.status === 'approved').length;
 
         if (approvedCount === 0) {
-            await this.log('error', 'Kuyruğa alınacak onaylı prompt yok.');
+            await this.log('error', 'Hazırlanacak onaylı prompt yok.');
             this.emitStateChanged();
             return;
         }
 
         if (this.queueManager.isRunning()) {
-            await this.log('error', 'Kuyruk zaten çalışıyor.');
+            await this.log('error', 'Prompt hazırlama zaten çalışıyor.');
             this.emitStateChanged();
             return;
         }
 
-        await this.log('info', `${approvedCount} onaylı prompt kuyruğa alınıyor...`);
+        await this.log('info', `${approvedCount} onaylı prompt hazırlanıyor...`);
         this.emitStateChanged();
 
         // executeQueue arka planda (non-blocking) çalışır; olaylar üzerinden UI güncellenecek
@@ -523,7 +555,7 @@ export class Orchestrator {
     }
 
     /**
-     * Çalışan kuyruğu iptal eder.
+     * Çalışan prompt hazırlamayı iptal eder.
      */
     public cancelQueue(): void {
         this.queueManager.requestCancel();
@@ -615,7 +647,7 @@ export class Orchestrator {
     private async onQueueCompleted(summary: QueueExecutionSummary): Promise<void> {
         await this.log(
             summary.failed > 0 ? 'error' : 'success',
-            `Kuyruk tamamlandı: ${summary.completed} başarılı, ${summary.failed} başarısız, ${summary.cancelled} iptal (${summary.durationMs}ms)`
+            `Prompt hazırlama tamamlandı: ${summary.completed} tamamlandı, ${summary.failed} başarısız, ${summary.cancelled} iptal (${summary.durationMs}ms)`
         );
         this.emitStateChanged();
     }
