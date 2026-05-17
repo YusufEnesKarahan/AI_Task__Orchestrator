@@ -146,6 +146,16 @@ Mevcut testler su alanlari kapsar:
 
 Not: Bazi sandbox ortamlarda Node test runner child process baslatirken izin hatasi verebilir. Normal yerel terminalde `npm.cmd test` calismalidir.
 
+## VSIX Paketleme
+
+Yerel VSIX paketi olusturmak icin:
+
+```powershell
+npm.cmd run package
+```
+
+Bu komut `vsce package` calistirir ve Marketplace'e yayinlama yapmaz. Yayinlama icin ayrica gercek bir VS Code Marketplace publisher hesabinin hazirlanmasi gerekir.
+
 ## Bilinen Sinirliliklar
 
 - Extension henuz Marketplace'te yayinlanmis degildir.

@@ -3,11 +3,29 @@
     "displayName": "AI Task Orchestrator",
     "description": "AI-powered task orchestrator for VS Code",
     "version": "0.0.1",
+    "publisher": "YusufEnesKarahan",
+    "license": "UNLICENSED",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/YusufEnesKarahan/AI_Task__Orchestrator.git"
+    },
+    "bugs": {
+        "url": "https://github.com/YusufEnesKarahan/AI_Task__Orchestrator/issues"
+    },
+    "homepage": "https://github.com/YusufEnesKarahan/AI_Task__Orchestrator#readme",
     "engines": {
         "vscode": "^1.80.0"
     },
     "categories": [
         "Other"
+    ],
+    "keywords": [
+        "ai",
+        "task-orchestration",
+        "prompt",
+        "workflow",
+        "openai",
+        "gemini"
     ],
     "activationEvents": [
         "onCommand:ai-task-orchestrator.openPanel",
@@ -86,10 +104,12 @@
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
+        "clean:out": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"if (Test-Path out) { Remove-Item -LiteralPath out -Recurse -Force }\"",
+        "compile": "npm run clean:out && tsc -p ./",
         "lint": "eslint .",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
+        "package": "vsce package",
         "test": "tsc -p ./tsconfig.test.json && node --test \"out-test/test/*.test.js\"",
         "watch": "tsc -watch -p ./"
     },
@@ -100,6 +120,7 @@
         "@eslint/js": "^10.0.1",
         "@types/node": "18.x",
         "@types/vscode": "^1.80.0",
+        "@vscode/vsce": "^3.9.1",
         "eslint": "^10.4.0",
         "prettier": "^3.8.3",
         "typescript": "^5.1.3",
