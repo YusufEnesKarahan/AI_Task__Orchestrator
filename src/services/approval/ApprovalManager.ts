@@ -116,6 +116,11 @@ export class ApprovalManager {
             return null;
         }
 
+        const existingApproval = await this.findPendingApproval(action, taskId, decision.actionSummary);
+        if (existingApproval) {
+            return existingApproval;
+        }
+
         const approval: ApprovalRequest = {
             id: `approval_${Date.now()}_${Math.floor(Math.random() * 1000)}`,
             actionId: action.id,
@@ -291,6 +296,21 @@ export class ApprovalManager {
             default:
                 return `${action.type}`;
         }
+    }
+
+    private async findPendingApproval(
+        action: ActionRequest,
+        taskId: string,
+        actionSummary: string
+    ): Promise<ApprovalRequest | undefined> {
+        const state = await this.stateManager.getState();
+        return state.approvals.find(
+            (approval) =>
+                approval.status === 'pending' &&
+                approval.taskId === taskId &&
+                approval.actionType === action.type &&
+                approval.actionSummary === actionSummary
+        );
     }
 
     private estimateAffectedFileCount(action: ActionRequest): number {

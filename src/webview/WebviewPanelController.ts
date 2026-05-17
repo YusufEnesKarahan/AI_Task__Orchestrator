@@ -364,7 +364,9 @@ export class WebviewPanelController {
             .slice()
             .sort((a, b) => b.createdAt - a.createdAt)
             .slice(0, 10);
-        const approvals = state.approvals.slice().sort((a, b) => b.requestedAt - a.requestedAt);
+        const approvals = state.approvals
+            .filter((approval) => approval.status === 'pending')
+            .sort((a, b) => b.requestedAt - a.requestedAt);
         const validationsByTaskId = new Map(state.validations.map((item) => [item.taskId, item]));
 
         const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
