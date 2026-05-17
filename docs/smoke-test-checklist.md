@@ -1,131 +1,169 @@
 # Manual Smoke Test Checklist
 
-Bu checklist, AI Task Orchestrator extension'inin yerel VS Code Extension Development Host ortaminda temel akislarini dogrulamak icin kullanilir.
+Use this checklist for local v0.1.0 RC verification in a VS Code Extension Development Host.
 
-Testlerden once:
+Before testing:
 
 ```powershell
 npm.cmd install
 npm.cmd run compile
 ```
 
-Regresyon testlerini calistirmak icin:
+Optional automated checks:
 
 ```powershell
+npm.cmd run lint
+npm.cmd run format:check
 npm.cmd test
+npm.cmd run package
 ```
 
 ## 1. Extension Host
 
-- [ ] VS Code Run and Debug panelinde `Run Extension` secili.
-- [ ] `F5` ile Extension Development Host penceresi aciliyor.
-- [ ] Extension Host acilirken hata bildirimi gorunmuyor.
-- [ ] Developer Tools console'da extension aktivasyonuna ait kritik hata yok.
+- [ ] `Run Extension` is selected in VS Code Run and Debug.
+- [ ] `F5` opens an Extension Development Host window.
+- [ ] No activation error notification appears.
+- [ ] Developer Tools console has no critical extension activation errors.
 
-## 2. Sidebar ve Webview Panel
+## 2. Sidebar And Panel
 
-- [ ] Explorer sidebar altinda `AI Task Orchestrator` view'u gorunuyor.
-- [ ] Sidebar icindeki `Open Webview Panel` butonu paneli aciyor.
-- [ ] Command Palette uzerinden `AI Task Orchestrator: Open Panel` komutu paneli aciyor.
-- [ ] Panel kapatilip tekrar acildiginda extension crash etmiyor.
+- [ ] Explorer sidebar shows `AI Task Orchestrator`.
+- [ ] Sidebar `Open Webview Panel` opens the panel.
+- [ ] Command Palette command `AI Task Orchestrator: Open Panel` opens the panel.
+- [ ] Closing and reopening the panel does not crash the extension.
 
-## 3. Turkce Karakter ve UI Gorunumu
+## 3. Provider vs Target Agent
 
-- [ ] Panelde Turkce karakterler okunabilir gorunuyor.
-- [ ] Bozuk encoding gorunen alan varsa not aliniyor.
-- [ ] Ana butonlar ve form alanlari dar/genis pencerede tasma yapmiyor.
-- [ ] Provider durum mesaji gorunuyor.
+- [ ] Provider status badge is visible.
+- [ ] Provider can be changed between Mock, OpenAI, and Gemini without changing Target Agent.
+- [ ] Target Agent selector is visible.
+- [ ] Target Agent can be changed between Codex, Claude, Gemini, Cursor Agent, VS Code Agent, and Generic AI Assistant without changing provider.
+- [ ] Provider selection controls planning/provider availability only.
+- [ ] Target Agent selection changes prompt content only.
 
-## 4. Mock Provider ile Temel Akis
+## 4. Workspace Scan / Project Context
 
-VS Code settings icinde provider'i mock yapin:
+- [ ] `Projeyi Tara` runs without crashing.
+- [ ] Workspace name and short path are shown.
+- [ ] Stack tags or "not detected" state are shown.
+- [ ] `package.json`, `README.md`, `src/`, and approximate file count markers are shown when applicable.
+- [ ] Generated prompts include workspace metadata after scan.
 
-```json
-{
-    "aiTaskOrchestrator.provider": "mock"
-}
-```
+## 5. Simple Task Granularity
 
-- [ ] Extension Host yeniden yuklendikten sonra provider durumu mock modu gosteriyor.
-- [ ] API key gerektirmeden task/prompt akisi denenebiliyor.
-
-## 5. Task Plani Olusturma
-
-Ornek girdi:
+Use this input:
 
 ```text
-Kullanici girisi olan bir auth modulu ekle. Login, token dogrulama, hata mesajlari ve temel testler olsun.
+Guncel degisiklikleri GitHub'a commit olarak gonder.
 ```
 
-- [ ] Fikir/istek alani dolduruluyor.
-- [ ] `Fikirden Prompt Uret` butonuna basiliyor.
-- [ ] Task listesi olusuyor.
-- [ ] En az bir task secilebilir gorunuyor.
-- [ ] Log alaninda task uretimine dair bilgi gorunuyor.
+- [ ] `Bu Proje Icin Gorevleri Olustur` creates one task.
+- [ ] The task is focused on the full operation rather than separate stage/commit/push subtasks.
 
-## 6. Prompt Uretimi
+Use this input:
 
-- [ ] Olusan task icin prompt taslagi gorunuyor.
-- [ ] Prompt queue alaninda draft promptlar listeleniyor.
-- [ ] Ayni task icin tekrar prompt uretimi duplicate kayit olusturmuyor.
-- [ ] Prompt icerigi bos degil.
+```text
+Guncel degisiklikleri GitHub'a commit olarak gonder, adim adim bol.
+```
 
-## 7. Prompt Approval ve Queue Akisi
+- [ ] Multiple tasks may be created.
+- [ ] Step-by-step wording is respected.
 
-- [ ] Draft prompt `Onayla` butonu ile approved duruma geciyor.
-- [ ] `Tumunu Onayla` butonu draft promptlari onaylayabiliyor.
-- [ ] `Tumunu Reddet` butonu draft promptlari reddedebiliyor.
-- [ ] `Onaylilari Kuyruga Al` butonu queue akisini baslatiyor.
-- [ ] Provider yoksa veya hata varsa kullaniciya anlasilir hata/log mesaji gorunuyor.
+## 6. Task Planning
 
-## 8. Queue Cancel Akisi
+- [ ] Empty input produces an understandable log/error.
+- [ ] Mock provider can generate tasks without real API keys.
+- [ ] OpenAI/Gemini provider selected without API key shows a clear provider status message.
+- [ ] If provider planning falls back, logs show the real fallback reason.
+- [ ] Generated task list is selectable.
 
-Manual veya external prompt akisinda:
+## 7. Target Agent Prompt Content
 
-- [ ] Prompt `ready_for_manual_send` benzeri bekleme durumuna gecebiliyor.
-- [ ] `Kuyrugu Iptal Et` butonu gorunuyor.
-- [ ] Cancel sonrasi queue takili kalmiyor.
-- [ ] Bekleyen prompt `cancelled` statusune gecebildigi dogrulaniyor.
-- [ ] Panel tekrar render edildiginde durum tutarli kaliyor.
+Generate a prompt with Target Agent set to Codex:
 
-## 9. Manual Approval Akisi
+- [ ] Prompt preview shows target agent as Codex.
+- [ ] Prompt includes Codex-oriented file-level implementation guidance.
+- [ ] Prompt mentions minimum diff or focused changes.
+- [ ] Prompt includes test or verification guidance.
 
-- [ ] Bir task seciliyor.
-- [ ] `Approval Simule Et` butonu calistiriliyor.
-- [ ] Approval listesinde bekleyen islem gorunuyor.
-- [ ] `Onayla` ile approval approved duruma geciyor.
-- [ ] `Reddet` ile approval rejected duruma geciyor.
-- [ ] Reddedilen islem icin log veya sonuc mesaji kullaniciya anlasilir sekilde gorunuyor.
+Generate a prompt with Target Agent set to Claude:
 
-## 10. API Key ve SecretStorage
+- [ ] Prompt preview shows target agent as Claude.
+- [ ] Prompt includes architecture or UX guidance.
+- [ ] Prompt includes tradeoff or risk analysis guidance.
 
-Gercek API key yazmadan komutlarin acildigini dogrulayin:
+Generate a prompt with Target Agent set to Generic AI Assistant:
 
-- [ ] Command Palette icinde `AI Task Orchestrator: Set OpenAI API Key` komutu gorunuyor.
-- [ ] Command Palette icinde `AI Task Orchestrator: Set Gemini API Key` komutu gorunuyor.
-- [ ] Input password modunda aciliyor.
-- [ ] Bos deger girilirse key kaydedilmedigine dair uyari gorunuyor.
+- [ ] Prompt is self-contained and generally applicable.
 
-Gercek API key kullanilacaksa:
+## 8. Manual-First Prompt Pipeline
 
-- [ ] Key kaynak koda yazilmiyor.
-- [ ] Key README, test veya log dosyasina eklenmiyor.
-- [ ] `.env` dosyasi commit edilmiyor.
+- [ ] Prompt drafts appear in Prompt Pipeline.
+- [ ] Prompt cards show status, template, execution mode, and target agent.
+- [ ] Draft prompt can be approved.
+- [ ] `Tumunu Onayla` approves draft prompts.
+- [ ] `Tumunu Reddet` rejects draft prompts.
+- [ ] `Promptlari Hazirla` starts the handoff preparation flow.
+- [ ] Approved manual prompts move to `ready_for_manual_send`.
+- [ ] Provider is not automatically called for manual prompts.
 
-## 11. Hata Mesajlari
+## 9. Manual Handoff Actions
 
-- [ ] Bos fikir/gorev metni ile denendiginde kullaniciya hata/log mesaji gorunuyor.
-- [ ] Provider secili ama API key yoksa provider durumu kullaniciya acik mesaj veriyor.
-- [ ] Hatalar panelin tamamen crash etmesine neden olmuyor.
-- [ ] Webview console'da renderState sirasinda beklenmeyen hata yok.
+For a `ready_for_manual_send` prompt:
 
-## 12. Test Sonucu Kaydi
+- [ ] `Kopyala` button is visible.
+- [ ] `Gonderildi Isaretle` button is visible.
+- [ ] `Sonucu Gir (Tamamlandi)` button is visible.
+- [ ] Copy action copies system + user prompt text.
+- [ ] Mark sent moves the prompt to sent/manual waiting flow.
+- [ ] Enter result marks the prompt completed manually.
+- [ ] Added notes are visible in prompt response/notes area.
 
-Manuel smoke test sonucu:
+## 10. Cancel And Retry
 
-- Tarih:
-- VS Code surumu:
-- Node.js surumu:
-- Provider modu:
-- Sonuc: Pass / Fail
-- Notlar:
+- [ ] `Hazirlamayi Iptal Et` appears while preparation is running.
+- [ ] Cancel does not hang the queue.
+- [ ] Cancelled manual prompt is shown as cancelled.
+- [ ] Queue summary/log reflects cancelled prompts correctly.
+- [ ] A failed prompt shows its error as a previous execution result.
+- [ ] `Mevcut Provider ile Yeniden Dene` clears stale error/result fields and re-approves the prompt.
+
+## 11. Approval Flow
+
+- [ ] A task can be selected.
+- [ ] Approval simulation creates one pending approval.
+- [ ] Repeating the same pending action does not create duplicate pending approval cards.
+- [ ] Approve resolves the approval.
+- [ ] Reject resolves the approval.
+- [ ] Resolved approvals are not shown as pending approvals.
+
+## 12. API Key And SecretStorage
+
+Without entering real keys:
+
+- [ ] `AI Task Orchestrator: Set OpenAI API Key` command is visible.
+- [ ] `AI Task Orchestrator: Set Gemini API Key` command is visible.
+- [ ] Input boxes are password-style.
+- [ ] Empty input does not save a key and shows a warning.
+
+If testing real keys:
+
+- [ ] Key is never added to source, docs, tests, screenshots, or logs.
+- [ ] `.env` files are not committed.
+- [ ] Provider status updates after saving the key.
+
+## 13. Packaging
+
+- [ ] `npm.cmd run package` creates `ai-task-orchestrator-0.1.0.vsix`.
+- [ ] VSIX can be installed manually with `Extensions: Install from VSIX...`.
+- [ ] No Marketplace publishing is implied by packaging.
+
+## 14. Result Record
+
+- Date:
+- VS Code version:
+- Node.js version:
+- Provider mode:
+- Target Agent:
+- Result: Pass / Fail
+- Notes:

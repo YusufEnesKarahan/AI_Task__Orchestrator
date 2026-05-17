@@ -524,15 +524,9 @@ document.addEventListener('DOMContentLoaded', () => {
             ) {
                 actions.append(
                     buildActionButton('Sonucu Gir (Tamamlandı)', false, () => {
-                        // Basit prompt dialog kullanımı
-                        // VS Code webview içinde window.prompt genelde desteklenmez ama tarayıcı mode'u için veya
-                        // UI'da ayrı bir div render edilerek de yapılabilir. Şimdilik dummy mesaj göndereceğiz:
-                        // "Daha kompleks bir UI yapılana kadar sabit metin atalım" demek yerine
-                        // vscode input kutusu açtırmak için backend'e command atılabilir.
-                        // Fakat biz payload content alabiliyoruz. Şimdilik sadece "Tamamlandı" olarak işaretliyoruz.
                         vscode.postMessage({
                             command: 'markPromptCompleted',
-                            payload: { promptId: prompt.id, content: '[Manuel Olarak Tamamlandı - Sonuç girilmedi]' }
+                            payload: { promptId: prompt.id }
                         });
                     }),
                     buildActionButton('Not Ekle', false, () => {

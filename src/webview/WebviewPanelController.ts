@@ -256,7 +256,22 @@ export class WebviewPanelController {
 
             case 'markPromptCompleted':
                 if (message.payload?.promptId) {
-                    await this.orchestrator.markPromptCompleted(message.payload.promptId, message.payload.content);
+                    const resultText =
+                        message.payload.content ??
+                        (await vscode.window.showInputBox({
+                            prompt: 'Manuel çalıştırma sonucu veya kısa özet',
+                            placeHolder: 'Örn: Prompt agent’a gönderildi, değişiklik uygulandı, testler geçti.',
+                            ignoreFocusOut: true
+                        }));
+
+                    if (resultText === undefined) {
+                        return;
+                    }
+
+                    await this.orchestrator.markPromptCompleted(
+                        message.payload.promptId,
+                        resultText.trim() || '[Manuel olarak tamamlandı - sonuç notu girilmedi]'
+                    );
                 }
                 return;
 
@@ -463,7 +478,7 @@ export class WebviewPanelController {
                     templateName: p.templateName,
                     status: p.status,
                     executionMode: p.executionMode,
-                    targetAgent,
+                    targetAgent: p.targetAgent || targetAgent,
                     provider: p.provider,
                     responseText: p.responseText,
                     errorMessage: p.errorMessage,

@@ -10,10 +10,12 @@ test('createPrompt defaults to manual handoff mode', () => {
         title: 'Manual prompt',
         systemPrompt: 'System',
         content: 'Content',
+        targetAgent: 'claude',
         order: 0
     });
 
     assert.equal(prompt.executionMode, 'manual');
+    assert.equal(prompt.targetAgent, 'claude');
 });
 
 test('PromptQueueManager cancels a manual prompt wait without hanging the queue', async () => {

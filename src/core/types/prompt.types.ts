@@ -1,4 +1,5 @@
 import { EntityId, Timestamp } from './index';
+import type { TargetAgent } from '../orchestrator/templates/PromptTemplates';
 
 // ---------------------------------------------------------------------------
 // Prompt Yaşam Döngüsü (Lifecycle)
@@ -61,6 +62,7 @@ export interface Prompt {
 
     /** Prompt şablonunun adı (Örn: "Code Generation", "Bug Fix") */
     templateName?: string;
+    targetAgent?: TargetAgent;
 
     status: PromptStatus;
     executionMode: PromptExecutionMode;
@@ -99,6 +101,7 @@ export interface CreatePromptInput {
     systemPrompt: string;
     content: string;
     templateName?: string;
+    targetAgent?: TargetAgent;
     order: number;
     executionMode?: PromptExecutionMode;
 }
@@ -140,6 +143,7 @@ export function createPrompt(input: CreatePromptInput): Prompt {
         systemPrompt: input.systemPrompt,
         content: input.content,
         templateName: input.templateName,
+        targetAgent: input.targetAgent,
         status: 'draft',
         executionMode: input.executionMode || 'manual',
         order: input.order,

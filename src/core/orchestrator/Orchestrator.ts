@@ -379,6 +379,7 @@ export class Orchestrator {
                 systemPrompt: generated.systemPrompt,
                 content: generated.userPrompt,
                 templateName: generated.templateName,
+                targetAgent: generated.targetAgent,
                 order: task.order
             });
 
@@ -513,6 +514,7 @@ export class Orchestrator {
     public async markPromptSent(promptId: string): Promise<void> {
         try {
             await this.queueManager.transition(promptId, 'sent_manually');
+            await this.queueManager.transition(promptId, 'awaiting_manual_result');
             await this.log('info', `Prompt manuel olarak gönderildi olarak işaretlendi.`);
         } catch (error) {
             const msg = error instanceof Error ? error.message : String(error);

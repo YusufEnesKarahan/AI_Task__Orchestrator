@@ -1,92 +1,119 @@
 # AI Task Orchestrator
 
-AI Task Orchestrator, VS Code icinde fikir veya gorev metnini parcalayip task planina, prompt taslaklarina, onay akisina ve sirali prompt kuyruguna donusturmeyi hedefleyen erken asama bir VS Code Extension projesidir.
+AI Task Orchestrator is an early-stage VS Code extension for orchestrating AI development workflows. It turns a project goal into a task plan, creates agent-ready prompts, and guides a manual-first handoff flow inside VS Code.
 
-Bu repo su anda Marketplace'te yayinlanmis bir extension degildir. Yerel gelistirme ve test amaciyla calistirilir.
+This extension is not published on the VS Code Marketplace yet. It is intended for local development, RC smoke testing, and VSIX-based manual installation.
 
-## Temel Ozellikler
+## What It Does
 
-- VS Code sidebar ve webview panel arayuzu.
-- Fikir/gorev metninden task plani uretme.
-- OpenAI, Gemini veya Mock provider secimi.
-- Provider yoksa deterministic local planning fallback.
-- Task bazli prompt uretimi.
-- Prompt taslaklarini onaylama veya reddetme.
-- Onayli promptlari sirali kuyrukta calistirma.
-- Manual/external prompt akisinda kopyalama, manuel tamamlama ve cancel destegi.
-- Riskli aksiyonlar icin approval modeli.
-- JSON tabanli lokal state saklama.
-- Kritik guvenlik/stabilite alanlari icin minimal regresyon testleri.
+- Opens a VS Code sidebar entry and a full webview panel.
+- Converts a project idea or task request into a task plan.
+- Keeps simple operations as one task when possible, such as git commit/push, README edits, small bug fixes, and single-file edits.
+- Generates prompt drafts for each task.
+- Uses a manual-first prompt handoff flow: review, edit, approve, prepare, copy, mark sent, and enter result.
+- Lets you choose a Target Agent for prompt shaping: Codex, Claude, Gemini, Cursor Agent, VS Code Agent, or Generic AI Assistant.
+- Supports OpenAI, Gemini, and Mock providers for task planning and optional internal AI execution.
+- Scans workspace metadata to add lightweight project context to prompts.
+- Stores local state in `.vscode/ai-orchestrator-state.json`.
+- Includes approval handling for risky/deferred actions and regression tests for core behavior.
 
-## Kullanilan Teknolojiler
+## Manual-First Handoff
 
-- TypeScript
-- VS Code Extension API
-- VS Code Webview
-- Node.js
-- Zod
-- OpenAI Chat Completions API uyumlu provider katmani
-- Gemini Generate Content API uyumlu provider katmani
-- Node built-in `node:test` test runner
+The MVP flow is intentionally manual-first. `Promptlari Hazirla` does not automatically send prompts to an AI provider or IDE chat. It prepares approved prompts for handoff and moves them to `ready_for_manual_send`.
 
-## Mimari Genel Bakis
+Expected flow:
 
-Ana extension giris noktasi `src/extension.ts` dosyasidir. Burada komutlar ve sidebar provider kaydedilir.
+1. Enter a project goal.
+2. Generate tasks and prompt drafts.
+3. Review or edit prompts.
+4. Approve one or all drafts.
+5. Click `Promptlari Hazirla`.
+6. Copy the prompt into your chosen AI agent.
+7. Mark it as sent.
+8. Enter or note the result manually.
 
-Yuksek seviyeli akis:
+Automatic sending to Cursor, Copilot Chat, Claude, ChatGPT, Gemini, or any other IDE agent chat is not supported in v0.1.0. That requires IDE-specific API research and is left for a later phase.
 
-1. `src/webview/SidebarViewProvider.ts` sidebar gorunumunu olusturur.
-2. `src/webview/WebviewPanelController.ts` webview panel ile extension backend arasindaki mesajlasmayi yonetir.
-3. `src/core/orchestrator/Orchestrator.ts` uygulama akislarini koordine eder.
-4. `src/core/orchestrator/TaskPlanner.ts` kullanici girdisinden task plani uretir.
-5. `src/core/orchestrator/PromptGenerator.ts` tasklardan prompt taslaklari uretir.
-6. `src/core/orchestrator/PromptQueueManager.ts` prompt durum gecislerini ve kuyruk calismasini yonetir.
-7. `src/providers/*` OpenAI, Gemini ve Mock provider soyutlamasini icerir.
-8. `src/services/approval/ApprovalManager.ts` riskli aksiyonlar icin approval kararlarini yonetir.
-9. `src/services/action/ActionEngine.ts` kontrollu dosya/aksiyon islemlerini yurutur.
-10. `src/store/JsonStateManager.ts` state'i workspace altindaki `.vscode/ai-orchestrator-state.json` dosyasinda saklar.
+## Provider vs Target Agent
 
-## Kurulum
+Provider selection and Target Agent selection are separate concepts.
 
-Gereksinimler:
+Provider controls which API the extension may use for planning or optional internal AI execution:
+
+- `openai`: Uses OpenAI with an API key.
+- `gemini`: Uses Gemini with an API key.
+- `mock`: Uses deterministic mock behavior for local testing.
+
+Target Agent controls how generated prompts are written for manual handoff:
+
+- `Codex`: file-level code edits, minimum diff, tests, verification.
+- `Claude`: architecture, UX, tradeoffs, risk analysis.
+- `Gemini`: alternatives, product improvements, implementation options.
+- `Cursor Agent`: codebase-aware workspace edits.
+- `VS Code Agent`: workspace-safe edits and clear verification steps.
+- `Generic AI Assistant`: self-contained, generally applicable prompt.
+
+You can use Mock provider while targeting Codex, or OpenAI provider while targeting Claude. These choices are intentionally independent.
+
+## Workspace Scan / Project Context
+
+The `Projeyi Tara` action collects lightweight workspace metadata such as:
+
+- workspace name and short path
+- detected stack tags
+- whether `package.json`, `README.md`, and `src/` exist
+- approximate file count
+
+It does not ingest full source files. The metadata is added to prompt context so the target agent gets a better starting point without exposing large file contents automatically.
+
+## Install And Run Locally
+
+Requirements:
 
 - Node.js
 - npm
 - VS Code
 
-PowerShell uzerinden:
+Install dependencies and compile:
 
 ```powershell
 npm.cmd install
 npm.cmd run compile
 ```
 
-PowerShell execution policy nedeniyle `npm run ...` yerine `npm.cmd ...` kullanmak daha sorunsuz olabilir.
+PowerShell users may prefer `npm.cmd ...` over `npm ...` to avoid execution policy friction.
 
-## VS Code Extension Olarak Calistirma
+## F5 Development Test
 
-1. Projeyi VS Code ile acin.
-2. Terminalde derlemenin gectigini dogrulayin:
+1. Open this repository in VS Code.
+2. Run:
 
 ```powershell
 npm.cmd run compile
 ```
 
-3. VS Code Run and Debug panelinden `Run Extension` konfigurasyonunu secin.
-4. `F5` tusuna basin.
-5. Acilan Extension Development Host penceresinde:
-    - Explorer sidebar icinde `AI Task Orchestrator` view'unu acin.
-    - Ya da Command Palette uzerinden `AI Task Orchestrator: Open Panel` komutunu calistirin.
+3. Open the Run and Debug panel.
+4. Select `Run Extension`.
+5. Press `F5`.
+6. In the Extension Development Host:
+    - open the Explorer sidebar item `AI Task Orchestrator`, or
+    - run `AI Task Orchestrator: Open Panel` from the Command Palette.
 
-## Provider Yapisi
+## VSIX Installation
 
-Extension uc provider modunu destekler:
+Create a local VSIX package:
 
-- `openai`: OpenAI API key gerektirir.
-- `gemini`: Gemini API key gerektirir.
-- `mock`: Gercek API cagrisina ihtiyac duymadan simule provider ile calisir.
+```powershell
+npm.cmd run package
+```
 
-Provider secimi VS Code settings icinden yapilir:
+This creates `ai-task-orchestrator-0.1.0.vsix` locally. It does not publish to the Marketplace.
+
+To install the generated VSIX manually, use VS Code's `Extensions: Install from VSIX...` command and select the generated file.
+
+## Provider Settings
+
+Provider can be selected from the UI or VS Code settings:
 
 ```json
 {
@@ -94,7 +121,7 @@ Provider secimi VS Code settings icinden yapilir:
 }
 ```
 
-Model ve timeout ayarlari:
+Model and runtime settings:
 
 ```json
 {
@@ -105,76 +132,72 @@ Model ve timeout ayarlari:
 }
 ```
 
-## API Key Guvenligi
+Gemini settings normalize the retired `gemini-1.5-flash` default to the current fallback model used by the extension.
 
-API key degerlerini kaynak koda veya repoya yazmayin.
+## API Keys
 
-Extension API key saklamak icin VS Code SecretStorage kullanir. Komutlar:
+API keys are only needed when using OpenAI/Gemini for provider-backed task planning or optional provider execution. The manual-first prompt handoff flow can be tested with Mock provider and does not require a real API key.
+
+Never write API keys into source files, docs, tests, or commits.
+
+The extension stores API keys in VS Code SecretStorage:
 
 - `AI Task Orchestrator: Set OpenAI API Key`
 - `AI Task Orchestrator: Set Gemini API Key`
 
-Gelistirme ortaminda environment variable fallback'i de desteklenir:
+Development environment variables are also supported:
 
 ```powershell
 $env:OPENAI_API_KEY="your-openai-api-key"
 $env:GEMINI_API_KEY="your-gemini-api-key"
 ```
 
-Bu degerler ornek placeholder'dir; gercek secret degerlerini commit etmeyin. `.env` dosyalari `.gitignore` ile disarida birakilmistir.
+These are placeholders. Do not commit real secrets. `.env` files are excluded.
 
-## Test Komutlari
+## Test Commands
 
-TypeScript derleme:
+Compile:
 
 ```powershell
 npm.cmd run compile
 ```
 
-Regresyon testleri:
+Lint:
+
+```powershell
+npm.cmd run lint
+```
+
+Format check:
+
+```powershell
+npm.cmd run format:check
+```
+
+Regression tests:
 
 ```powershell
 npm.cmd test
 ```
 
-Mevcut testler su alanlari kapsar:
-
-- `ActionEngine.resolvePath` workspace disina kacis kontrolleri.
-- `PromptQueueManager` manual prompt beklerken cancel akisi.
-- `JsonStateManager.replaceTasks` orphan prompt temizligi.
-- `Orchestrator.generateAllPrompts` duplicate prompt engeli.
-
-Not: Bazi sandbox ortamlarda Node test runner child process baslatirken izin hatasi verebilir. Normal yerel terminalde `npm.cmd test` calismalidir.
-
-## VSIX Paketleme
-
-Yerel VSIX paketi olusturmak icin:
+Package:
 
 ```powershell
 npm.cmd run package
 ```
 
-Bu komut `vsce package` calistirir ve Marketplace'e yayinlama yapmaz. Yayinlama icin ayrica gercek bir VS Code Marketplace publisher hesabinin hazirlanmasi gerekir.
+Current automated coverage includes path safety, task planning robustness, simple-task granularity, target-agent prompt shaping, prompt idempotency, manual queue cancel, failed prompt retry, orphan cleanup, provider config, and approval duplicate prevention.
 
-## Bilinen Sinirliliklar
+## Known Limitations
 
-- Extension henuz Marketplace'te yayinlanmis degildir.
-- UI icin otomatik E2E test yoktur.
-- Webview tarafinda manuel smoke test gereklidir.
-- AI provider hatalari temel mesajlarla gosterilir; daha zengin hata siniflandirmasi ileride gelistirilebilir.
-- State lokal workspace altinda JSON dosyasi olarak tutulur; cok kullanicili veya remote senaryolar icin tasarlanmamistir.
-- Terminal komutu, diff uygulama, dosya silme gibi yuksek riskli aksiyonlar ilk surumde kontrollu/deferred davranir.
-- Bazi metinlerde encoding kaynakli Turkce karakter problemleri gorulebilir; smoke test checklist bunu ozellikle kontrol eder.
+- Not published on the VS Code Marketplace.
+- No automatic IDE agent chat submission yet.
+- Target Agent selection shapes prompt content only; it does not launch or control external agents.
+- Webview UI still requires manual smoke testing; there is no browser/extension E2E suite yet.
+- State is local JSON under the workspace and is not designed for multi-user sync.
+- Risky file/terminal actions remain controlled or deferred in this MVP.
+- Provider planning may fall back to local planning; when this happens, the log should include the reason.
 
-## Gelistirme Yol Haritasi
+## Manual Smoke Test
 
-- Webview UI icin smoke test otomasyonu veya VS Code extension integration testleri eklemek.
-- Provider health check sonucunu UI'da daha acik gostermek.
-- Prompt queue icin internal AI basari/hata testlerini genisletmek.
-- Approval akisinda daha ayrintili risk siniflandirmasi yapmak.
-- README ve docs altina gelistirici troubleshooting bolumu eklemek.
-- Paketleme ve release adimlarini ayri bir dokumanla netlestirmek.
-
-## Manuel Smoke Test
-
-Manuel dogrulama icin [docs/smoke-test-checklist.md](docs/smoke-test-checklist.md) dosyasini takip edin.
+Use [docs/smoke-test-checklist.md](docs/smoke-test-checklist.md) for RC verification.
