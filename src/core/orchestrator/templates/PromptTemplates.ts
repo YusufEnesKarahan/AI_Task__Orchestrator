@@ -1,16 +1,83 @@
 import { Task, TaskType } from '../../types';
 
+export type TargetAgent = 'codex' | 'claude' | 'gemini' | 'cursor' | 'vscode' | 'generic';
+
 export interface PromptBuildContext {
     task: Task;
     contextCode?: string;
+    targetAgent: TargetAgent;
 }
 
 export interface PromptTemplateDefinition {
     id: string;
     name: string;
     systemPrompt: string;
+    buildSystemPrompt: (targetAgent: TargetAgent) => string;
     buildUserPrompt: (context: PromptBuildContext) => string;
 }
+
+const TARGET_AGENT_PROFILES: Record<TargetAgent, { label: string; systemSuffix: string; handoff: string[] }> = {
+    codex: {
+        label: 'Codex',
+        systemSuffix:
+            'Optimize the handoff for Codex: make precise file-level changes, keep diffs minimal, and include tests or verification commands.',
+        handoff: [
+            'Use file-oriented implementation steps.',
+            'Prefer minimal diffs that preserve the existing architecture.',
+            'Run or suggest focused tests and report verification results.'
+        ]
+    },
+    claude: {
+        label: 'Claude',
+        systemSuffix:
+            'Optimize the handoff for Claude: include broader architecture context, UX implications, tradeoffs, and risk analysis.',
+        handoff: [
+            'Call out architecture and UX implications.',
+            'Explain tradeoffs and risks before proposing larger changes.',
+            'Keep the final recommendation actionable.'
+        ]
+    },
+    gemini: {
+        label: 'Gemini',
+        systemSuffix:
+            'Optimize the handoff for Gemini: explore practical alternatives, product improvements, and concise implementation options.',
+        handoff: [
+            'Suggest useful alternatives when they materially improve the product.',
+            'Keep product impact and implementation effort visible.',
+            'Return a concrete next action, not only analysis.'
+        ]
+    },
+    cursor: {
+        label: 'Cursor Agent',
+        systemSuffix:
+            'Optimize the handoff for Cursor Agent: reference likely files, ask for codebase-aware edits, and keep changes scoped.',
+        handoff: [
+            'Use the current workspace context.',
+            'Make codebase-aware edits in the relevant files.',
+            'Avoid broad rewrites unless the task explicitly requires them.'
+        ]
+    },
+    vscode: {
+        label: 'VS Code Agent',
+        systemSuffix:
+            'Optimize the handoff for VS Code Agent: use workspace-safe edits, clear commands, and concise verification steps.',
+        handoff: [
+            'Work inside the current VS Code workspace.',
+            'Use safe, explicit file operations.',
+            'Provide concise verification steps.'
+        ]
+    },
+    generic: {
+        label: 'Generic AI Assistant',
+        systemSuffix:
+            'Optimize the handoff for a general AI assistant: be self-contained, practical, and clear about expected output.',
+        handoff: [
+            'Include enough context to act without hidden assumptions.',
+            'Keep the response practical and easy to apply.',
+            'Summarize the expected result clearly.'
+        ]
+    }
+};
 
 export const PROMPT_TEMPLATES: Record<TaskType, PromptTemplateDefinition> = {
     code_generation: createTemplate({
@@ -110,8 +177,11 @@ function createTemplate(input: {
         id: input.id,
         name: input.name,
         systemPrompt: input.systemPrompt,
-        buildUserPrompt: ({ task, contextCode }) =>
+        buildSystemPrompt: (targetAgent) =>
+            [input.systemPrompt, getTargetAgentProfile(targetAgent).systemSuffix].join(' '),
+        buildUserPrompt: ({ task, contextCode, targetAgent }) =>
             buildStructuredPrompt({
+                targetAgent,
                 context: buildContextSection(task, input.contextIntro, contextCode),
                 objective: buildObjectiveSection(task),
                 constraints: input.constraints,
@@ -121,14 +191,23 @@ function createTemplate(input: {
 }
 
 function buildStructuredPrompt(input: {
+    targetAgent: TargetAgent;
     context: string;
     objective: string;
     constraints: string[];
     expectedOutput: string;
 }): string {
     const constraints = input.constraints.map((item) => `- ${item}`).join('\n');
+    const targetProfile = getTargetAgentProfile(input.targetAgent);
+    const handoff = targetProfile.handoff.map((item) => `- ${item}`).join('\n');
 
     return [
+        '# TARGET AGENT',
+        targetProfile.label,
+        '',
+        '# AGENT HANDOFF NOTES',
+        handoff,
+        '',
         '# CONTEXT',
         input.context,
         '',
@@ -165,4 +244,8 @@ function buildContextSection(task: Task, intro: string, contextCode?: string): s
 
 function buildObjectiveSection(task: Task): string {
     return [task.title, task.description].filter(Boolean).join('\n');
+}
+
+export function getTargetAgentProfile(targetAgent: TargetAgent) {
+    return TARGET_AGENT_PROFILES[targetAgent] || TARGET_AGENT_PROFILES.generic;
 }

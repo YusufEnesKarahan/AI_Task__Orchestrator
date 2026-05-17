@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const approvalList = document.getElementById('approval-list');
     const providerStatusLabel = document.getElementById('provider-status-label');
     const providerStatusMessage = document.getElementById('provider-status-message');
+    const targetAgentSelect = document.getElementById('target-agent-select');
     const logList = document.getElementById('log-list');
 
     // Prompt Queue elements
@@ -32,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         approvalList,
         providerStatusLabel,
         providerStatusMessage,
+        targetAgentSelect,
         logList,
         approveAllBtn,
         rejectAllBtn,
@@ -59,6 +61,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     changeProviderBtn?.addEventListener('click', () => {
         vscode.postMessage({ command: 'changeProvider' });
+    });
+
+    targetAgentSelect?.addEventListener('change', () => {
+        vscode.postMessage({
+            command: 'changeTargetAgent',
+            payload: { targetAgent: targetAgentSelect.value }
+        });
     });
 
     // Workspace scan
@@ -117,8 +126,9 @@ document.addEventListener('DOMContentLoaded', () => {
         renderPromptHistory(safePayload.promptHistory || []);
         renderApprovals(safePayload.approvals || []);
         renderProviderStatus(safePayload.providerStatus);
+        renderTargetAgent(safePayload.targetAgent);
         renderLogs(safePayload.logs || []);
-        renderPrompts(safePayload.prompts || [], safePayload.queueRunning);
+        renderPrompts(safePayload.prompts || [], safePayload.queueRunning, safePayload.targetAgent);
     }
 
     function renderWorkspace(workspace) {
@@ -197,6 +207,14 @@ document.addEventListener('DOMContentLoaded', () => {
         providerStatusLabel.textContent = status.label;
         providerStatusLabel.className = `provider-badge provider-${status.severity}`;
         providerStatusMessage.textContent = status.message;
+    }
+
+    function renderTargetAgent(targetAgent) {
+        if (!targetAgentSelect || !targetAgent) {
+            return;
+        }
+
+        targetAgentSelect.value = targetAgent;
     }
 
     function renderTasks(tasks) {
@@ -286,6 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         promptPreview.className = 'prompt-preview';
         promptPreview.textContent =
+            `[Target Agent]\n${getTargetAgentLabel(prompt.targetAgent)}\n\n` +
             `[Template]\n${prompt.templateName}\n\n` +
             `[System Prompt]\n${prompt.systemPrompt}\n\n` +
             `[User Prompt]\n${prompt.userPrompt}`;
@@ -365,7 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function renderPrompts(prompts, queueRunning) {
+    function renderPrompts(prompts, queueRunning, targetAgent) {
         promptQueueList.innerHTML = '';
 
         if (queueRunning) {
@@ -414,12 +433,16 @@ document.addEventListener('DOMContentLoaded', () => {
             modeBadge.className = 'status-badge status-mode';
             modeBadge.textContent = prompt.executionMode === 'internal_ai' ? 'AI Provider' : 'Manuel Handoff';
 
+            const agentBadge = document.createElement('span');
+            agentBadge.className = 'status-badge status-mode';
+            agentBadge.textContent = getTargetAgentLabel(prompt.targetAgent || targetAgent);
+
             const toggleBtn = buildActionButton('Görüntüle', false, () => {
                 const isExpanded = body.classList.toggle('expanded');
                 toggleBtn.textContent = isExpanded ? 'Gizle' : 'Görüntüle';
             });
 
-            metaWrap.append(statusBadge, templateBadge, modeBadge, toggleBtn);
+            metaWrap.append(statusBadge, templateBadge, modeBadge, agentBadge, toggleBtn);
             header.append(titleWrap, metaWrap);
 
             const body = document.createElement('div');
@@ -616,6 +639,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 return 'Uygulanamaz';
             default:
                 return 'Hen\u00FCz yok';
+        }
+    }
+
+    function getTargetAgentLabel(targetAgent) {
+        switch (targetAgent) {
+            case 'codex':
+                return 'Codex';
+            case 'claude':
+                return 'Claude';
+            case 'gemini':
+                return 'Gemini';
+            case 'cursor':
+                return 'Cursor Agent';
+            case 'vscode':
+                return 'VS Code Agent';
+            default:
+                return 'Generic AI Assistant';
         }
     }
 

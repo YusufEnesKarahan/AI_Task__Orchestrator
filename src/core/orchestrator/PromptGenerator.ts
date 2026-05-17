@@ -1,23 +1,25 @@
 import { PromptRun, Task, TaskType } from '../types';
-import { PROMPT_TEMPLATES, PromptTemplateDefinition } from './templates/PromptTemplates';
+import { PROMPT_TEMPLATES, PromptTemplateDefinition, TargetAgent } from './templates/PromptTemplates';
 
 export interface GeneratedPrompt {
     templateId: string;
     templateName: string;
     systemPrompt: string;
     userPrompt: string;
+    targetAgent: TargetAgent;
 }
 
 export class PromptGenerator {
-    public generate(task: Task, contextCode?: string): GeneratedPrompt {
+    public generate(task: Task, contextCode?: string, targetAgent: TargetAgent = 'generic'): GeneratedPrompt {
         const template = this.getTemplate(task.type);
-        const userPrompt = template.buildUserPrompt({ task, contextCode });
+        const userPrompt = template.buildUserPrompt({ task, contextCode, targetAgent });
 
         return {
             templateId: template.id,
             templateName: template.name,
-            systemPrompt: template.systemPrompt,
-            userPrompt
+            systemPrompt: template.buildSystemPrompt(targetAgent),
+            userPrompt,
+            targetAgent
         };
     }
 

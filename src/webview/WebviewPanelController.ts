@@ -5,6 +5,7 @@ import { Orchestrator } from '../core/orchestrator/Orchestrator';
 import { loadProviderRuntimeConfig, PROVIDER_SECRET_KEYS } from '../providers/providerConfig';
 import { JsonStateManager } from '../store/JsonStateManager';
 import { WorkspaceScanner, WorkspaceScanResult } from '../services/workspace/WorkspaceScanner';
+import { TargetAgent } from '../core/orchestrator/templates/PromptTemplates';
 
 // ---------------------------------------------------------------------------
 // Mesaj Tipleri (UI <-> Controller Kontratı)
@@ -24,6 +25,7 @@ interface PanelMessage {
         | 'generateAllPrompts'
         | 'approvePrompt'
         | 'rejectPrompt'
+        | 'retryPrompt'
         | 'approveAllDraftPrompts'
         | 'rejectAllDraftPrompts'
         | 'executeApprovedPrompts'
@@ -33,6 +35,7 @@ interface PanelMessage {
         | 'markPromptCompleted'
         | 'addPromptNote'
         | 'changeProvider'
+        | 'changeTargetAgent'
         | 'scanWorkspace';
     payload?: {
         projectTitle?: string;
@@ -44,6 +47,7 @@ interface PanelMessage {
         promptIds?: string[];
         content?: string;
         note?: string;
+        targetAgent?: TargetAgent;
     };
 }
 
@@ -220,6 +224,12 @@ export class WebviewPanelController {
                 }
                 return;
 
+            case 'retryPrompt':
+                if (message.payload?.promptId) {
+                    await this.orchestrator.retryPrompt(message.payload.promptId);
+                }
+                return;
+
             case 'approveAllDraftPrompts':
                 await this.orchestrator.approveAllDraftPrompts();
                 return;
@@ -262,6 +272,13 @@ export class WebviewPanelController {
 
             case 'changeProvider':
                 await this.handleChangeProvider();
+                return;
+
+            case 'changeTargetAgent':
+                if (message.payload?.targetAgent) {
+                    this.orchestrator.setTargetAgent(message.payload.targetAgent);
+                    await this.syncState();
+                }
                 return;
 
             case 'scanWorkspace':
@@ -372,6 +389,7 @@ export class WebviewPanelController {
         const selectedTaskId = this.orchestrator.getSelectedTaskId();
         const latestPrompt = this.orchestrator.getLatestPrompt();
         const providerStatus = this.orchestrator.getProviderStatus();
+        const targetAgent = this.orchestrator.getTargetAgent();
 
         const selectedTask = state.tasks.find((t) => t.id === selectedTaskId);
         const promptHistory = state.promptHistory
@@ -418,6 +436,7 @@ export class WebviewPanelController {
                 prompt: latestPrompt
                     ? {
                           templateName: latestPrompt.templateName,
+                          targetAgent: latestPrompt.targetAgent,
                           systemPrompt: latestPrompt.systemPrompt,
                           userPrompt: latestPrompt.userPrompt
                       }
@@ -444,6 +463,7 @@ export class WebviewPanelController {
                     templateName: p.templateName,
                     status: p.status,
                     executionMode: p.executionMode,
+                    targetAgent,
                     provider: p.provider,
                     responseText: p.responseText,
                     errorMessage: p.errorMessage,
@@ -454,6 +474,7 @@ export class WebviewPanelController {
                     completedAt: p.completedAt
                 })),
                 queueRunning: this.orchestrator.isQueueRunning(),
+                targetAgent,
                 providerStatus,
                 logs: state.logs.slice(-80)
             }

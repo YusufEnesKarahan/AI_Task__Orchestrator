@@ -3,6 +3,7 @@ import { ActionRequest, AppState, ApprovalRequest, Project, SystemLog, Task } fr
 import { Prompt, createPrompt, PromptStatus } from '../types/prompt.types';
 import { TaskPlanner } from './TaskPlanner';
 import { PromptGenerator, GeneratedPrompt } from './PromptGenerator';
+import { TargetAgent } from './templates/PromptTemplates';
 import { PromptQueueManager, QueueExecutionSummary } from './PromptQueueManager';
 import { ValidationEngine } from '../validator/ValidationEngine';
 import { ActionEngine } from '../../services/action/ActionEngine';
@@ -72,6 +73,7 @@ export class Orchestrator {
     private selectedTaskId?: string;
     private latestPrompt?: GeneratedPrompt;
     private workspaceContextCode?: string;
+    private targetAgent: TargetAgent = 'codex';
 
     constructor(stateManager: IStateManager, workspaceRoot: string) {
         this.stateManager = stateManager;
@@ -288,7 +290,7 @@ export class Orchestrator {
         this.selectedTaskId = task.id;
         await this.log('info', `Prompt Generator '${task.title}' için çalıştırılıyor.`);
 
-        this.latestPrompt = this.promptGenerator.generate(task, this.workspaceContextCode);
+        this.latestPrompt = this.promptGenerator.generate(task, this.workspaceContextCode, this.targetAgent);
         const promptRun = this.promptGenerator.createPromptRunRecord(task, this.latestPrompt);
         await this.stateManager.addPromptRun(promptRun);
         this.state = await this.stateManager.getState();
@@ -369,7 +371,7 @@ export class Orchestrator {
                 continue;
             }
 
-            const generated = this.promptGenerator.generate(task, this.workspaceContextCode);
+            const generated = this.promptGenerator.generate(task, this.workspaceContextCode, this.targetAgent);
 
             const prompt = createPrompt({
                 taskId: task.id,
@@ -579,6 +581,15 @@ export class Orchestrator {
 
     public getLatestPrompt(): GeneratedPrompt | undefined {
         return this.latestPrompt;
+    }
+
+    public getTargetAgent(): TargetAgent {
+        return this.targetAgent;
+    }
+
+    public setTargetAgent(targetAgent: TargetAgent): void {
+        this.targetAgent = targetAgent;
+        this.emitStateChanged();
     }
 
     public getProviderStatus(): ProviderStatus {
