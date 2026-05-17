@@ -2,7 +2,7 @@ import { IAIProvider } from './interfaces/IAIProvider';
 import { GeminiProvider } from './implementations/GeminiProvider';
 import { MockAIProvider } from './implementations/MockAIProvider';
 import { OpenAIProvider } from './implementations/OpenAIProvider';
-import { ProviderSelection, ProviderRuntimeConfig } from './providerConfig';
+import { ProviderSelection, ProviderRuntimeConfig, resolveGeminiModel } from './providerConfig';
 
 export interface ProviderStatus {
     selection: ProviderSelection;
@@ -47,7 +47,9 @@ export function createProvider(config: ProviderRuntimeConfig): ProviderBootstrap
                     message: `OpenAI sağlayıcısı aktif. Model: ${config.openAiModel}`
                 }
             };
-        case 'gemini':
+        case 'gemini': {
+            const geminiModel = resolveGeminiModel(config.geminiModel);
+
             if (!config.apiKeys.gemini) {
                 return {
                     provider: undefined,
@@ -61,7 +63,7 @@ export function createProvider(config: ProviderRuntimeConfig): ProviderBootstrap
             return {
                 provider: new GeminiProvider({
                     apiKey: config.apiKeys.gemini,
-                    model: config.geminiModel,
+                    model: geminiModel,
                     timeoutMs: config.timeoutMs,
                     maxRetries: config.maxRetries
                 }),
@@ -70,10 +72,11 @@ export function createProvider(config: ProviderRuntimeConfig): ProviderBootstrap
                     active: 'gemini',
                     available: true,
                     severity: 'info',
-                    label: `Gemini · ${config.geminiModel}`,
-                    message: `Gemini sağlayıcısı aktif. Model: ${config.geminiModel}`
+                    label: `Gemini · ${geminiModel}`,
+                    message: `Gemini sağlayıcısı aktif. Model: ${geminiModel}`
                 }
             };
+        }
         case 'mock':
             return {
                 provider: new MockAIProvider(),

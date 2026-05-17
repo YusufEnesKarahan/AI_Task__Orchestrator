@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as vscode from 'vscode';
 import { PromptRun } from '../core/types';
 import { Orchestrator } from '../core/orchestrator/Orchestrator';
-import { loadProviderRuntimeConfig } from '../providers/providerConfig';
+import { loadProviderRuntimeConfig, PROVIDER_SECRET_KEYS } from '../providers/providerConfig';
 import { JsonStateManager } from '../store/JsonStateManager';
 import { WorkspaceScanner, WorkspaceScanResult } from '../services/workspace/WorkspaceScanner';
 
@@ -90,6 +90,16 @@ export class WebviewPanelController {
             this.panel.onDidDispose(() => this.dispose()),
             this.panel.webview.onDidReceiveMessage((message) => {
                 void this.handleMessage(message as PanelMessage);
+            }),
+            vscode.workspace.onDidChangeConfiguration((event) => {
+                if (event.affectsConfiguration('aiTaskOrchestrator')) {
+                    void this.reloadProviderFromRuntimeConfig();
+                }
+            }),
+            context.secrets.onDidChange((event) => {
+                if (event.key === PROVIDER_SECRET_KEYS.openai || event.key === PROVIDER_SECRET_KEYS.gemini) {
+                    void this.reloadProviderFromRuntimeConfig();
+                }
             })
         );
 
@@ -133,6 +143,12 @@ export class WebviewPanelController {
     private async initialize(): Promise<void> {
         const providerConfig = await loadProviderRuntimeConfig(this.extensionContext);
         await this.orchestrator.initialize(providerConfig);
+        await this.syncState();
+    }
+
+    private async reloadProviderFromRuntimeConfig(): Promise<void> {
+        const providerConfig = await loadProviderRuntimeConfig(this.extensionContext);
+        await this.orchestrator.bootstrapProvider(providerConfig);
         await this.syncState();
     }
 
@@ -296,8 +312,7 @@ export class WebviewPanelController {
         await config.update('provider', selection, vscode.ConfigurationTarget.Workspace);
 
         // Yeni config ile provider’ı yeniden bootstrap et
-        const providerConfig = await loadProviderRuntimeConfig(this.extensionContext);
-        await this.orchestrator.bootstrapProvider(providerConfig);
+        await this.reloadProviderFromRuntimeConfig();
 
         // API key eksikse kullanıcıya sor
         const status = this.orchestrator.getProviderStatus();
@@ -317,8 +332,7 @@ export class WebviewPanelController {
                 await vscode.commands.executeCommand(setKeyCommand);
 
                 // Key girildikten sonra tekrar bootstrap et
-                const updatedConfig = await loadProviderRuntimeConfig(this.extensionContext);
-                await this.orchestrator.bootstrapProvider(updatedConfig);
+                await this.reloadProviderFromRuntimeConfig();
             }
         }
 
