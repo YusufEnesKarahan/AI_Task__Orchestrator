@@ -169,12 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         command: 'generatePrompt',
                         payload: { taskId: task.id }
                     });
-                }),
-                buildActionButton('Approval Simüle Et', false, () => {
-                    vscode.postMessage({
-                        command: 'simulateApprovalAction',
-                        payload: { taskId: task.id }
-                    });
                 })
             );
 
@@ -307,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!prompts.length) {
             promptQueueList.innerHTML =
-                '<div class="empty-state">Henüz prompt üretilmedi. Fikrinizi girip "Fikirden Prompt Üret" butonuna tıklayın.</div>';
+                '<div class="empty-state">Henüz prompt üretilmedi. Hedefinizi girip "Görevleri Oluştur" butonuna tıklayın.</div>';
             return;
         }
 
@@ -327,7 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const statusBadge = document.createElement('span');
             statusBadge.className = `status-badge status-${prompt.status}`;
-            statusBadge.textContent = prompt.status;
+            statusBadge.textContent = translatePromptStatus(prompt.status);
 
             const toggleBtn = buildActionButton('Görüntüle', false, () => {
                 const isExpanded = body.classList.toggle('expanded');
@@ -472,6 +466,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 return 'Tamamlandı';
             case 'error':
                 return 'Hata';
+            default:
+                return status;
+        }
+    }
+
+    function translatePromptStatus(status) {
+        switch (status) {
+            case 'draft':
+                return 'Taslak';
+            case 'approved':
+                return 'Onayl\u0131';
+            case 'rejected':
+                return 'Reddedildi';
+            case 'queued':
+                return 'S\u0131rada';
+            case 'sending':
+                return 'G\u00f6nderiliyor';
+            case 'waiting_response':
+                return 'Yan\u0131t Bekleniyor';
+            case 'completed':
+                return 'Tamamland\u0131';
+            case 'failed':
+                return 'Ba\u015far\u0131s\u0131z';
+            case 'cancelled':
+                return '\u0130ptal';
+            case 'ready_for_manual_send':
+                return 'Manuel G\u00f6nderim';
+            case 'sent_manually':
+                return 'G\u00f6nderildi';
+            case 'awaiting_manual_result':
+                return 'Sonu\u00e7 Bekleniyor';
+            case 'manually_completed':
+                return 'Tamamland\u0131 (Manuel)';
             default:
                 return status;
         }

@@ -26,7 +26,7 @@ export function createProvider(config: ProviderRuntimeConfig): ProviderBootstrap
                     provider: undefined,
                     status: buildUnavailableStatus(
                         'openai',
-                        'OpenAI selected but no API key is configured. Configure it via SecretStorage or environment variables.'
+                        `OpenAI seçili ama API key yapılandırılmamış. Komut panelinden "AI Task Orchestrator: Set OpenAI API Key" komutunu çalıştırın.`
                     )
                 };
             }
@@ -43,8 +43,8 @@ export function createProvider(config: ProviderRuntimeConfig): ProviderBootstrap
                     active: 'openai',
                     available: true,
                     severity: 'info',
-                    label: 'OpenAI aktif',
-                    message: `OpenAI provider active with model '${config.openAiModel}'.`
+                    label: `OpenAI · ${config.openAiModel}`,
+                    message: `OpenAI sağlayıcısı aktif. Model: ${config.openAiModel}`
                 }
             };
         case 'gemini':
@@ -53,7 +53,7 @@ export function createProvider(config: ProviderRuntimeConfig): ProviderBootstrap
                     provider: undefined,
                     status: buildUnavailableStatus(
                         'gemini',
-                        'Gemini selected but no API key is configured. Configure it via SecretStorage or environment variables.'
+                        `Gemini seçili ama API key yapılandırılmamış. Komut panelinden "AI Task Orchestrator: Set Gemini API Key" komutunu çalıştırın.`
                     )
                 };
             }
@@ -70,8 +70,8 @@ export function createProvider(config: ProviderRuntimeConfig): ProviderBootstrap
                     active: 'gemini',
                     available: true,
                     severity: 'info',
-                    label: 'Gemini aktif',
-                    message: `Gemini provider active with model '${config.geminiModel}'.`
+                    label: `Gemini · ${config.geminiModel}`,
+                    message: `Gemini sağlayıcısı aktif. Model: ${config.geminiModel}`
                 }
             };
         case 'mock':
@@ -82,8 +82,8 @@ export function createProvider(config: ProviderRuntimeConfig): ProviderBootstrap
                     active: 'mock',
                     available: true,
                     severity: 'warning',
-                    label: 'Mock aktif',
-                    message: 'Mock provider is explicitly selected. AI results are simulated.'
+                    label: 'Mock · Simülasyon',
+                    message: 'Mock sağlayıcı aktif — AI yanıtları simüledir, gerçek istek yapılmaz.'
                 }
             };
         default:
@@ -100,7 +100,7 @@ function buildUnavailableStatus(selection: ProviderSelection, message: string): 
         active: 'none',
         available: false,
         severity: 'error',
-        label: selection === 'openai' ? 'OpenAI pasif' : 'Gemini pasif',
+        label: `${selection === 'openai' ? 'OpenAI' : selection === 'gemini' ? 'Gemini' : selection} · API Key Eksik`,
         message
     };
 }

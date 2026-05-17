@@ -13,11 +13,11 @@
     <body>
         <main class="layout">
             <section class="hero">
-                <p class="eyebrow">MVP Workflow</p>
+                <p class="eyebrow">AI Development Orchestrator</p>
                 <h1 id="project-title-display">AI Task Orchestrator</h1>
                 <p class="hero-copy">
-                    Task listesi gir, görevleri parçala, prompt üret, prompt geçmişini ve approval akışını tek panelden
-                    izle.
+                    Mevcut projeniz üzerinde görevler oluşturun, AI promptlarını yönetin ve workflow’unuzu tek panelden
+                    izleyin.
                 </p>
                 <div class="provider-status-panel">
                     <span id="provider-status-label" class="provider-badge provider-error">Provider bilinmiyor</span>
@@ -28,26 +28,26 @@
             <section class="panel">
                 <div class="panel-header">
                     <div>
-                        <h2>1. Fikir Girişi</h2>
+                        <h2>Görev Tanımı</h2>
                         <p class="section-copy">
-                            Fikrinizi girin, sistem otomatik olarak projelendirsin, görevlere bölsün ve promptları
-                            üretsin.
+                            Projenizle ilgili bir hedef veya istek girin. Sistem görevlere bölüp her biri için AI
+                            promptları üretsin.
                         </p>
                     </div>
-                    <button id="generate-workflow-btn" type="button">Fikirden Prompt Üret</button>
+                    <button id="generate-workflow-btn" type="button">Görevleri Oluştur</button>
                 </div>
 
                 <div class="form-grid">
                     <label class="field">
-                        <span>Proje Başlığı</span>
-                        <input id="project-title-input" type="text" placeholder="Örn: MVP Task Orchestrator" />
+                        <span>Çalışma Başlığı</span>
+                        <input id="project-title-input" type="text" placeholder="Örn: Auth modülü ekleme" />
                     </label>
 
                     <label class="field field-full">
-                        <span>Fikir / İstek</span>
+                        <span>Hedef / İstek</span>
                         <textarea
                             id="idea-input"
-                            placeholder="Örn: Uygulamaya auth modülü eklemek istiyorum. Veritabanı ve endpointler olsun, token tabanlı giriş yapsın. Testleri de yazılsın."
+                            placeholder="Örn: Mevcut projeye auth modülü eklemek istiyorum. Veritabanı ve endpointler olsun, token tabanlı giriş yapsın. Testleri de yazılsın."
                         ></textarea>
                     </label>
                 </div>
@@ -57,9 +57,10 @@
                 <section class="panel">
                     <div class="panel-header">
                         <div>
-                            <h2>2. Görevler</h2>
+                            <h2>Görevler</h2>
                             <p class="section-copy">
-                                Görev seçildiğinde prompt üretimi ve approval simülasyonu bu karttan tetiklenir.
+                                Oluşturulan görevleri inceleyin. Her görev için prompt üretebilir ve onay akışını
+                                başlatabilirsiniz.
                             </p>
                         </div>
                     </div>
@@ -72,7 +73,7 @@
                     <div class="sub-panel">
                         <div class="panel-header">
                             <div>
-                                <h2>3. Seçili Görev</h2>
+                                <h2>Seçili Görev</h2>
                                 <p class="section-copy">Seçilen görevin özeti.</p>
                             </div>
                         </div>
@@ -82,8 +83,8 @@
                     <div class="sub-panel">
                         <div class="panel-header">
                             <div>
-                                <h2>4. Son Prompt</h2>
-                                <p class="section-copy">Prompt Generator çıktısı.</p>
+                                <h2>Son Prompt</h2>
+                                <p class="section-copy">Üretilen prompt önizlemesi.</p>
                             </div>
                         </div>
                         <pre id="prompt-preview" class="prompt-preview empty-state">Henüz prompt üretilmedi.</pre>
@@ -92,7 +93,7 @@
                     <div class="sub-panel">
                         <div class="panel-header">
                             <div>
-                                <h2>5. Prompt Geçmişi</h2>
+                                <h2>Prompt Geçmişi</h2>
                                 <p class="section-copy">Üretilen prompt çalıştırma kayıtları.</p>
                             </div>
                         </div>
@@ -104,8 +105,8 @@
                     <div class="sub-panel">
                         <div class="panel-header">
                             <div>
-                                <h2>6. Approval</h2>
-                                <p class="section-copy">Temel approval akışı için bekleyen işlemler.</p>
+                                <h2>Onay Bekleyenler</h2>
+                                <p class="section-copy">Onay gerektiren işlemler.</p>
                             </div>
                         </div>
                         <div id="approval-list" class="meta-list">
@@ -116,8 +117,8 @@
                     <div class="sub-panel">
                         <div class="panel-header">
                             <div>
-                                <h2>7. Loglar</h2>
-                                <p class="section-copy">Süreç akışı ve önemli backend olayları.</p>
+                                <h2>Aktivite</h2>
+                                <p class="section-copy">Süreç akışı ve önemli olaylar.</p>
                             </div>
                         </div>
                         <div id="log-list" class="log-list">
@@ -131,10 +132,9 @@
             <section class="panel">
                 <div class="panel-header">
                     <div>
-                        <h2>Prompt Kuyruğu</h2>
+                        <h2>Prompt Pipeline</h2>
                         <p class="section-copy">
-                            Görevlerden üretilen promptları inceleyin, onaylayın veya reddedin. Onaylıları kuyruğa alıp
-                            sırayla yürütün.
+                            Üretilen promptları inceleyin, onaylayın ve sırayla AI sağlayıcıya gönderin.
                         </p>
                     </div>
                     <div class="prompt-toolbar">
@@ -152,7 +152,7 @@
                         <button id="reject-all-btn" type="button" class="secondary-button btn-reject">
                             Tümünü Reddet
                         </button>
-                        <button id="execute-queue-btn" type="button">Onaylıları Kuyruğa Al</button>
+                        <button id="execute-queue-btn" type="button">Kuyruğu Çalıştır ▶</button>
                         <button
                             id="cancel-queue-btn"
                             type="button"
