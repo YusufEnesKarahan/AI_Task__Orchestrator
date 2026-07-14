@@ -1,0 +1,23 @@
+{
+    "schemaVersion": 1,
+    "createdAt": 1783948122603,
+    "updatedAt": 1783948122616,
+    "staticMemory": {
+        "project": {
+            "name": "AI Task Orchestrator",
+            "description": "Manual-first AI workflow orchestrator for VS Code.",
+            "type": "VS Code Extension"
+        },
+        "technologies": ["NodeJS", "TypeScript", "VS Code Extension API"],
+        "folderStructure": [],
+        "modules": ["docs", "src", "test", "webview-ui"],
+        "codingRules": ["Keep backward compatibility", "Use MemoryEngine API instead of direct memory file access"]
+    },
+    "longTermMemory": {
+        "userPreferences": [],
+        "technicalDebt": [],
+        "completedWork": [],
+        "sprintHistory": ["Sprint 3: Memory Engine infrastructure"],
+        "learnedPatterns": ["File-backed JSON memory with a rebuilt memory index"]
+    }
+}

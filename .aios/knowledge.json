@@ -1,0 +1,2382 @@
+{
+  "projectName": "Yapay_Zeka_Görev_Orkestratörü",
+  "projectType": "VS Code Extension",
+  "technologies": [
+    {
+      "name": "TypeScript",
+      "confidence": 0.95,
+      "type": "Language"
+    },
+    {
+      "name": "JavaScript",
+      "confidence": 0.9,
+      "type": "Language"
+    },
+    {
+      "name": "HTML",
+      "confidence": 0.85,
+      "type": "Language"
+    },
+    {
+      "name": "CSS",
+      "confidence": 0.85,
+      "type": "Language"
+    },
+    {
+      "name": "NodeJS",
+      "confidence": 1,
+      "type": "Runtime"
+    },
+    {
+      "name": "NPM",
+      "confidence": 0.95,
+      "type": "Package Manager"
+    },
+    {
+      "name": "VS Code Extension API",
+      "confidence": 1,
+      "type": "Framework"
+    }
+  ],
+  "architecture": {
+    "type": "VS Code Extension (Webview Host)",
+    "confidence": 0.95
+  },
+  "folderStructure": [
+    {
+      "path": ".gitignore",
+      "type": "file"
+    },
+    {
+      "path": ".prettierignore",
+      "type": "file"
+    },
+    {
+      "path": ".prettierrc.json",
+      "type": "file"
+    },
+    {
+      "path": ".vscodeignore",
+      "type": "file"
+    },
+    {
+      "path": "ai-task-orchestrator-0.1.0.vsix",
+      "type": "file"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "type": "file"
+    },
+    {
+      "path": "docs",
+      "type": "directory",
+      "children": [
+        {
+          "path": "docs/smoke-test-checklist.md",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "path": "eslint.config.mjs",
+      "type": "file"
+    },
+    {
+      "path": "LICENSE",
+      "type": "file"
+    },
+    {
+      "path": "package-lock.json",
+      "type": "file"
+    },
+    {
+      "path": "package.json",
+      "type": "file",
+      "role": "Config"
+    },
+    {
+      "path": "README.md",
+      "type": "file"
+    },
+    {
+      "path": "resources",
+      "type": "directory",
+      "children": [
+        {
+          "path": "resources/sidebar-icon.svg",
+          "type": "file"
+        }
+      ],
+      "role": "Assets"
+    },
+    {
+      "path": "src",
+      "type": "directory",
+      "children": [
+        {
+          "path": "src/context",
+          "type": "directory",
+          "children": [
+            {
+              "path": "src/context/AgentProfiles.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/context/ContextBudgetManager.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/context/ContextCache.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/context/ContextEngine.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/context/ContextScorer.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/context/ContextSelector.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/context/ContextValidator.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/context/index.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/context/layers",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/context/layers/AgentContextBuilder.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/context/layers/ArchitectureContextBuilder.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/context/layers/CodeContextBuilder.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/context/layers/DecisionContextBuilder.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/context/layers/HealthContextBuilder.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/context/layers/helpers.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/context/layers/JournalContextBuilder.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/context/layers/KnowledgeContextBuilder.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/context/layers/ProjectContextBuilder.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/context/layers/RiskContextBuilder.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/context/layers/StaticContextBuilder.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/context/layers/TaskContextBuilder.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/context/layers/WorkingContextBuilder.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "path": "src/context/types.ts",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "path": "src/core",
+          "type": "directory",
+          "children": [
+            {
+              "path": "src/core/orchestrator",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/core/orchestrator/Orchestrator.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/core/orchestrator/PromptExecutionService.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/core/orchestrator/PromptGenerator.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/core/orchestrator/PromptQueueManager.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/core/orchestrator/TaskPlanner.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/core/orchestrator/templates",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "path": "src/core/orchestrator/templates/PromptTemplates.ts",
+                      "type": "file"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "path": "src/core/types",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/core/types/index.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/core/types/prompt.types.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "path": "src/core/validator",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/core/validator/ValidationEngine.ts",
+                  "type": "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "src/extension.ts",
+          "type": "file"
+        },
+        {
+          "path": "src/intelligence",
+          "type": "directory",
+          "children": [
+            {
+              "path": "src/intelligence/architecture",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/intelligence/architecture/ArchitectureAnalyzer.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "path": "src/intelligence/dependency",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/intelligence/dependency/DependencyAnalyzer.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "path": "src/intelligence/health",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/intelligence/health/CodeHealthAnalyzer.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "path": "src/intelligence/knowledge",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/intelligence/knowledge/KnowledgeBaseManager.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "path": "src/intelligence/project",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/intelligence/project/ProjectStructureAnalyzer.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "path": "src/intelligence/risk",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/intelligence/risk/RiskAnalyzer.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "path": "src/intelligence/scanner",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/intelligence/scanner/ProjectIntelligenceEngine.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "path": "src/intelligence/shared",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/intelligence/shared/intelligenceTypes.ts",
+                  "type": "file"
+                }
+              ],
+              "role": "Shared"
+            },
+            {
+              "path": "src/intelligence/summary",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/intelligence/summary/ProjectSummaryGenerator.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "path": "src/intelligence/technology",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/intelligence/technology/TechnologyAnalyzer.ts",
+                  "type": "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "src/memory",
+          "type": "directory",
+          "children": [
+            {
+              "path": "src/memory/defaults.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/memory/index.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/memory/layers",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/memory/layers/DecisionMemoryLayer.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/memory/layers/JournalMemoryLayer.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/memory/layers/LongTermMemoryLayer.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/memory/layers/StaticMemoryLayer.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/memory/layers/WorkingMemoryLayer.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "path": "src/memory/MemoryEngine.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/memory/MemoryFileStore.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/memory/MemoryIndexManager.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/memory/MemoryNormalizers.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/memory/types.ts",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "path": "src/providers",
+          "type": "directory",
+          "children": [
+            {
+              "path": "src/providers/BaseAIProvider.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/providers/createProvider.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/providers/implementations",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/providers/implementations/GeminiProvider.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/providers/implementations/MockAIProvider.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/providers/implementations/OpenAIProvider.ts",
+                  "type": "file"
+                }
+              ],
+              "role": "Services"
+            },
+            {
+              "path": "src/providers/interfaces",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/providers/interfaces/IAIProvider.ts",
+                  "type": "file"
+                }
+              ],
+              "role": "Services"
+            },
+            {
+              "path": "src/providers/providerConfig.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/providers/ProviderError.ts",
+              "type": "file"
+            }
+          ],
+          "role": "Services"
+        },
+        {
+          "path": "src/schemas",
+          "type": "directory",
+          "children": [
+            {
+              "path": "src/schemas/actionSchema.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/schemas/approvalSchema.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/schemas/index.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/schemas/taskPlanSchema.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/schemas/validationSchema.ts",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "path": "src/services",
+          "type": "directory",
+          "children": [
+            {
+              "path": "src/services/action",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/services/action/ActionEngine.ts",
+                  "type": "file"
+                }
+              ],
+              "role": "Services"
+            },
+            {
+              "path": "src/services/approval",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/services/approval/ApprovalManager.ts",
+                  "type": "file"
+                }
+              ],
+              "role": "Services"
+            },
+            {
+              "path": "src/services/workspace",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/services/workspace/WorkspaceScanner.ts",
+                  "type": "file"
+                }
+              ],
+              "role": "Services"
+            }
+          ],
+          "role": "Services"
+        },
+        {
+          "path": "src/shared",
+          "type": "directory",
+          "children": [
+            {
+              "path": "src/shared/config",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/shared/config/ConfigurationService.ts",
+                  "type": "file"
+                }
+              ],
+              "role": "Config"
+            },
+            {
+              "path": "src/shared/errors",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/shared/errors/AIOSBaseError.ts",
+                  "type": "file"
+                },
+                {
+                  "path": "src/shared/errors/specificErrors.ts",
+                  "type": "file"
+                }
+              ],
+              "role": "Shared"
+            },
+            {
+              "path": "src/shared/events",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/shared/events/EventBus.ts",
+                  "type": "file"
+                }
+              ],
+              "role": "Shared"
+            },
+            {
+              "path": "src/shared/logging",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/shared/logging/AIOSLogger.ts",
+                  "type": "file"
+                }
+              ],
+              "role": "Shared"
+            },
+            {
+              "path": "src/shared/types",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/shared/types/sharedTypes.ts",
+                  "type": "file"
+                }
+              ],
+              "role": "Shared"
+            }
+          ],
+          "role": "Shared"
+        },
+        {
+          "path": "src/store",
+          "type": "directory",
+          "children": [
+            {
+              "path": "src/store/AiosStateManager.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/store/interfaces",
+              "type": "directory",
+              "children": [
+                {
+                  "path": "src/store/interfaces/IStateManager.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "path": "src/store/JsonStateManager.ts",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "path": "src/webview",
+          "type": "directory",
+          "children": [
+            {
+              "path": "src/webview/getWebviewHtml.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/webview/SidebarViewProvider.ts",
+              "type": "file"
+            },
+            {
+              "path": "src/webview/WebviewPanelController.ts",
+              "type": "file"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "test",
+      "type": "directory",
+      "children": [
+        {
+          "path": "test/actionEngine.test.ts",
+          "type": "file",
+          "role": "Tests"
+        },
+        {
+          "path": "test/aiosStateManager.test.ts",
+          "type": "file",
+          "role": "Tests"
+        },
+        {
+          "path": "test/approvalManager.test.ts",
+          "type": "file",
+          "role": "Tests"
+        },
+        {
+          "path": "test/contextEngine.test.ts",
+          "type": "file",
+          "role": "Tests"
+        },
+        {
+          "path": "test/createProvider.test.ts",
+          "type": "file",
+          "role": "Tests"
+        },
+        {
+          "path": "test/eventBus.test.ts",
+          "type": "file",
+          "role": "Tests"
+        },
+        {
+          "path": "test/helpers.ts",
+          "type": "file"
+        },
+        {
+          "path": "test/jsonStateManager.test.ts",
+          "type": "file",
+          "role": "Tests"
+        },
+        {
+          "path": "test/memoryEngine.test.ts",
+          "type": "file",
+          "role": "Tests"
+        },
+        {
+          "path": "test/orchestrator.test.ts",
+          "type": "file",
+          "role": "Tests"
+        },
+        {
+          "path": "test/projectIntelligenceEngine.test.ts",
+          "type": "file",
+          "role": "Tests"
+        },
+        {
+          "path": "test/promptGenerator.test.ts",
+          "type": "file",
+          "role": "Tests"
+        },
+        {
+          "path": "test/promptQueueManager.test.ts",
+          "type": "file",
+          "role": "Tests"
+        },
+        {
+          "path": "test/providerConfig.test.ts",
+          "type": "file",
+          "role": "Tests"
+        },
+        {
+          "path": "test/taskPlanner.test.ts",
+          "type": "file",
+          "role": "Tests"
+        }
+      ],
+      "role": "Tests"
+    },
+    {
+      "path": "tsconfig.json",
+      "type": "file",
+      "role": "Config"
+    },
+    {
+      "path": "tsconfig.test.json",
+      "type": "file",
+      "role": "Tests"
+    },
+    {
+      "path": "webview-ui",
+      "type": "directory",
+      "children": [
+        {
+          "path": "webview-ui/index.html",
+          "type": "file"
+        },
+        {
+          "path": "webview-ui/main.js",
+          "type": "file"
+        },
+        {
+          "path": "webview-ui/style.css",
+          "type": "file",
+          "role": "Assets"
+        }
+      ],
+      "role": "Frontend"
+    }
+  ],
+  "modules": [
+    "LICENSE",
+    "docs",
+    "resources",
+    "src",
+    "test",
+    "webview-ui"
+  ],
+  "dependencies": [
+    {
+      "from": "src/context/AgentProfiles.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextBudgetManager.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextCache.ts",
+      "to": "fs/promises",
+      "type": "external"
+    },
+    {
+      "from": "src/context/ContextCache.ts",
+      "to": "fs",
+      "type": "external"
+    },
+    {
+      "from": "src/context/ContextCache.ts",
+      "to": "crypto",
+      "type": "external"
+    },
+    {
+      "from": "src/context/ContextCache.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "src/context/ContextCache.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/intelligence/scanner/ProjectIntelligenceEngine.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/memory",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/context/layers/AgentContextBuilder.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/context/layers/ArchitectureContextBuilder.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/context/layers/CodeContextBuilder.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/context/layers/DecisionContextBuilder.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/context/layers/HealthContextBuilder.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/context/layers/JournalContextBuilder.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/context/layers/KnowledgeContextBuilder.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/context/layers/ProjectContextBuilder.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/context/layers/RiskContextBuilder.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/context/layers/StaticContextBuilder.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/context/layers/TaskContextBuilder.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/context/layers/WorkingContextBuilder.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/context/ContextBudgetManager.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/context/ContextCache.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/context/ContextScorer.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/context/ContextSelector.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/context/ContextValidator.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextEngine.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextScorer.ts",
+      "to": "src/context/AgentProfiles.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextScorer.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextSelector.ts",
+      "to": "src/context/AgentProfiles.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextSelector.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/ContextValidator.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/index.ts",
+      "to": "src/context/ContextEngine.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/index.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/AgentContextBuilder.ts",
+      "to": "src/context/AgentProfiles.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/AgentContextBuilder.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/AgentContextBuilder.ts",
+      "to": "src/context/layers/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/ArchitectureContextBuilder.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/ArchitectureContextBuilder.ts",
+      "to": "src/context/layers/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/CodeContextBuilder.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/CodeContextBuilder.ts",
+      "to": "src/context/layers/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/DecisionContextBuilder.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/DecisionContextBuilder.ts",
+      "to": "src/context/layers/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/HealthContextBuilder.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/HealthContextBuilder.ts",
+      "to": "src/context/layers/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/helpers.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/JournalContextBuilder.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/JournalContextBuilder.ts",
+      "to": "src/context/layers/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/KnowledgeContextBuilder.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/KnowledgeContextBuilder.ts",
+      "to": "src/context/layers/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/ProjectContextBuilder.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/ProjectContextBuilder.ts",
+      "to": "src/context/layers/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/RiskContextBuilder.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/RiskContextBuilder.ts",
+      "to": "src/context/layers/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/StaticContextBuilder.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/StaticContextBuilder.ts",
+      "to": "src/context/layers/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/TaskContextBuilder.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/TaskContextBuilder.ts",
+      "to": "src/context/layers/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/WorkingContextBuilder.ts",
+      "to": "src/context/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/layers/WorkingContextBuilder.ts",
+      "to": "src/context/layers/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/types.ts",
+      "to": "src/shared/types/sharedTypes.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/types.ts",
+      "to": "src/intelligence/shared/intelligenceTypes.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/context/types.ts",
+      "to": "src/memory",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/Orchestrator.ts",
+      "to": "events",
+      "type": "external"
+    },
+    {
+      "from": "src/core/orchestrator/Orchestrator.ts",
+      "to": "src/core/types",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/Orchestrator.ts",
+      "to": "src/core/types/prompt.types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/Orchestrator.ts",
+      "to": "src/core/orchestrator/TaskPlanner.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/Orchestrator.ts",
+      "to": "src/core/orchestrator/PromptGenerator.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/Orchestrator.ts",
+      "to": "src/core/orchestrator/templates/PromptTemplates.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/Orchestrator.ts",
+      "to": "src/core/orchestrator/PromptQueueManager.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/Orchestrator.ts",
+      "to": "src/core/validator/ValidationEngine.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/Orchestrator.ts",
+      "to": "src/services/action/ActionEngine.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/Orchestrator.ts",
+      "to": "src/services/approval/ApprovalManager.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/Orchestrator.ts",
+      "to": "src/store/interfaces/IStateManager.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/Orchestrator.ts",
+      "to": "src/providers/createProvider.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/Orchestrator.ts",
+      "to": "src/providers/providerConfig.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/Orchestrator.ts",
+      "to": "src/services/workspace/WorkspaceScanner.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/PromptExecutionService.ts",
+      "to": "src/core/types/prompt.types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/PromptExecutionService.ts",
+      "to": "src/providers/interfaces/IAIProvider.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/PromptGenerator.ts",
+      "to": "src/core/types",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/PromptGenerator.ts",
+      "to": "src/core/orchestrator/templates/PromptTemplates.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/PromptQueueManager.ts",
+      "to": "events",
+      "type": "external"
+    },
+    {
+      "from": "src/core/orchestrator/PromptQueueManager.ts",
+      "to": "src/core/types/prompt.types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/PromptQueueManager.ts",
+      "to": "src/providers/interfaces/IAIProvider.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/PromptQueueManager.ts",
+      "to": "src/store/interfaces/IStateManager.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/PromptQueueManager.ts",
+      "to": "src/core/orchestrator/PromptExecutionService.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/TaskPlanner.ts",
+      "to": "src/core/types",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/TaskPlanner.ts",
+      "to": "src/providers/interfaces/IAIProvider.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/TaskPlanner.ts",
+      "to": "src/schemas",
+      "type": "import"
+    },
+    {
+      "from": "src/core/orchestrator/templates/PromptTemplates.ts",
+      "to": "src/core/types",
+      "type": "import"
+    },
+    {
+      "from": "src/core/types/index.ts",
+      "to": "src/shared/types/sharedTypes.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/types/prompt.types.ts",
+      "to": "src/core/types/index.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/types/prompt.types.ts",
+      "to": "src/core/orchestrator/templates/PromptTemplates.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/core/validator/ValidationEngine.ts",
+      "to": "fs/promises",
+      "type": "external"
+    },
+    {
+      "from": "src/core/validator/ValidationEngine.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "src/core/validator/ValidationEngine.ts",
+      "to": "src/core/types",
+      "type": "import"
+    },
+    {
+      "from": "src/extension.ts",
+      "to": "vscode",
+      "type": "external"
+    },
+    {
+      "from": "src/extension.ts",
+      "to": "src/providers/providerConfig.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/extension.ts",
+      "to": "src/webview/SidebarViewProvider.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/extension.ts",
+      "to": "src/webview/WebviewPanelController.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/intelligence/architecture/ArchitectureAnalyzer.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/architecture/ArchitectureAnalyzer.ts",
+      "to": "src/intelligence/shared/intelligenceTypes.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/intelligence/dependency/DependencyAnalyzer.ts",
+      "to": "fs/promises",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/dependency/DependencyAnalyzer.ts",
+      "to": "fs",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/dependency/DependencyAnalyzer.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/dependency/DependencyAnalyzer.ts",
+      "to": "src/intelligence/shared/intelligenceTypes.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/intelligence/dependency/DependencyAnalyzer.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/health/CodeHealthAnalyzer.ts",
+      "to": "src/intelligence/shared/intelligenceTypes.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/intelligence/knowledge/KnowledgeBaseManager.ts",
+      "to": "fs/promises",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/knowledge/KnowledgeBaseManager.ts",
+      "to": "fs",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/knowledge/KnowledgeBaseManager.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/knowledge/KnowledgeBaseManager.ts",
+      "to": "src/intelligence/shared/intelligenceTypes.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/intelligence/project/ProjectStructureAnalyzer.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/project/ProjectStructureAnalyzer.ts",
+      "to": "src/intelligence/shared/intelligenceTypes.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/intelligence/risk/RiskAnalyzer.ts",
+      "to": "fs/promises",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/risk/RiskAnalyzer.ts",
+      "to": "crypto",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/risk/RiskAnalyzer.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/risk/RiskAnalyzer.ts",
+      "to": "src/intelligence/shared/intelligenceTypes.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/intelligence/scanner/ProjectIntelligenceEngine.ts",
+      "to": "fs/promises",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/scanner/ProjectIntelligenceEngine.ts",
+      "to": "crypto",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/scanner/ProjectIntelligenceEngine.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/scanner/ProjectIntelligenceEngine.ts",
+      "to": "src/intelligence/project/ProjectStructureAnalyzer.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/intelligence/scanner/ProjectIntelligenceEngine.ts",
+      "to": "src/intelligence/technology/TechnologyAnalyzer.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/intelligence/scanner/ProjectIntelligenceEngine.ts",
+      "to": "src/intelligence/dependency/DependencyAnalyzer.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/intelligence/scanner/ProjectIntelligenceEngine.ts",
+      "to": "src/intelligence/architecture/ArchitectureAnalyzer.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/intelligence/scanner/ProjectIntelligenceEngine.ts",
+      "to": "src/intelligence/health/CodeHealthAnalyzer.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/intelligence/scanner/ProjectIntelligenceEngine.ts",
+      "to": "src/intelligence/risk/RiskAnalyzer.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/intelligence/scanner/ProjectIntelligenceEngine.ts",
+      "to": "src/intelligence/knowledge/KnowledgeBaseManager.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/intelligence/scanner/ProjectIntelligenceEngine.ts",
+      "to": "src/intelligence/summary/ProjectSummaryGenerator.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/intelligence/scanner/ProjectIntelligenceEngine.ts",
+      "to": "src/intelligence/shared/intelligenceTypes.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/intelligence/summary/ProjectSummaryGenerator.ts",
+      "to": "fs/promises",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/summary/ProjectSummaryGenerator.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/summary/ProjectSummaryGenerator.ts",
+      "to": "src/intelligence/shared/intelligenceTypes.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/intelligence/technology/TechnologyAnalyzer.ts",
+      "to": "fs/promises",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/technology/TechnologyAnalyzer.ts",
+      "to": "fs",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/technology/TechnologyAnalyzer.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "src/intelligence/technology/TechnologyAnalyzer.ts",
+      "to": "src/intelligence/shared/intelligenceTypes.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/defaults.ts",
+      "to": "src/memory/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/index.ts",
+      "to": "src/memory/MemoryEngine.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/index.ts",
+      "to": "src/memory/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/layers/DecisionMemoryLayer.ts",
+      "to": "src/memory/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/layers/JournalMemoryLayer.ts",
+      "to": "src/memory/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/layers/LongTermMemoryLayer.ts",
+      "to": "src/memory/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/layers/StaticMemoryLayer.ts",
+      "to": "src/memory/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/layers/WorkingMemoryLayer.ts",
+      "to": "src/memory/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/MemoryEngine.ts",
+      "to": "src/shared/events/EventBus.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/MemoryEngine.ts",
+      "to": "src/memory/defaults.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/MemoryEngine.ts",
+      "to": "src/memory/MemoryFileStore.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/MemoryEngine.ts",
+      "to": "src/memory/MemoryIndexManager.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/MemoryEngine.ts",
+      "to": "src/memory/MemoryNormalizers.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/MemoryEngine.ts",
+      "to": "src/memory/layers/DecisionMemoryLayer.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/MemoryEngine.ts",
+      "to": "src/memory/layers/JournalMemoryLayer.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/MemoryEngine.ts",
+      "to": "src/memory/layers/LongTermMemoryLayer.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/MemoryEngine.ts",
+      "to": "src/memory/layers/StaticMemoryLayer.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/MemoryEngine.ts",
+      "to": "src/memory/layers/WorkingMemoryLayer.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/MemoryEngine.ts",
+      "to": "src/memory/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/MemoryFileStore.ts",
+      "to": "fs/promises",
+      "type": "external"
+    },
+    {
+      "from": "src/memory/MemoryFileStore.ts",
+      "to": "fs",
+      "type": "external"
+    },
+    {
+      "from": "src/memory/MemoryFileStore.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "src/memory/MemoryFileStore.ts",
+      "to": "src/memory/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/MemoryIndexManager.ts",
+      "to": "src/memory/defaults.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/MemoryIndexManager.ts",
+      "to": "src/memory/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/MemoryNormalizers.ts",
+      "to": "src/memory/defaults.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/memory/MemoryNormalizers.ts",
+      "to": "src/memory/types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/providers/BaseAIProvider.ts",
+      "to": "src/providers/ProviderError.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/providers/BaseAIProvider.ts",
+      "to": "src/providers/interfaces/IAIProvider.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/providers/createProvider.ts",
+      "to": "src/providers/interfaces/IAIProvider.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/providers/createProvider.ts",
+      "to": "src/providers/implementations/GeminiProvider.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/providers/createProvider.ts",
+      "to": "src/providers/implementations/MockAIProvider.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/providers/createProvider.ts",
+      "to": "src/providers/implementations/OpenAIProvider.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/providers/createProvider.ts",
+      "to": "src/providers/providerConfig.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/providers/implementations/GeminiProvider.ts",
+      "to": "src/providers/BaseAIProvider.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/providers/implementations/GeminiProvider.ts",
+      "to": "src/providers/interfaces/IAIProvider.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/providers/implementations/MockAIProvider.ts",
+      "to": "src/providers/interfaces/IAIProvider.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/providers/implementations/OpenAIProvider.ts",
+      "to": "src/providers/BaseAIProvider.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/providers/implementations/OpenAIProvider.ts",
+      "to": "src/providers/interfaces/IAIProvider.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/providers/interfaces/IAIProvider.ts",
+      "to": "zod",
+      "type": "external"
+    },
+    {
+      "from": "src/providers/providerConfig.ts",
+      "to": "vscode",
+      "type": "external"
+    },
+    {
+      "from": "src/providers/ProviderError.ts",
+      "to": "src/shared/errors/specificErrors.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/schemas/actionSchema.ts",
+      "to": "zod",
+      "type": "external"
+    },
+    {
+      "from": "src/schemas/approvalSchema.ts",
+      "to": "zod",
+      "type": "external"
+    },
+    {
+      "from": "src/schemas/approvalSchema.ts",
+      "to": "src/schemas/actionSchema.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/schemas/index.ts",
+      "to": "src/schemas/actionSchema.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/schemas/index.ts",
+      "to": "src/schemas/approvalSchema.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/schemas/index.ts",
+      "to": "src/schemas/taskPlanSchema.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/schemas/index.ts",
+      "to": "src/schemas/validationSchema.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/schemas/taskPlanSchema.ts",
+      "to": "zod",
+      "type": "external"
+    },
+    {
+      "from": "src/schemas/validationSchema.ts",
+      "to": "zod",
+      "type": "external"
+    },
+    {
+      "from": "src/services/action/ActionEngine.ts",
+      "to": "fs/promises",
+      "type": "external"
+    },
+    {
+      "from": "src/services/action/ActionEngine.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "src/services/action/ActionEngine.ts",
+      "to": "vscode",
+      "type": "external"
+    },
+    {
+      "from": "src/services/action/ActionEngine.ts",
+      "to": "src/core/types",
+      "type": "import"
+    },
+    {
+      "from": "src/services/action/ActionEngine.ts",
+      "to": "src/services/approval/ApprovalManager.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/services/approval/ApprovalManager.ts",
+      "to": "events",
+      "type": "external"
+    },
+    {
+      "from": "src/services/approval/ApprovalManager.ts",
+      "to": "src/core/types",
+      "type": "import"
+    },
+    {
+      "from": "src/services/approval/ApprovalManager.ts",
+      "to": "src/store/interfaces/IStateManager.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/services/workspace/WorkspaceScanner.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "src/services/workspace/WorkspaceScanner.ts",
+      "to": "fs",
+      "type": "external"
+    },
+    {
+      "from": "src/services/workspace/WorkspaceScanner.ts",
+      "to": "src/intelligence/scanner/ProjectIntelligenceEngine.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/shared/config/ConfigurationService.ts",
+      "to": "fs",
+      "type": "external"
+    },
+    {
+      "from": "src/shared/config/ConfigurationService.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "src/shared/errors/AIOSBaseError.ts",
+      "to": "src/shared/types/sharedTypes.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/shared/errors/specificErrors.ts",
+      "to": "src/shared/errors/AIOSBaseError.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/shared/events/EventBus.ts",
+      "to": "events",
+      "type": "external"
+    },
+    {
+      "from": "src/shared/logging/AIOSLogger.ts",
+      "to": "src/shared/events/EventBus.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/shared/types/sharedTypes.ts",
+      "to": "src/core/types/prompt.types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/store/AiosStateManager.ts",
+      "to": "fs/promises",
+      "type": "external"
+    },
+    {
+      "from": "src/store/AiosStateManager.ts",
+      "to": "fs",
+      "type": "external"
+    },
+    {
+      "from": "src/store/AiosStateManager.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "src/store/AiosStateManager.ts",
+      "to": "src/shared/types/sharedTypes.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/store/AiosStateManager.ts",
+      "to": "src/core/types/prompt.types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/store/AiosStateManager.ts",
+      "to": "src/store/interfaces/IStateManager.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/store/interfaces/IStateManager.ts",
+      "to": "src/core/types",
+      "type": "import"
+    },
+    {
+      "from": "src/store/interfaces/IStateManager.ts",
+      "to": "src/core/types/prompt.types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/store/JsonStateManager.ts",
+      "to": "fs/promises",
+      "type": "external"
+    },
+    {
+      "from": "src/store/JsonStateManager.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "src/store/JsonStateManager.ts",
+      "to": "src/core/types",
+      "type": "import"
+    },
+    {
+      "from": "src/store/JsonStateManager.ts",
+      "to": "src/core/types/prompt.types.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/store/JsonStateManager.ts",
+      "to": "src/store/interfaces/IStateManager.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/webview/getWebviewHtml.ts",
+      "to": "vscode",
+      "type": "external"
+    },
+    {
+      "from": "src/webview/SidebarViewProvider.ts",
+      "to": "vscode",
+      "type": "external"
+    },
+    {
+      "from": "src/webview/SidebarViewProvider.ts",
+      "to": "src/webview/getWebviewHtml.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/webview/WebviewPanelController.ts",
+      "to": "fs",
+      "type": "external"
+    },
+    {
+      "from": "src/webview/WebviewPanelController.ts",
+      "to": "vscode",
+      "type": "external"
+    },
+    {
+      "from": "src/webview/WebviewPanelController.ts",
+      "to": "src/core/types",
+      "type": "import"
+    },
+    {
+      "from": "src/webview/WebviewPanelController.ts",
+      "to": "src/core/orchestrator/Orchestrator.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/webview/WebviewPanelController.ts",
+      "to": "src/providers/providerConfig.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/webview/WebviewPanelController.ts",
+      "to": "src/store/AiosStateManager.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/webview/WebviewPanelController.ts",
+      "to": "src/services/workspace/WorkspaceScanner.ts",
+      "type": "import"
+    },
+    {
+      "from": "src/webview/WebviewPanelController.ts",
+      "to": "src/core/orchestrator/templates/PromptTemplates.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/actionEngine.test.ts",
+      "to": "node:test",
+      "type": "external"
+    },
+    {
+      "from": "test/actionEngine.test.ts",
+      "to": "node:assert/strict",
+      "type": "external"
+    },
+    {
+      "from": "test/actionEngine.test.ts",
+      "to": "fs/promises",
+      "type": "external"
+    },
+    {
+      "from": "test/actionEngine.test.ts",
+      "to": "os",
+      "type": "external"
+    },
+    {
+      "from": "test/actionEngine.test.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "test/actionEngine.test.ts",
+      "to": "test/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/aiosStateManager.test.ts",
+      "to": "node:test",
+      "type": "external"
+    },
+    {
+      "from": "test/aiosStateManager.test.ts",
+      "to": "node:assert/strict",
+      "type": "external"
+    },
+    {
+      "from": "test/aiosStateManager.test.ts",
+      "to": "fs/promises",
+      "type": "external"
+    },
+    {
+      "from": "test/aiosStateManager.test.ts",
+      "to": "fs",
+      "type": "external"
+    },
+    {
+      "from": "test/aiosStateManager.test.ts",
+      "to": "os",
+      "type": "external"
+    },
+    {
+      "from": "test/aiosStateManager.test.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "test/aiosStateManager.test.ts",
+      "to": "src/store/AiosStateManager.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/aiosStateManager.test.ts",
+      "to": "test/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/approvalManager.test.ts",
+      "to": "node:test",
+      "type": "external"
+    },
+    {
+      "from": "test/approvalManager.test.ts",
+      "to": "node:assert/strict",
+      "type": "external"
+    },
+    {
+      "from": "test/approvalManager.test.ts",
+      "to": "src/core/types",
+      "type": "import"
+    },
+    {
+      "from": "test/approvalManager.test.ts",
+      "to": "src/services/approval/ApprovalManager.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/approvalManager.test.ts",
+      "to": "test/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/contextEngine.test.ts",
+      "to": "node:test",
+      "type": "external"
+    },
+    {
+      "from": "test/contextEngine.test.ts",
+      "to": "node:assert/strict",
+      "type": "external"
+    },
+    {
+      "from": "test/contextEngine.test.ts",
+      "to": "fs/promises",
+      "type": "external"
+    },
+    {
+      "from": "test/contextEngine.test.ts",
+      "to": "fs",
+      "type": "external"
+    },
+    {
+      "from": "test/contextEngine.test.ts",
+      "to": "os",
+      "type": "external"
+    },
+    {
+      "from": "test/contextEngine.test.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "test/contextEngine.test.ts",
+      "to": "src/context",
+      "type": "import"
+    },
+    {
+      "from": "test/contextEngine.test.ts",
+      "to": "src/memory",
+      "type": "import"
+    },
+    {
+      "from": "test/contextEngine.test.ts",
+      "to": "test/services/runService",
+      "type": "import"
+    },
+    {
+      "from": "test/createProvider.test.ts",
+      "to": "node:test",
+      "type": "external"
+    },
+    {
+      "from": "test/createProvider.test.ts",
+      "to": "node:assert/strict",
+      "type": "external"
+    },
+    {
+      "from": "test/createProvider.test.ts",
+      "to": "test/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/eventBus.test.ts",
+      "to": "node:test",
+      "type": "external"
+    },
+    {
+      "from": "test/eventBus.test.ts",
+      "to": "node:assert/strict",
+      "type": "external"
+    },
+    {
+      "from": "test/eventBus.test.ts",
+      "to": "src/shared/events/EventBus.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/helpers.ts",
+      "to": "module",
+      "type": "external"
+    },
+    {
+      "from": "test/helpers.ts",
+      "to": "src/core/types",
+      "type": "import"
+    },
+    {
+      "from": "test/helpers.ts",
+      "to": "src/core/types/prompt.types.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/helpers.ts",
+      "to": "src/store/interfaces/IStateManager.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/jsonStateManager.test.ts",
+      "to": "node:test",
+      "type": "external"
+    },
+    {
+      "from": "test/jsonStateManager.test.ts",
+      "to": "node:assert/strict",
+      "type": "external"
+    },
+    {
+      "from": "test/jsonStateManager.test.ts",
+      "to": "fs/promises",
+      "type": "external"
+    },
+    {
+      "from": "test/jsonStateManager.test.ts",
+      "to": "os",
+      "type": "external"
+    },
+    {
+      "from": "test/jsonStateManager.test.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "test/jsonStateManager.test.ts",
+      "to": "src/store/JsonStateManager.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/jsonStateManager.test.ts",
+      "to": "test/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/memoryEngine.test.ts",
+      "to": "node:test",
+      "type": "external"
+    },
+    {
+      "from": "test/memoryEngine.test.ts",
+      "to": "node:assert/strict",
+      "type": "external"
+    },
+    {
+      "from": "test/memoryEngine.test.ts",
+      "to": "fs/promises",
+      "type": "external"
+    },
+    {
+      "from": "test/memoryEngine.test.ts",
+      "to": "fs",
+      "type": "external"
+    },
+    {
+      "from": "test/memoryEngine.test.ts",
+      "to": "os",
+      "type": "external"
+    },
+    {
+      "from": "test/memoryEngine.test.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "test/memoryEngine.test.ts",
+      "to": "src/memory",
+      "type": "import"
+    },
+    {
+      "from": "test/memoryEngine.test.ts",
+      "to": "src/shared/events/EventBus.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/orchestrator.test.ts",
+      "to": "node:test",
+      "type": "external"
+    },
+    {
+      "from": "test/orchestrator.test.ts",
+      "to": "node:assert/strict",
+      "type": "external"
+    },
+    {
+      "from": "test/orchestrator.test.ts",
+      "to": "test/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/projectIntelligenceEngine.test.ts",
+      "to": "node:test",
+      "type": "external"
+    },
+    {
+      "from": "test/projectIntelligenceEngine.test.ts",
+      "to": "node:assert/strict",
+      "type": "external"
+    },
+    {
+      "from": "test/projectIntelligenceEngine.test.ts",
+      "to": "fs/promises",
+      "type": "external"
+    },
+    {
+      "from": "test/projectIntelligenceEngine.test.ts",
+      "to": "fs",
+      "type": "external"
+    },
+    {
+      "from": "test/projectIntelligenceEngine.test.ts",
+      "to": "os",
+      "type": "external"
+    },
+    {
+      "from": "test/projectIntelligenceEngine.test.ts",
+      "to": "path",
+      "type": "external"
+    },
+    {
+      "from": "test/projectIntelligenceEngine.test.ts",
+      "to": "src/intelligence/dependency/DependencyAnalyzer.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/projectIntelligenceEngine.test.ts",
+      "to": "src/intelligence/scanner/ProjectIntelligenceEngine.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/projectIntelligenceEngine.test.ts",
+      "to": "src/intelligence/technology/TechnologyAnalyzer.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/projectIntelligenceEngine.test.ts",
+      "to": "test/util",
+      "type": "require"
+    },
+    {
+      "from": "test/promptGenerator.test.ts",
+      "to": "node:test",
+      "type": "external"
+    },
+    {
+      "from": "test/promptGenerator.test.ts",
+      "to": "node:assert/strict",
+      "type": "external"
+    },
+    {
+      "from": "test/promptGenerator.test.ts",
+      "to": "src/core/orchestrator/PromptGenerator.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/promptGenerator.test.ts",
+      "to": "test/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/promptQueueManager.test.ts",
+      "to": "node:test",
+      "type": "external"
+    },
+    {
+      "from": "test/promptQueueManager.test.ts",
+      "to": "node:assert/strict",
+      "type": "external"
+    },
+    {
+      "from": "test/promptQueueManager.test.ts",
+      "to": "src/core/orchestrator/PromptQueueManager.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/promptQueueManager.test.ts",
+      "to": "src/core/types",
+      "type": "import"
+    },
+    {
+      "from": "test/promptQueueManager.test.ts",
+      "to": "test/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/providerConfig.test.ts",
+      "to": "node:test",
+      "type": "external"
+    },
+    {
+      "from": "test/providerConfig.test.ts",
+      "to": "node:assert/strict",
+      "type": "external"
+    },
+    {
+      "from": "test/providerConfig.test.ts",
+      "to": "test/helpers.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/taskPlanner.test.ts",
+      "to": "node:test",
+      "type": "external"
+    },
+    {
+      "from": "test/taskPlanner.test.ts",
+      "to": "node:assert/strict",
+      "type": "external"
+    },
+    {
+      "from": "test/taskPlanner.test.ts",
+      "to": "src/core/orchestrator/TaskPlanner.ts",
+      "type": "import"
+    },
+    {
+      "from": "test/taskPlanner.test.ts",
+      "to": "src/providers/interfaces/IAIProvider.ts",
+      "type": "import"
+    }
+  ],
+  "services": [
+    "src/core/orchestrator/PromptExecutionService.ts",
+    "src/services/action/ActionEngine.ts",
+    "src/services/approval/ApprovalManager.ts",
+    "src/services/workspace/WorkspaceScanner.ts",
+    "src/shared/config/ConfigurationService.ts"
+  ],
+  "routes": [],
+  "database": {
+    "type": "No Database",
+    "tables": []
+  },
+  "knownIssues": [
+    "Mimari İhlal: 'Shared' katmanı (src/shared/types/sharedTypes.ts), 'Extension Host' katmanına (src/core/types/prompt.types.ts) doğrudan bağımlı olamaz.",
+    "Circular dependency: src/shared/types/sharedTypes.ts -> src/core/types/prompt.types.ts -> src/core/types/index.ts -> src/shared/types/sharedTypes.ts"
+  ],
+  "generatedTime": 1784035088055,
+  "workspaceHash": "6bd41a326990ab59c663e4d00bb41298a04f4ae0c4f121ebc635dcc470883985"
+}

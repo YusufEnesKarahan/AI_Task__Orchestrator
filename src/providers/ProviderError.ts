@@ -1,4 +1,6 @@
-export class ProviderError extends Error {
+import { AIOSProviderError } from '../shared/errors/specificErrors';
+
+export class ProviderError extends AIOSProviderError {
     public readonly provider: string;
     public readonly code: string;
     public readonly status?: number;
@@ -13,7 +15,7 @@ export class ProviderError extends Error {
         retryable?: boolean;
         cause?: unknown;
     }) {
-        super(input.message);
+        super(`AI provider error from ${input.provider}.`, input.message, 'ProviderError.constructor');
         this.name = 'ProviderError';
         this.provider = input.provider;
         this.code = input.code;

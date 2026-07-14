@@ -1,0 +1,10 @@
+{
+  "architectureScore": 79,
+  "maintainability": 75,
+  "complexity": 86,
+  "documentation": 55,
+  "testing": 80,
+  "performance": 80,
+  "security": 85,
+  "technicalDebt": 25
+}

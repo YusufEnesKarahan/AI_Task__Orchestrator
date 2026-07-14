@@ -36,8 +36,21 @@ export abstract class BaseAIProvider implements IAIProvider {
     }
 
     public abstract generateText(request: AIProviderTextRequest): Promise<string>;
-    public abstract generateJSON<T>(request: AIProviderJsonRequest<T>): Promise<T>;
     public abstract testConnection(): Promise<ProviderHealthStatus>;
+
+    public async generateJSON<T>(request: AIProviderJsonRequest<T>): Promise<T> {
+        const text = await this.generateText({
+            ...request,
+            prompt: [
+                request.prompt,
+                request.schemaHint
+                    ? `Return JSON matching this schema hint: ${request.schemaHint}`
+                    : 'Return valid JSON only.'
+            ].join('\n\n')
+        });
+
+        return this.parseAndValidateJson(text, request);
+    }
 
     protected async executeWithRetry<T>(operation: () => Promise<T>): Promise<T> {
         let attempt = 0;

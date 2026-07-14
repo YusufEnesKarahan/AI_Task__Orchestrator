@@ -1,0 +1,86 @@
+{
+    "schemaVersion": 1,
+    "createdAt": 1783948798583,
+    "updatedAt": 1783948798583,
+    "files": {
+        "static": "memory.json",
+        "working": "working-memory.json",
+        "longTerm": "memory.json",
+        "decision": "decisions.json",
+        "journal": "journal.json"
+    },
+    "counts": {
+        "static": 1,
+        "working": 1,
+        "longTerm": 1,
+        "decision": 1,
+        "journal": 1
+    },
+    "entries": [
+        {
+            "layer": "static",
+            "file": "memory.json",
+            "key": "staticMemory",
+            "title": "Project static memory",
+            "updatedAt": 1783948122616,
+            "tags": [
+                "NodeJS",
+                "TypeScript",
+                "VS Code Extension API",
+                "docs",
+                "src",
+                "test",
+                "webview-ui",
+                "VS Code Extension"
+            ]
+        },
+        {
+            "layer": "longTerm",
+            "file": "memory.json",
+            "key": "longTermMemory",
+            "title": "Long term project memory",
+            "updatedAt": 1783948122616,
+            "tags": ["File-backed JSON memory with a rebuilt memory index"]
+        },
+        {
+            "layer": "working",
+            "file": "working-memory.json",
+            "key": "workingMemory",
+            "title": "Build Memory Engine infrastructure",
+            "updatedAt": 1783948122622,
+            "tags": [
+                "Sprint 3",
+                "Verify Memory Engine and generated .aios files",
+                "src/memory/MemoryEngine.ts",
+                "src/memory/types.ts",
+                "test/memoryEngine.test.ts"
+            ]
+        },
+        {
+            "layer": "decision",
+            "file": "decisions.json",
+            "key": "decision_1783948122628_32066",
+            "title": "Use MemoryEngine as the only public memory access API",
+            "updatedAt": 1783948122628,
+            "tags": ["accepted", "ai", "memory", "architecture", "api", "src/memory/MemoryEngine.ts"]
+        },
+        {
+            "layer": "journal",
+            "file": "journal.json",
+            "key": "journal_1783948122635_75248",
+            "title": "Completed Sprint 3 Memory Engine infrastructure",
+            "updatedAt": 1783948122635,
+            "tags": [
+                "sprint-3",
+                "memory-engine",
+                "src/memory",
+                "src/shared/events/EventBus.ts",
+                "test/memoryEngine.test.ts",
+                "Memory API",
+                "Memory index",
+                "Event integration",
+                "Migration and corrupt-file tests"
+            ]
+        }
+    ]
+}

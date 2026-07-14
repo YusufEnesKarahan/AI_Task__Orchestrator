@@ -1,0 +1,17 @@
+{
+    "schemaVersion": 1,
+    "createdAt": 1783948122604,
+    "updatedAt": 1783948122628,
+    "decisions": [
+        {
+            "id": "decision_1783948122628_32066",
+            "timestamp": 1783948122628,
+            "title": "Use MemoryEngine as the only public memory access API",
+            "reason": "Keeps future Context Builder, Planner, Reviewer, and agents decoupled from file layout changes.",
+            "status": "accepted",
+            "source": "ai",
+            "tags": ["memory", "architecture", "api"],
+            "relatedFiles": ["src/memory/MemoryEngine.ts"]
+        }
+    ]
+}

@@ -1,0 +1,416 @@
+{
+    "schemaVersion": 1,
+    "createdAt": 1783948798574,
+    "updatedAt": 1783948798755,
+    "entries": [
+        {
+            "key": "cb2fc66541850d44b18729c6e4dace3b76c30ba3dce21c684bf075c085bf5cb6",
+            "createdAt": 1783948798755,
+            "sourceFingerprint": "528d7885c985c654bbd4698bab9d78d55e82eedc487b60c3e8286c5c7f3eaa9a",
+            "context": {
+                "id": "context_1783948798755_29608",
+                "createdAt": 1783948798755,
+                "cacheKey": "cb2fc66541850d44b18729c6e4dace3b76c30ba3dce21c684bf075c085bf5cb6",
+                "budget": "small",
+                "tokenBudget": 1200,
+                "tokenEstimate": 900,
+                "agent": "reviewer",
+                "taskType": "review",
+                "priority": "high",
+                "project": {
+                    "name": "Yapay_Zeka_Görev_Orkestratörü",
+                    "type": "VS Code Extension"
+                },
+                "architecture": {
+                    "type": "VS Code Extension (Webview Host)",
+                    "confidence": 0.95
+                },
+                "memory": {
+                    "currentSprint": "Sprint 3",
+                    "currentGoal": "Build Memory Engine infrastructure",
+                    "currentTask": "Verify Memory Engine and generated .aios files"
+                },
+                "knowledge": {
+                    "technologies": [
+                        "TypeScript",
+                        "JavaScript",
+                        "HTML",
+                        "CSS",
+                        "NodeJS",
+                        "NPM",
+                        "VS Code Extension API"
+                    ],
+                    "modules": ["LICENSE", "docs", "resources", "src", "test", "webview-ui"],
+                    "knownIssues": [
+                        "Mimari İhlal: 'Shared' katmanı (src/shared/types/sharedTypes.ts), 'Extension Host' katmanına (src/core/types/prompt.types.ts) doğrudan bağımlı olamaz.",
+                        "Circular dependency: src/shared/types/sharedTypes.ts -> src/core/types/prompt.types.ts -> src/core/types/index.ts -> src/shared/types/sharedTypes.ts"
+                    ]
+                },
+                "relatedFiles": [
+                    "src/context/ContextEngine.ts",
+                    "test/contextEngine.test.ts",
+                    "src/memory/MemoryEngine.ts",
+                    "src/memory/types.ts",
+                    "test/memoryEngine.test.ts",
+                    "src/core/orchestrator/PromptExecutionService.ts",
+                    "src/services/action/ActionEngine.ts",
+                    "src/services/approval/ApprovalManager.ts",
+                    "src/services/workspace/WorkspaceScanner.ts",
+                    "src/shared/config/ConfigurationService.ts"
+                ],
+                "relatedModules": ["LICENSE", "docs", "resources", "src", "test", "webview-ui"],
+                "dependencies": [
+                    "src/context/AgentProfiles.ts -> src/context/types.ts",
+                    "src/context/ContextBudgetManager.ts -> src/context/types.ts",
+                    "src/context/ContextCache.ts -> fs/promises",
+                    "src/context/ContextCache.ts -> fs",
+                    "src/context/ContextCache.ts -> crypto",
+                    "src/context/ContextCache.ts -> path",
+                    "src/context/ContextCache.ts -> src/context/types.ts",
+                    "src/context/ContextEngine.ts -> src/intelligence/scanner/ProjectIntelligenceEngine.ts",
+                    "src/context/ContextEngine.ts -> src/memory",
+                    "src/context/ContextEngine.ts -> src/context/layers/AgentContextBuilder.ts",
+                    "src/context/ContextEngine.ts -> src/context/layers/ArchitectureContextBuilder.ts",
+                    "src/context/ContextEngine.ts -> src/context/layers/CodeContextBuilder.ts",
+                    "src/context/ContextEngine.ts -> src/context/layers/DecisionContextBuilder.ts",
+                    "src/context/ContextEngine.ts -> src/context/layers/HealthContextBuilder.ts",
+                    "src/context/ContextEngine.ts -> src/context/layers/JournalContextBuilder.ts",
+                    "src/context/ContextEngine.ts -> src/context/layers/KnowledgeContextBuilder.ts",
+                    "src/context/ContextEngine.ts -> src/context/layers/ProjectContextBuilder.ts",
+                    "src/context/ContextEngine.ts -> src/context/layers/RiskContextBuilder.ts",
+                    "src/context/ContextEngine.ts -> src/context/layers/StaticContextBuilder.ts",
+                    "src/context/ContextEngine.ts -> src/context/layers/TaskContextBuilder.ts",
+                    "src/context/ContextEngine.ts -> src/context/layers/WorkingContextBuilder.ts",
+                    "src/context/ContextEngine.ts -> src/context/ContextBudgetManager.ts",
+                    "src/context/ContextEngine.ts -> src/context/ContextCache.ts",
+                    "src/context/ContextEngine.ts -> src/context/ContextScorer.ts",
+                    "src/context/ContextEngine.ts -> src/context/ContextSelector.ts",
+                    "src/context/ContextEngine.ts -> src/context/ContextValidator.ts",
+                    "src/context/ContextEngine.ts -> src/context/types.ts",
+                    "src/context/ContextScorer.ts -> src/context/AgentProfiles.ts",
+                    "src/context/ContextScorer.ts -> src/context/types.ts",
+                    "src/context/ContextSelector.ts -> src/context/AgentProfiles.ts"
+                ],
+                "knownIssues": [
+                    "Mimari İhlal: 'Shared' katmanı (src/shared/types/sharedTypes.ts), 'Extension Host' katmanına (src/core/types/prompt.types.ts) doğrudan bağımlı olamaz.",
+                    "Circular dependency: src/shared/types/sharedTypes.ts -> src/core/types/prompt.types.ts -> src/core/types/index.ts -> src/shared/types/sharedTypes.ts",
+                    "Mimari İhlal: 'Shared' katmanı (src/shared/types/sharedTypes.ts), 'Extension Host' katmanına (src/core/types/prompt.types.ts) doğrudan bağımlı olamaz."
+                ],
+                "rules": ["Keep backward compatibility", "Use MemoryEngine API instead of direct memory file access"],
+                "items": [
+                    {
+                        "id": "task:Review Context Intelligence Engine",
+                        "layer": "task",
+                        "title": "Review Context Intelligence Engine",
+                        "content": "Task: Review Context Intelligence Engine\nDescription: Validate context scoring, cache, memory integration, risk and health context.\nType: review\nPriority: high",
+                        "score": 100,
+                        "source": "request",
+                        "tags": ["task", "review", "high"],
+                        "tokenEstimate": 40
+                    },
+                    {
+                        "id": "decision:decision_1783948122628_32066",
+                        "layer": "decision",
+                        "title": "Use MemoryEngine as the only public memory access API",
+                        "content": "Decision: Use MemoryEngine as the only public memory access API\nReason: Keeps future Context Builder, Planner, Reviewer, and agents decoupled from file layout changes.\nStatus: accepted\nSource: ai\nRelated files: src/memory/MemoryEngine.ts",
+                        "score": 100,
+                        "source": "decisions.json",
+                        "tags": ["accepted", "ai", "memory", "architecture", "api", "src/memory/MemoryEngine.ts"],
+                        "tokenEstimate": 60
+                    },
+                    {
+                        "id": "architecture:map",
+                        "layer": "architecture",
+                        "title": "VS Code Extension (Webview Host)",
+                        "content": "Architecture: VS Code Extension (Webview Host)\nConfidence: 95%\nLayers: UI=webview-ui/**, Extension Host=src/**, Shared=src/shared/**\nEntry points: src/context/index.ts, src/core/types/index.ts, src/extension.ts, src/memory/index.ts, src/schemas/index.ts\nRelations: 312",
+                        "score": 100,
+                        "source": "architecture.json",
+                        "tags": [
+                            "architecture",
+                            "VS Code Extension (Webview Host)",
+                            "LICENSE",
+                            "docs",
+                            "resources",
+                            "src",
+                            "test",
+                            "webview-ui"
+                        ],
+                        "tokenEstimate": 67
+                    },
+                    {
+                        "id": "risk:report",
+                        "layer": "risk",
+                        "title": "Risk report",
+                        "content": "Circular dependency: src/shared/types/sharedTypes.ts -> src/core/types/prompt.types.ts -> src/core/types/index.ts -> src/shared/types/sharedTypes.ts\nMimari İhlal: 'Shared' katmanı (src/shared/types/sharedTypes.ts), 'Extension Host' katmanına (src/core/types/prompt.types.ts) doğrudan bağımlı olamaz.",
+                        "score": 100,
+                        "source": "risk.json",
+                        "tags": [
+                            "risk",
+                            "Circular dependency: src/shared/types/sharedTypes.ts -> src/core/types/prompt.types.ts -> src/core/types/index.ts -> src/shared/types/sharedTypes.ts",
+                            "Mimari İhlal: 'Shared' katmanı (src/shared/types/sharedTypes.ts), 'Extension Host' katmanına (src/core/types/prompt.types.ts) doğrudan bağımlı olamaz."
+                        ],
+                        "tokenEstimate": 75
+                    },
+                    {
+                        "id": "code:related-files",
+                        "layer": "code",
+                        "title": "Related code references",
+                        "content": "Related files: src/context/ContextEngine.ts, test/contextEngine.test.ts, src/memory/MemoryEngine.ts, src/memory/types.ts, test/memoryEngine.test.ts, src/core/orchestrator/PromptExecutionService.ts, src/services/action/ActionEngine.ts, src/services/approval/ApprovalManager.ts, src/services/workspace/WorkspaceScanner.ts, src/shared/config/ConfigurationService.ts\nRelated modules: LICENSE, docs, resources, src, test, webview-ui\nDependencies: src/context/AgentProfiles.ts -> src/context/types.ts; src/context/ContextBudgetManager.ts -> src/context/types.ts; src/context/ContextCache.ts -> fs/promises; src/context/ContextCache.ts -> fs; src/context/ContextCache.ts -> crypto; src/context/ContextCache.ts -> path; src/context/ContextCache.ts -> src/context/types.ts; src/context/ContextEngine.ts -> src/intelligence/scanner/ProjectIntelligenceEngine.ts; src/context/ContextEngine.ts -> src/memory; src/context/ContextEngine.ts -> src/context/layers/AgentContextBuilder.ts; src/context/ContextEngine.ts -> src/context/layers/ArchitectureContextBuilder.ts; src/context/ContextEngine.ts -> src/context/layers/CodeContextBuilder.ts; src/context/ContextEngine.ts -> src/context/layers/DecisionContextBuilder.ts; src/context/ContextEngine.ts -> src/context/layers/HealthContextBuilder.ts; src/context/ContextEngine.ts -> src/context/layers/JournalContextBuilder.ts; src/context/ContextEngine.ts -> src/context/layers/KnowledgeContextBuilder.ts; src/context/ContextEngine.ts -> src/context/layers/ProjectContextBuilder.ts; src/context/ContextEngine.ts -> src/context/layers/RiskContextBuilder.ts; src/context/ContextEngine.ts -> src/context/layers/StaticContextBuilder.ts; src/context/ContextEngine.ts -> src/context/layers/TaskContextBuilder.ts; src/context/ContextEngine.ts -> src/context/layers/WorkingContextBuilder.ts; src/context/ContextEngine.ts -> src/context/ContextBudgetManager.ts; src/context/ContextEngine.ts -> src/context/ContextCache.ts; src/context/ContextEngine.ts -> src/context/ContextScorer.ts; src/context/ContextEngine.ts -> src/context/ContextSelector.ts; src/context/ContextEngine.ts -> src/context/ContextValidator.ts; src/context/ContextEngine.ts -> src/context/types.ts; src/context/ContextScorer.ts -> src/context/AgentProfiles.ts; src/context/ContextScorer.ts -> src/context/types.ts; src/context/ContextSelector.ts -> src/context/AgentProfiles.ts",
+                        "score": 100,
+                        "source": "knowledge.json",
+                        "tags": [
+                            "files",
+                            "modules",
+                            "dependencies",
+                            "src/context/ContextEngine.ts",
+                            "test/contextEngine.test.ts",
+                            "src/memory/MemoryEngine.ts",
+                            "src/memory/types.ts",
+                            "test/memoryEngine.test.ts",
+                            "src/core/orchestrator/PromptExecutionService.ts",
+                            "src/services/action/ActionEngine.ts",
+                            "src/services/approval/ApprovalManager.ts",
+                            "src/services/workspace/WorkspaceScanner.ts",
+                            "src/shared/config/ConfigurationService.ts",
+                            "LICENSE",
+                            "docs",
+                            "resources",
+                            "src",
+                            "test",
+                            "webview-ui"
+                        ],
+                        "data": {
+                            "relatedFiles": [
+                                "src/context/ContextEngine.ts",
+                                "test/contextEngine.test.ts",
+                                "src/memory/MemoryEngine.ts",
+                                "src/memory/types.ts",
+                                "test/memoryEngine.test.ts",
+                                "src/core/orchestrator/PromptExecutionService.ts",
+                                "src/services/action/ActionEngine.ts",
+                                "src/services/approval/ApprovalManager.ts",
+                                "src/services/workspace/WorkspaceScanner.ts",
+                                "src/shared/config/ConfigurationService.ts"
+                            ],
+                            "relatedModules": ["LICENSE", "docs", "resources", "src", "test", "webview-ui"],
+                            "dependencies": [
+                                "src/context/AgentProfiles.ts -> src/context/types.ts",
+                                "src/context/ContextBudgetManager.ts -> src/context/types.ts",
+                                "src/context/ContextCache.ts -> fs/promises",
+                                "src/context/ContextCache.ts -> fs",
+                                "src/context/ContextCache.ts -> crypto",
+                                "src/context/ContextCache.ts -> path",
+                                "src/context/ContextCache.ts -> src/context/types.ts",
+                                "src/context/ContextEngine.ts -> src/intelligence/scanner/ProjectIntelligenceEngine.ts",
+                                "src/context/ContextEngine.ts -> src/memory",
+                                "src/context/ContextEngine.ts -> src/context/layers/AgentContextBuilder.ts",
+                                "src/context/ContextEngine.ts -> src/context/layers/ArchitectureContextBuilder.ts",
+                                "src/context/ContextEngine.ts -> src/context/layers/CodeContextBuilder.ts",
+                                "src/context/ContextEngine.ts -> src/context/layers/DecisionContextBuilder.ts",
+                                "src/context/ContextEngine.ts -> src/context/layers/HealthContextBuilder.ts",
+                                "src/context/ContextEngine.ts -> src/context/layers/JournalContextBuilder.ts",
+                                "src/context/ContextEngine.ts -> src/context/layers/KnowledgeContextBuilder.ts",
+                                "src/context/ContextEngine.ts -> src/context/layers/ProjectContextBuilder.ts",
+                                "src/context/ContextEngine.ts -> src/context/layers/RiskContextBuilder.ts",
+                                "src/context/ContextEngine.ts -> src/context/layers/StaticContextBuilder.ts",
+                                "src/context/ContextEngine.ts -> src/context/layers/TaskContextBuilder.ts",
+                                "src/context/ContextEngine.ts -> src/context/layers/WorkingContextBuilder.ts",
+                                "src/context/ContextEngine.ts -> src/context/ContextBudgetManager.ts",
+                                "src/context/ContextEngine.ts -> src/context/ContextCache.ts",
+                                "src/context/ContextEngine.ts -> src/context/ContextScorer.ts",
+                                "src/context/ContextEngine.ts -> src/context/ContextSelector.ts",
+                                "src/context/ContextEngine.ts -> src/context/ContextValidator.ts",
+                                "src/context/ContextEngine.ts -> src/context/types.ts",
+                                "src/context/ContextScorer.ts -> src/context/AgentProfiles.ts",
+                                "src/context/ContextScorer.ts -> src/context/types.ts",
+                                "src/context/ContextSelector.ts -> src/context/AgentProfiles.ts"
+                            ]
+                        },
+                        "tokenEstimate": 592
+                    },
+                    {
+                        "id": "health:report",
+                        "layer": "health",
+                        "title": "Code health report",
+                        "content": "Architecture: 79/100\nMaintainability: 75/100\nComplexity: 86/100\nDocumentation: 55/100\nTesting: 80/100\nSecurity: 85/100\nTechnical debt: 25/100",
+                        "score": 96,
+                        "source": "health.json",
+                        "tags": ["health", "quality", "technical-debt"],
+                        "tokenEstimate": 36
+                    },
+                    {
+                        "id": "agent:reviewer",
+                        "layer": "agent",
+                        "title": "reviewer context profile",
+                        "content": "Agent: reviewer\nPreferred layers: task, code, risk, health, decision, architecture\nFocus: regressions, risk, test gaps",
+                        "score": 94,
+                        "source": "agent-profile",
+                        "tags": ["agent", "reviewer", "task", "code", "risk", "health", "decision", "architecture"],
+                        "tokenEstimate": 30
+                    }
+                ],
+                "excludedItems": [],
+                "warnings": []
+            }
+        },
+        {
+            "key": "318f99eba3bb51d7558a9ee1071fbc7e70b23cdbd4b36a755d04347bc7b8a154",
+            "createdAt": 1783948798574,
+            "sourceFingerprint": "528d7885c985c654bbd4698bab9d78d55e82eedc487b60c3e8286c5c7f3eaa9a",
+            "context": {
+                "id": "context_1783948798573_55712",
+                "createdAt": 1783948798573,
+                "cacheKey": "318f99eba3bb51d7558a9ee1071fbc7e70b23cdbd4b36a755d04347bc7b8a154",
+                "budget": "medium",
+                "tokenBudget": 3000,
+                "tokenEstimate": 582,
+                "agent": "planner",
+                "taskType": "planning",
+                "priority": "high",
+                "project": {
+                    "name": "Yapay_Zeka_Görev_Orkestratörü",
+                    "type": "VS Code Extension"
+                },
+                "architecture": {
+                    "type": "VS Code Extension (Webview Host)",
+                    "confidence": 0.95
+                },
+                "memory": {
+                    "currentSprint": "Sprint 3",
+                    "currentGoal": "Build Memory Engine infrastructure",
+                    "currentTask": "Verify Memory Engine and generated .aios files"
+                },
+                "knowledge": {
+                    "technologies": [
+                        "TypeScript",
+                        "JavaScript",
+                        "HTML",
+                        "CSS",
+                        "NodeJS",
+                        "NPM",
+                        "VS Code Extension API"
+                    ],
+                    "modules": ["LICENSE", "docs", "resources", "src", "test", "webview-ui"],
+                    "knownIssues": [
+                        "Mimari İhlal: 'Shared' katmanı (src/shared/types/sharedTypes.ts), 'Extension Host' katmanına (src/core/types/prompt.types.ts) doğrudan bağımlı olamaz.",
+                        "Circular dependency: src/shared/types/sharedTypes.ts -> src/core/types/prompt.types.ts -> src/core/types/index.ts -> src/shared/types/sharedTypes.ts"
+                    ]
+                },
+                "relatedFiles": [],
+                "relatedModules": ["src/context", "src/memory", "src/intelligence"],
+                "dependencies": [],
+                "knownIssues": [
+                    "Mimari İhlal: 'Shared' katmanı (src/shared/types/sharedTypes.ts), 'Extension Host' katmanına (src/core/types/prompt.types.ts) doğrudan bağımlı olamaz.",
+                    "Circular dependency: src/shared/types/sharedTypes.ts -> src/core/types/prompt.types.ts -> src/core/types/index.ts -> src/shared/types/sharedTypes.ts",
+                    "Mimari İhlal: 'Shared' katmanı (src/shared/types/sharedTypes.ts), 'Extension Host' katmanına (src/core/types/prompt.types.ts) doğrudan bağımlı olamaz."
+                ],
+                "rules": ["Keep backward compatibility", "Use MemoryEngine API instead of direct memory file access"],
+                "items": [
+                    {
+                        "id": "task:Sprint 4 Context Intelligence Engine",
+                        "layer": "task",
+                        "title": "Sprint 4 Context Intelligence Engine",
+                        "content": "Task: Sprint 4 Context Intelligence Engine\nDescription: Build dynamic context packages from Memory Engine and Project Intelligence Engine.\nType: planning\nPriority: high",
+                        "score": 100,
+                        "source": "request",
+                        "tags": ["task", "planning", "high"],
+                        "tokenEstimate": 42
+                    },
+                    {
+                        "id": "project:overview",
+                        "layer": "project",
+                        "title": "Project overview",
+                        "content": "Yapay_Zeka_Görev_Orkestratörü is a VS Code Extension.\nApproximate scanned file count: 115.\nWorkspace hash: 6bd41a326990ab59c663e4d00bb41298a04f4ae0c4f121ebc635dcc470883985.",
+                        "score": 100,
+                        "source": "knowledge.json",
+                        "tags": ["project", "overview"],
+                        "tokenEstimate": 43
+                    },
+                    {
+                        "id": "decision:decision_1783948122628_32066",
+                        "layer": "decision",
+                        "title": "Use MemoryEngine as the only public memory access API",
+                        "content": "Decision: Use MemoryEngine as the only public memory access API\nReason: Keeps future Context Builder, Planner, Reviewer, and agents decoupled from file layout changes.\nStatus: accepted\nSource: ai\nRelated files: src/memory/MemoryEngine.ts",
+                        "score": 100,
+                        "source": "decisions.json",
+                        "tags": ["accepted", "ai", "memory", "architecture", "api", "src/memory/MemoryEngine.ts"],
+                        "tokenEstimate": 60
+                    },
+                    {
+                        "id": "working:current-state",
+                        "layer": "working",
+                        "title": "Build Memory Engine infrastructure",
+                        "content": "Current sprint: Sprint 3\nCurrent goal: Build Memory Engine infrastructure\nCurrent task: Verify Memory Engine and generated .aios files\nCurrent branch: Unknown\nRecent changes: Added src/memory MemoryEngine and layer services; Added Memory Engine unit tests\nModified files: src/memory/MemoryEngine.ts, src/memory/types.ts, test/memoryEngine.test.ts\nOpen problems: None",
+                        "score": 100,
+                        "source": "working-memory.json",
+                        "tags": [
+                            "working",
+                            "Sprint 3",
+                            "src/memory/MemoryEngine.ts",
+                            "src/memory/types.ts",
+                            "test/memoryEngine.test.ts"
+                        ],
+                        "tokenEstimate": 92
+                    },
+                    {
+                        "id": "knowledge:project-facts",
+                        "layer": "knowledge",
+                        "title": "Project knowledge facts",
+                        "content": "Technologies: TypeScript (Language), JavaScript (Language), HTML (Language), CSS (Language), NodeJS (Runtime), NPM (Package Manager), VS Code Extension API (Framework)\nModules: LICENSE, docs, resources, src, test, webview-ui\nServices: src/core/orchestrator/PromptExecutionService.ts, src/services/action/ActionEngine.ts, src/services/approval/ApprovalManager.ts, src/services/workspace/WorkspaceScanner.ts, src/shared/config/ConfigurationService.ts\nRoutes: None detected\nDatabase: No Database\nKnown issues: Mimari İhlal: 'Shared' katmanı (src/shared/types/sharedTypes.ts), 'Extension Host' katmanına (src/core/types/prompt.types.ts) doğrudan bağımlı olamaz.; Circular dependency: src/shared/types/sharedTypes.ts -> src/core/types/prompt.types.ts -> src/core/types/index.ts -> src/shared/types/sharedTypes.ts",
+                        "score": 100,
+                        "source": "knowledge.json",
+                        "tags": [
+                            "knowledge",
+                            "TypeScript",
+                            "JavaScript",
+                            "HTML",
+                            "CSS",
+                            "NodeJS",
+                            "NPM",
+                            "VS Code Extension API",
+                            "LICENSE",
+                            "docs",
+                            "resources",
+                            "src",
+                            "test",
+                            "webview-ui"
+                        ],
+                        "tokenEstimate": 202
+                    },
+                    {
+                        "id": "journal:journal_1783948122635_75248",
+                        "layer": "journal",
+                        "title": "Completed Sprint 3 Memory Engine infrastructure",
+                        "content": "Summary: Completed Sprint 3 Memory Engine infrastructure\nWhy: AIOS needs persistent project, working, decision, and journal memory before Context Builder work.\nChanged files: src/memory, src/shared/events/EventBus.ts, test/memoryEngine.test.ts\nCompleted: Memory API; Memory index; Event integration; Migration and corrupt-file tests\nNext step: Sprint 4 can build Context Builder on top of MemoryEngine.searchMemory and loadMemory.",
+                        "score": 97,
+                        "source": "journal.json",
+                        "tags": [
+                            "sprint-3",
+                            "memory-engine",
+                            "src/memory",
+                            "src/shared/events/EventBus.ts",
+                            "test/memoryEngine.test.ts",
+                            "Memory API",
+                            "Memory index",
+                            "Event integration",
+                            "Migration and corrupt-file tests"
+                        ],
+                        "tokenEstimate": 108
+                    },
+                    {
+                        "id": "agent:planner",
+                        "layer": "agent",
+                        "title": "planner context profile",
+                        "content": "Agent: planner\nPreferred layers: task, project, working, knowledge, decision, journal\nFocus: goal decomposition, dependencies, pending work",
+                        "score": 94,
+                        "source": "agent-profile",
+                        "tags": ["agent", "planner", "task", "project", "working", "knowledge", "decision", "journal"],
+                        "tokenEstimate": 35
+                    }
+                ],
+                "excludedItems": [],
+                "warnings": []
+            }
+        }
+    ]
+}

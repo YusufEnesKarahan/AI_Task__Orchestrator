@@ -3,7 +3,7 @@ import * as vscode from 'vscode';
 import { PromptRun } from '../core/types';
 import { Orchestrator } from '../core/orchestrator/Orchestrator';
 import { loadProviderRuntimeConfig, PROVIDER_SECRET_KEYS } from '../providers/providerConfig';
-import { JsonStateManager } from '../store/JsonStateManager';
+import { AiosStateManager } from '../store/AiosStateManager';
 import { WorkspaceScanner, WorkspaceScanResult } from '../services/workspace/WorkspaceScanner';
 import { TargetAgent } from '../core/orchestrator/templates/PromptTemplates';
 
@@ -75,7 +75,7 @@ export class WebviewPanelController {
         this.extensionUri = context.extensionUri;
 
         const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || __dirname;
-        const stateManager = new JsonStateManager(workspaceRoot);
+        const stateManager = new AiosStateManager(workspaceRoot);
 
         // Orchestrator'ı oluştur
         this.orchestrator = new Orchestrator(stateManager, workspaceRoot);

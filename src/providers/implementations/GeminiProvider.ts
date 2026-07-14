@@ -1,10 +1,5 @@
 import { BaseAIProvider } from '../BaseAIProvider';
-import {
-    AIProviderConfig,
-    AIProviderJsonRequest,
-    AIProviderTextRequest,
-    ProviderHealthStatus
-} from '../interfaces/IAIProvider';
+import { AIProviderConfig, AIProviderTextRequest, ProviderHealthStatus } from '../interfaces/IAIProvider';
 
 export class GeminiProvider extends BaseAIProvider {
     constructor(config: AIProviderConfig) {
@@ -53,20 +48,6 @@ export class GeminiProvider extends BaseAIProvider {
                 .join('')
                 .trim();
         });
-    }
-
-    public async generateJSON<T>(request: AIProviderJsonRequest<T>): Promise<T> {
-        const text = await this.generateText({
-            ...request,
-            prompt: [
-                request.prompt,
-                request.schemaHint
-                    ? `Return JSON matching this schema hint: ${request.schemaHint}`
-                    : 'Return valid JSON only.'
-            ].join('\n\n')
-        });
-
-        return this.parseAndValidateJson(text, request);
     }
 
     public async testConnection(): Promise<ProviderHealthStatus> {

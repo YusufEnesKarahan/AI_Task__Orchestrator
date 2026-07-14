@@ -1,0 +1,23 @@
+{
+  "deadCode": [],
+  "duplicateCode": [],
+  "largeFiles": [],
+  "largeComponents": [],
+  "unusedImports": [],
+  "unusedFiles": [],
+  "circularDependencies": [
+    [
+      "src/shared/types/sharedTypes.ts",
+      "src/core/types/prompt.types.ts",
+      "src/core/types/index.ts",
+      "src/shared/types/sharedTypes.ts"
+    ]
+  ],
+  "architectureViolations": [
+    "Mimari İhlal: 'Shared' katmanı (src/shared/types/sharedTypes.ts), 'Extension Host' katmanına (src/core/types/prompt.types.ts) doğrudan bağımlı olamaz."
+  ],
+  "longFunctions": [],
+  "largeClasses": [],
+  "magicNumbers": [],
+  "hardcodedStrings": []
+}
