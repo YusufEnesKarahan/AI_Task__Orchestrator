@@ -110,7 +110,9 @@
         "format:check": "prettier --check .",
         "package": "vsce package",
         "test": "tsc -p ./tsconfig.test.json && node --test \"out-test/**/*.test.js\"",
-        "watch": "tsc -watch -p ./"
+        "watch": "tsc -watch -p ./",
+        "aios": "tsc -p ./ && node out/runtime/start.js",
+        "e2e": "tsc -p ./tsconfig.test.json && node out-test/scripts/e2e-validate.js"
     },
     "dependencies": {
         "zod": "^3.25.76"

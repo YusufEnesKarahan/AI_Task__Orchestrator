@@ -5,6 +5,6 @@
         "outDir": "out-test",
         "types": ["node"]
     },
-    "include": ["src/**/*.ts", "test/**/*.ts", "tests/**/*.ts"],
+    "include": ["src/**/*.ts", "test/**/*.ts", "tests/**/*.ts", "scripts/**/*.ts"],
     "exclude": ["node_modules", ".vscode-test", "out", "out-test"]
 }

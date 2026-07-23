@@ -14,7 +14,7 @@ export interface AIModel {
 }
 
 export interface PromptSection {
-    type: 'system' | 'role' | 'projectContext' | 'architectureContext' | 'memoryContext' | 'taskContext' | 'rules' | 'outputFormat' | 'validationRules';
+    type: 'system' | 'role' | 'projectContext' | 'architectureContext' | 'memoryContext' | 'taskContext' | 'rules' | 'outputFormat' | 'validationRules' | 'reasoningContext';
     content: string;
     priority: number;
 }
